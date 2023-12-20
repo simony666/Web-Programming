@@ -1,0 +1,56 @@
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url('../background2.jpg') no-repeat;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.profile{
+    background-color: rgb(236, 210, 153);
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 40%;
+    min-width: 300px;
+    font-size: 1.25rem;
+    /* height: 31.25rem; */
+}
+
+.username, .email,.bday,.gender,.profilePicture,.signOut, .deliveryAddress{
+    padding: 5%;
+    text-align: center;
+}
+
+/* .profilePicture{
+    border-radius: 50%;
+    background-color: red;
+} */
+
+.profilePicture img{
+    width: 100%;
+    max-width: 200px;
+    border-radius: 50%;
+    min-height: 200px;
+    height: 200px;
+}
+
+.signOut button{
+    padding: 10px 20px;
+    border-radius: 25px;
+    color: #333;
+    background-color: white;
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+}
+
+.signOut button:hover{
+    color: #fff;
+    background-color: #c87e4f;
+}
