@@ -107,7 +107,7 @@
 <section id="featured" class="my-5">
   <div class="container text-center mt-5 py-5">
     <h3>Dresses & Coats</h3>
-    <hr>
+    <hr class="mx-auto">
     <p>Here you can check out our amazing clothes</p>
   </div>
   <div class="row mx-auto container-fluid">

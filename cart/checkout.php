@@ -21,7 +21,7 @@
         <hr class="mx-auto">
     </div>
     <div class="mx-auto container">
-        <form id="checkout-form" action="place_order.php" method="post">
+        <form id="checkout-form" action="../order/place_order.php" method="post">
             <div class="form-group checkout-small-element">
                 <label for="">Name</label>
                 <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required>
@@ -44,7 +44,7 @@
 
             <div class="form-group checkout-large-element">
                 <label for="">Address</label>
-                <input type="text" class="form-control" id="checkout-address" name="adress" placeholder="Adress" required>
+                <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required>
             </div>
 
             <div class="form-group checkout-btn-container cart-total">
@@ -57,12 +57,5 @@
         </form>
     </div>
 </section>
-
-
-
-
-
-
-
 
 <?php include'_foot.php'?>

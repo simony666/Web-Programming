@@ -22,6 +22,7 @@
             } else {
                 // Product not in the cart, add it
                 $cart[$id] = array(
+                    'product_id' => $id,
                     'product_name' => $name,
                     'product_price' => $price,
                     'product_image' => $image,
@@ -104,8 +105,8 @@
 <!-- Cart -->
 <section class="cart container my-5 py-5">
     <div class="container mt-5">
-        <h2 class="font-weight-bolde">Your Cart</h2>
-        <hr>
+        <h2 class="font-weight-bold text-center">Your Cart</h2>
+        <hr class="mx-auto">
     </div>
 
     <table class="mt-5 pt-5">
@@ -123,7 +124,6 @@
             foreach ($arr as $p): 
                 $product_id = $p->product_id;
                 $unit = $cart[$product_id]['product_quantity'] ?? 0;
-                // var_dump($unit); 
                 $subtotal = $p->product_price * $unit;
                 $count += $unit;
                 $total += $subtotal;  
@@ -175,6 +175,10 @@
 
     <div class="checkout-container">
         <form method="post" action="checkout.php">
+            <?php foreach ($arr as $p): ?>
+                <?php $product_id = $p->product_id; ?>
+                <?php hidden("product_id[]", $product_id); ?>
+            <?php endforeach; ?>
             <input class="btn checkout-btn" value="Checkout" type="submit" name="checkout"/>
         </form>
     </div>
