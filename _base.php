@@ -172,6 +172,24 @@ function radios($key, $items, $br = false) {
     echo "</div>";
 }
 
+// TODO
+// Generate <select> for sizes
+// function selectSize($key, $selectedSize = null, $default = true, $attr = '') {
+//     $sizes = ['S' => 'Small', 'M' => 'Medium', 'L' => 'Large', 'XL' => 'Extra Large'];
+    
+//     echo "<select id='{$key}_dropdown' name='{$key}_dropdown' $attr>";
+//     if ($default) {
+//         echo "<option value=''>- Select One -</option>";
+//     }
+//     foreach ($sizes as $id => $name) {
+//         $state = $id == $selectedSize ? 'selected' : '';
+//         echo "<option value='$id' $state>$id</option>";
+//     }
+//     echo "</select>";
+
+// }
+
+
 // Generate <select>
 function select($key, $items, $value = null, $default = true, $attr = '') {
     $value ??= encode($GLOBALS[$key] ?? '');
@@ -302,14 +320,28 @@ function set_cart($cart = []) {
 function update_cart($id, $unit) {
     $cart = get_cart();
 
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product', 'id')) {
-        $cart[$id] = $unit;
+    // Check if the product is in the cart
+    if (isset($cart[$id]) && is_array($cart[$id])) {
+        // Validate the new quantity
+        if ($unit >= 1 && $unit <= 10  && is_exists($id,'products','product_id')) {
+            // Update the quantity in the cart
+            $cart[$id]['product_quantity'] = $unit;
+            set_cart($cart);
+        } else {
+            // Remove the product from the cart if the new quantity is not valid
+            unset($cart[$id]);
+            set_cart($cart);
+        }
     }
-    else {
-        unset($cart[$id]);
-    }
+}
 
-    set_cart($cart);
+// Remove shopping cart
+function remove_from_cart($product_id) {
+    $cart = get_cart();
+    if (isset($cart[$product_id])) {
+        unset($cart[$product_id]);
+        set_cart($cart);
+    }
 }
 
 // ============================================================================
@@ -342,9 +374,19 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
 
+
+
+function get_featured_products(){
+    global $db;
+    $stm = $db->prepare('SELECT * FROM products LIMIT 4');
+    $stm->execute();
+    $featured_products = $stm->fetchAll(PDO::FETCH_ASSOC);
+    return $featured_products;
+}
 // ============================================================================
 // Lookup Tables
 // ============================================================================
+
 
 // ============================================================================
 // Global Variables and Constants
