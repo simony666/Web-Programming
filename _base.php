@@ -302,6 +302,26 @@ function auth(...$roles) {
     redirect('/login.php');
 }
 
+function get_user($id){
+    global $db;
+    $stm = $db->prepare('SELECT * FROM user WHERE id = ?');
+    $stm->execute([$id]);
+    $u = $stm->fetch();
+    
+    $stm = $db->prepare("SELECT photo FROM profile_pic WHERE id = $id");
+    $stm->execute([]);
+    $rows = $stm -> fetchAll();
+    $u->photos = array();
+    foreach($rows as $row) {
+        $u->photos[] = $row->photo;
+    }
+
+    unset($u->password);
+    $_SESSION['user'] = $u;
+
+    return $u;
+}
+
 // ============================================================================
 // Shopping Cart
 // ============================================================================
