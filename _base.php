@@ -281,7 +281,7 @@ function auth(...$roles) {
         }
     }
     
-    redirect('/login.php');
+    redirect('/_login.php');
 }
 
 function get_user($id){
