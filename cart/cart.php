@@ -21,7 +21,7 @@
     $in = in($ids);
     $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
     $stm->execute($ids);
-    $arr = $stm->fetchAll();
+    $arr = get_products($ids);
 
     include('../_/customerLayout/_head.php');
 ?>
@@ -55,7 +55,7 @@
             <tr>
                 <td>
                     <div class="product-info">
-                        <img src="../_/photos/products/<?= $p->product_image ?>" alt="">
+                        <img src="../_/photos/products/<?= $p->photos[0] ?>" alt="">
                         <div>
                             <p><?= $p->product_name ?></p>
                             <small><span>RM</span><?= $p->product_price ?></small>

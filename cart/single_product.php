@@ -20,20 +20,13 @@
         <div class="row mt-5">
         <?php if ($product):?>
                 <div class="col-lg-5 col-md-6 col-sm-12">
-                    <img class="img-fluid w-100 pb-1" src="../_/photos/products/<?= $product->product_image ?>" alt="" id="mainImg">
+                    <img class="img-fluid w-100 pb-1" src="../_/photos/products/<?= $product->photos[0] ?>" alt="" id="mainImg">
                     <div class="small-img-group">
+                        <?php foreach($product->photos as $photo):?>
                         <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image ?>" alt="" class="small-img" width="100%">
+                            <img src="../_/photos/products/<?= $photo ?>" alt="" class="small-img" width="100%">
                         </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image2 ?>" alt="" class="small-img" width="100%">
-                        </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image3 ?>" alt="" class="small-img" width="100%">
-                        </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image4 ?>" alt="" class="small-img" width="100%">
-                        </div>
+                        <?php endforeach;?>
                     </div>
                 </div>
                 
