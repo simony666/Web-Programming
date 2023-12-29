@@ -15,14 +15,19 @@
     if (is_post()) {
       $category_id = req('category_id');
       $price = req('price');
+      echo "<script>console.log('post')</script>";
+      echo "<script>console.log('$category_id')</script>";
+      echo "<script>console.log('$price')</script>";
 
       // Check if search criteria are provided
-      if (!$category_id && $price) {
+      if (!$category_id && !$price) {
+          echo "<script>console.log('empty')</script>";
           // Search criteria are empty, return all products
-          $products = $db->query("SELECT * FROM products")->fetchAll();
+          $products = get_products();
       } else {
+        echo "<script>console.log('not empty')</script>";
           $stm = $db->prepare(
-            "SELECT p.*, c.category_id
+            "SELECT p.product_id
             FROM products AS p
             JOIN categories AS c ON p.category_id = c.category_id
             WHERE c.category_id = ?
@@ -30,11 +35,17 @@
         ");
 
         $stm->execute([$category_id, $price]);
-        $products = $stm->fetchAll();
+        $products = array();
+        foreach($stm->fetchAll() as $p){
+          $products[] = get_product($p->product_id);
+        }
+        
+        //var_dump($products);
       }
     } else {
       // User didn't use search features, return all products
-      $products = $db->query("SELECT * FROM products")->fetchAll();
+      $products = get_products();
+      echo "<script>console.log('nopost')</script>";
     }
 
       include('../_/customerLayout/_head.php');
@@ -75,7 +86,7 @@
                 <span style="float:left;">50</span>
                 <span style="float:right;">2000</span>
               </div> -->
-                <p id="rangeValue">100</p>
+                <p id="rangeValue">50</p>
               </div>
               
             </div>
@@ -98,10 +109,13 @@
       </div>
 
       <div class="row mx-auto container-fluid" id="target">
-      <?php foreach ($products as $p):?>
+      <?php 
+      if (count($products) > 0):
+        foreach ($products as $p):
+      ?>
         <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
           <a href="single_product.php?product_id=<?=  $p->product_id ?>">
-            <img src="../_/photos/products/<?=  $p->product_image ?>" alt="" class="img-fluid mb-3">
+            <img src="../_/photos/products/<?=  $p->photos[0] ?>" alt="" class="img-fluid mb-3">
             <div class="star">
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -114,7 +128,16 @@
             <button class="buy-btn">Buy Now</button>
           </a>
         </div>
-      <?php endforeach; ?>
+      <?php 
+        endforeach; 
+      else:?>
+       <div class="text-center py-5 mt-5">
+        <p>No Product Match</p>
+       </div>
+      
+      <?php
+      endif;
+      ?>
       </div>
 
       <nav aria-label="Page navigation example">
