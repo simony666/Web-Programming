@@ -417,6 +417,43 @@ function get_featured_products(){
     $featured_products = $stm->fetchAll();
     return $featured_products;
 }
+
+function featured_products($product){
+    $product = $product ?? get_featured_products();
+
+    foreach ($product as $p){
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
+        <a href='single_product.php?product_id=$p->product_id'>
+        <img src='../_/photos/products/$p->product_image' alt='' class='img-fluid mb-3'>
+          <div class='star'>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+          </div>
+          <h5 class='p-name'>$p->product_name</h5>
+          <h4 class='p-price'>RM$p->product_price</h4>
+          <button class='buy-btn'>Buy Now</button>
+        </a>
+      </div>";
+    }
+    
+}
+
+
+function get_product($id){
+    global $db;
+
+    $stm = $db->prepare(
+        "SELECT * 
+        FROM products 
+        WHERE product_id = ?
+    ");
+
+    $stm->execute([$id]);
+    return $stm->fetch();
+}
 // ============================================================================
 // Lookup Tables
 // ============================================================================
