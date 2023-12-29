@@ -40,7 +40,9 @@ h6{
 }
 
 hr{
-    height: 12px;
+    height: 3px !important;
+    width: 30px;
+    opacity: 1 !important;
     color: #ffa200;
     background: #ffa200;
     width: 10%;
@@ -196,7 +198,7 @@ button:hover{
     text-align: end;
 }
 
-/* Product */
+/* Shop - products */
 .product{
     cursor: pointer;
     margin-bottom: 2rem;
@@ -214,12 +216,37 @@ button:hover{
     color: coral;
 }
 
-.buy-btn{
-    background-color: coral;
+.product .buy-btn{
+    background-color: #fb774b;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: 0.3 all;
+    color: #fff;
 }
 
-.buy-btn:hover{
-    background-color: rgb(6, 6, 6);
+.shop-buy-btn{
+    background-color: #fb774b;
+    opacity:1;
+    color: #fff;
+    text-decoration: none;
+}
+
+.product:hover .buy-btn{
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.shop-buy-btn{
+    background-color: #fb774b;
+    opacity:1;
+    color: #fff;
+    text-decoration: none;
+}
+
+.shop-buy-btn:hover{
+    background-color:black;
+    color: #fff;
+    opacity: 1;
 }
 
 /* Footer */
@@ -313,6 +340,23 @@ footer img{
     background-color: #222;
 }
 
+/* Shop */
+.product img{
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+.pagination a{
+    color: coral;
+}
+
+.pagination li:hover a{
+    color: #fff;
+    background-color: coral;
+    font-weight:bold !important;
+}
 /* Cart */
 .cart table{
     width: 100%;
@@ -382,6 +426,7 @@ footer img{
     border-top: 3px solid #fb774b;
 }
 
+
 td:last-child{
     text-align: right;
 }
@@ -403,6 +448,39 @@ th:last-child{
 .checkout-btn:hover{
     background-color: #1d1d1d;
     color: aliceblue;
+}
+
+/* Orders */
+.orders table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders .product-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.orders th{
+    padding: 5px 20px;
+    color: #fff;
+    background-color: #fb774b;
+    /* text-align: left; */
+}
+
+.orders .order-details-btn{
+    color: #fff;
+    background-color: #fb774b;
+} 
+
+.orders td{
+    padding: 10px 20px;
+}
+
+.orders td img{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
 }
 
 /* Checkout */

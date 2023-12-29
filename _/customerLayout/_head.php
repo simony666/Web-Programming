@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/878b21e3fe.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../_/css/style.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -21,10 +21,10 @@
         <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="index.php">Home</a>
+              <a class="nav-link" href="../../_/customerLayout/index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="shop.php">Shop</a>
+              <a class="nav-link" href="../../cart/shop.php">Shop</a>
             </li>
             
             <li class="nav-item">
@@ -36,7 +36,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
+              <a href="../../cart/cart.php"><i class="fas fa-shopping-cart"></i></a>
               <a href="#"><i class="fas fa-user"></i></a>
             </li>
           </ul>

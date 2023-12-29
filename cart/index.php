@@ -1,6 +1,6 @@
 <?php 
   include('../_base.php'); 
-  include('_head.php');
+  include('../_/customerLayout/_head.php');
 
   // ----------------------------------------------------------------------------
 
@@ -24,10 +24,10 @@
   <!-- Brand -->
   <section id="brand" class="container">
     <div class="row">
-      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="images/brand/brand1.png" alt="">
-      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="images/brand/brand2.jpg" alt="">
-      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="images/brand/brand3.png" alt="">
-      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="images/brand/brand4.png" alt="">
+      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="../../cart/images/brand/brand1.png" alt="">
+      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="../../cart/images/brand/brand2.jpg" alt="">
+      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="../../cart/images/brand/brand3.png" alt="">
+      <img class="img-fluid col-lg-3 col-md-6 col-sm-12" src="../../cart/images/brand/brand4.png" alt="">
     </div>
   </section>
 
@@ -36,7 +36,7 @@
     <div class="row p-0 m-0">
       <!-- One -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="images/new/goods_09_450698.webp">
+        <img class="img-fluid" src="../../cart/images/new/goods_09_450698.webp">
         <div class="details">
           <h2>Extremely Awesome Shoes</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -44,7 +44,7 @@
       </div>
       <!-- Two -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="images/new/goods_09_454218.avif">
+        <img class="img-fluid" src="../../cart/images/new/goods_09_454218.avif">
         <div class="details">
           <h2>Awesome Jackets</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -52,7 +52,7 @@
       </div>
       <!-- Three -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="images/new/goods_09_454373.png">
+        <img class="img-fluid" src="../../cart/images/new/goods_09_454373.png">
         <div class="details">
           <h2>50% OFF Watches</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -70,11 +70,10 @@
     </div>
     <div class="row mx-auto container-fluid">
       <?php $featured_products = get_featured_products();
-
        foreach ($featured_products as $row):?>
       <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
-        <a href="single_product.php?product_id=<?php echo $row['product_id']; ?>">
-          <img src="../_/photos/products/<?php echo $row['product_image']; ?>" alt="" class="img-fluid mb-3">
+        <a href="single_product.php?product_id=<?= $row->product_id ?>">
+          <img src="../_/photos/products/<?=  $row->product_image ?>" alt="" class="img-fluid mb-3">
           <div class="star">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -82,9 +81,9 @@
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
           </div>
-          <h5 class="p-name"><?php echo $row['product_name']; ?></h5>
-          <h4 class="p-price">RM<?php echo $row['product_price']; ?></h4>
-          <a href="<?php echo "single_product.php?product_id=".$row['product_id']?> ">
+          <h5 class="p-name"><?=  $row->product_name ?></h5>
+          <h4 class="p-price">RM<?=  $row->product_price ?></h4>
+          <a href="<?php echo "single_product.php?product_id=".$row->product_id?> ">
             <button class="buy-btn">Buy Now</button>
           </a>
         </a>
@@ -113,8 +112,8 @@
   <div class="row mx-auto container-fluid">
     <?php foreach ($featured_products as $row):?>
       <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
-        <a href="single_product.php?product_id=<?php echo $row['product_id']; ?>">
-          <img src="../_/photos/products/<?php echo $row['product_image']; ?>" alt="" class="img-fluid mb-3">
+        <a href="single_product.php?product_id=<?=  $row->product_id ?>">
+          <img src="../_/photos/products/<?=  $row->product_image ?>" alt="" class="img-fluid mb-3">
           <div class="star">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
@@ -122,14 +121,13 @@
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
           </div>
-          <h5 class="p-name"><?php echo $row['product_name']; ?></h5>
-          <h4 class="p-price">RM<?php echo $row['product_price']; ?></h4>
+          <h5 class="p-name"><?=  $row->product_name ?></h5>
+          <h4 class="p-price">RM<?=  $row->product_price ?></h4>
           <button class="buy-btn">Buy Now</button>
         </a>
       </div>
     <?php endforeach; ?>
-  ?>
     </div>  
 </section>
 
-<?php include('_foot.php'); ?>
+<?php include('../_/customerLayout/_foot.php'); ?>

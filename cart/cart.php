@@ -1,115 +1,39 @@
 <?php 
     include('../_base.php');
-
-    //TODO
-    if (isset($_POST['add_to_cart'])) {
-        if (is_post()) {
-            $id = post('product_id');
-            $name = post('product_name');
-            $price = post('product_price');
-            $image = post('product_image');
-            $qty = post('product_quantity');
-    
-            // Validate input data if needed
-    
-            // Get the current cart
-            $cart = get_cart();
-    
-            // Check if the product is already in the cart
-            if (isset($cart[$id])) {
-                // Product already in the cart, update quantity or any other details
-                $cart[$id]['product_quantity'] += $qty;
-            } else {
-                // Product not in the cart, add it
-                $cart[$id] = array(
-                    'product_id' => $id,
-                    'product_name' => $name,
-                    'product_price' => $price,
-                    'product_image' => $image,
-                    'product_quantity' => $qty
-                );
-            }
-    
-            // replace the cart in the session
-            set_cart($cart);
-            
-            // Fetch details for the products in the cart
-            $ids = array_keys($cart);
-            $in = in($ids);
-            $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
-            $stm->execute($ids);
-            $arr = $stm->fetchAll();
-
-            // Redirect or display a success message
-            echo '<script>alert("Product was already added to cart")</script>';
-            
+    if (is_post()) {
+        if (req('remove_product')){
+            $id_to_remove = post('product_id');
+            remove_from_cart($id_to_remove);
+            redirect();
         }
-        //remove products from cart
-    } else if (post('remove_product')) {
-        $id_to_remove = post('product_id');
-        remove_from_cart($id_to_remove);
-
-        // Fetch details for the remaining products in the cart
-        $cart = get_cart();
-        $ids = array_keys($cart);
-
-        if (!empty($ids)) {
-            $in = in($ids);
-            $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
-            $stm->execute($ids);
-            $arr = $stm->fetchAll();
-        } else {
-            // No remaining products in the cart
-            $arr = null;
-            echo '<script>alert("Your cart is empty. Please go and add some items inside your cart.")</script>';
-            echo '<script>window.location.href= "index.php";</script>';
-        }
-
-        
-    }else if (post('edit_quantity')) {
-        $product_id = post('product_id');
-        // new product quantity
-        $product_qty = post('product_quantity');
-
-
-         // update back the quantity to the cart
-        update_cart($product_id,$product_qty);
-
-        // Fetch details for the remaining products in the cart
-        $cart = get_cart();
-        $ids = array_keys($cart);
-
-        if (!empty($ids)) {
-            $in = in($ids);
-            $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
-            $stm->execute($ids);
-            $arr = $stm->fetchAll();
-        } else {
-            // No remaining products in the cart
-            $arr = null;
-            echo '<script>alert("Your cart is empty. Please go and add some items inside your cart.")</script>';
-            echo '<script>window.location.href= "index.php";</script>';
-        }
-
-    }else {
-            // Redirect if the request is not a POST or if 'add_to_cart' is not set
-            echo '<script>alert("Your cart is empty. Please go and add some items inside your cart.")</script>';
-            redirect('index.php');
+    
+        $id = req('product_id');
+        $unit = req('product_quantity');
+        update_cart($id, $unit);
+        // Redirect or display a success message
+        echo '<script>alert("Product is already added to cart")</script>';
+        //redirect();
     }
     
-
-    include('_head.php');
+    $cart = get_cart();
+    $ids = array_keys($cart);
     
+    $in = in($ids);
+    $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
+    $stm->execute($ids);
+    $arr = $stm->fetchAll();
+
+    include('../_/customerLayout/_head.php');
 ?>
 
 <!-- Cart -->
-<section class="cart container my-5 py-5">
+<section class="cart container my-5 py-5" id="target">
     <div class="container mt-5">
         <h2 class="font-weight-bold text-center">Your Cart</h2>
         <hr class="mx-auto">
     </div>
 
-    <table class="mt-5 pt-5">
+    <table class="mt-5 pt-5" >
         <tr>
             <th>Product</th>
             <th>Quantity</th>
@@ -122,8 +46,7 @@
             $total = 0;
 
             foreach ($arr as $p): 
-                $product_id = $p->product_id;
-                $unit = $cart[$product_id]['product_quantity'] ?? 0;
+                $unit = $cart[$p->product_id] ?? 0;
                 $subtotal = $p->product_price * $unit;
                 $count += $unit;
                 $total += $subtotal;  
@@ -137,7 +60,7 @@
                             <p><?= $p->product_name ?></p>
                             <small><span>RM</span><?= $p->product_price ?></small>
                             <br>
-                            <form method="post" action="cart.php">
+                            <form method="post">
                                 <?php hidden("product_id", $p->product_id); ?>
                                 <input type="submit" class="remove-btn" name="remove_product" value="Remove"></input>
                             </form>
@@ -145,10 +68,9 @@
                     </div>
                 </td>
                 <td>
-                    <form method="post" action="cart.php">
-                        <?php hidden("product_id", $product_id); ?>
+                    <form method="post" class="edit-form">
+                        <?php hidden("product_id", $p->product_id); ?>
                         <input type="number" name="product_quantity" id="" value="<?= $unit ?>" min="1" max="10" >
-                        <input type="submit" class="edit-btn" name="edit_quantity" value="Edit"></input>
                     </form>
                 </td>
                 <td>
@@ -171,17 +93,28 @@
     </div>
 
     <!--  Store total using the temp function -->
-    <?= temp('cart_total', $total);  ?>
+    
 
     <div class="checkout-container">
         <form method="post" action="checkout.php">
             <?php foreach ($arr as $p): ?>
-                <?php $product_id = $p->product_id; ?>
-                <?php hidden("product_id[]", $product_id); ?>
+                <!-- TODO -->
+                <?php hidden("product_id[]", $p->product_id); ?>
             <?php endforeach; ?>
             <input class="btn checkout-btn" value="Checkout" type="submit" name="checkout"/>
         </form>
     </div>
 </section>
+<script>
+    // (A) Non-AJAX submit
+    $('select').change(e => e.target.form.submit());
 
-<?php include'_foot.php'?>
+    // TODO: (B) AJAX submit
+    $(document).on('change', 'input', e => {
+        const param = $(e.target.form).serializeArray(); // serialize: return a string,serializeArray: return an array
+        //'要拿出的 document', replace param 进去 （用array = POST request, string = 用 get request）
+        // #products>* = list all the children of the products
+        $('#target').load(' #target>*', param); //POST 
+    });
+</script>
+<?php include('../_/customerLayout/_foot.php'); ?>

@@ -39,7 +39,7 @@
       <h5 class="pb-2">Instagram</h5>
       <div class="row">
         <img src="images/features/features1.webp" alt="" class="img-fluid w-25 h-100 m-2">
-        <img src="images/features/features2.webp" alt="" class="img-fluid w-25 h-100 m-2">
+        <img src="../../cart/images/features/features2.webp" alt="" class="img-fluid w-25 h-100 m-2">
         <img src="images/features/features3.webp" alt="" class="img-fluid w-25 h-100 m-2">
         <img src="images/features/features4.jpg" alt="" class="img-fluid w-25 h-100 m-2">
       </div>

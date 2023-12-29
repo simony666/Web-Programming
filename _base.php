@@ -3,7 +3,7 @@
 // ============================================================================
 // PHP Setups
 // ============================================================================
-
+date_default_timezone_set('Asia/Kuala_Lumpur');
 session_start();
 require '_settings.php';
 
@@ -113,7 +113,7 @@ function base($path = '') {
 
 // Initialize and return stripe client
 function get_stripe() {
-    $key = 'sk_test_51ON8CbCME2Wa4fbgxEC49szdqaTvekSlgjDuXe6frnjdWstNA81zEP2mF12d8f9KR4sdMHbr55ayX6pwj57HvqJB00vNXgz0YW';
+    $key = 'sk_test_51ORvmlBZ0phwb5Fpe7Rq7VmnFlp5VRCc6prMsrXzu3zV6VowA4dEebasCnQ7daHC53fyIj7m5CPbLQnJRagywklP00B81RpDBn';
     require_once 'lib/stripe/init.php';
     return new \Stripe\StripeClient($key);
 }
@@ -340,20 +340,34 @@ function set_cart($cart = []) {
 function update_cart($id, $unit) {
     $cart = get_cart();
 
-    // Check if the product is in the cart
-    if (isset($cart[$id]) && is_array($cart[$id])) {
-        // Validate the new quantity
-        if ($unit >= 1 && $unit <= 10  && is_exists($id,'products','product_id')) {
-            // Update the quantity in the cart
-            $cart[$id]['product_quantity'] = $unit;
-            set_cart($cart);
-        } else {
-            // Remove the product from the cart if the new quantity is not valid
-            unset($cart[$id]);
-            set_cart($cart);
-        }
+    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'products', 'product_id')) {
+        $cart[$id] = $unit;
     }
+    else {
+        unset($cart[$id]);
+    }
+
+    set_cart($cart);
 }
+
+// mine
+// function update_cart($id, $unit) {
+//     $cart = get_cart();
+
+//     // Check if the product is in the cart
+//     if (isset($cart[$id]) && is_array($cart[$id])) {
+//         // Validate the new quantity
+//         if ($unit >= 1 && $unit <= 10  && is_exists($id,'products','product_id')) {
+//             // Update the quantity in the cart
+//             $cart[$id]['product_quantity'] = $unit;
+//             set_cart($cart);
+//         } else {
+//             // Remove the product from the cart if the new quantity is not valid
+//             unset($cart[$id]);
+//             set_cart($cart);
+//         }
+//     }
+// }
 
 // Remove shopping cart
 function remove_from_cart($product_id) {
@@ -395,12 +409,12 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
 ]);
 
 
-
+// TODO
 function get_featured_products(){
     global $db;
     $stm = $db->prepare('SELECT * FROM products LIMIT 4');
     $stm->execute();
-    $featured_products = $stm->fetchAll(PDO::FETCH_ASSOC);
+    $featured_products = $stm->fetchAll();
     return $featured_products;
 }
 // ============================================================================

@@ -1,61 +1,85 @@
 <?php 
     include('../_base.php'); 
-    include('_head.php');
+    include('../_/customerLayout/_head.php');
 
-    if(is_post()){
+    // developer page -> bussiness name -> account
+    if (is_post()) {
+        //$order_status = get('order_status') ?? '';
+    
         // Get shopping cart (reject if empty)
         $cart = get_cart();
-    
-        // Retrieve total using the temp function
-        $total = temp('cart_total');
+       
+        if (!$cart){
+            redirect('cart.php');   
+        }
 
-    }else{
-        redirect('index.php');
-    }    
+        // Prepared statement to select a product by id
+        $stm = $db->prepare(
+            'SELECT * FROM products WHERE product_id = ?');
+           
+        //  Create line items
+        // =======================
+        // - price_data
+        //     - product_data
+        //         - name
+        //     - currency (will in cents)
+        //     - unit_amount
+        // - quantity
+
+        // Array [key|value]
+        // [P001|2]
+
+        $line_items = [];
+
+        foreach($cart as $product_id => $unit){
+            $stm->execute([$product_id]);
+            $p = $stm->fetch();
+        
+            $line_items[] = [
+                'price_data' => [
+                    'product_data' => [
+                        'name' => "$p->product_id | $p->product_name",
+                    ],
+                    'currency' => 'myr',
+                    'unit_amount' => $p->product_price * 100,
+                ],
+                'quantity' => $unit,
+            ];
+        }
+    
+        //  Create stripe checkout session
+        // ====================================
+        // - mode
+        // - success_url
+        // - cancel_url
+        // - line_items
+        // - metadata (optional) <-- shopping cart
+        // - client_reference_id (optional) <-- user id
+        // - customer_email (optional) <-- user email
+
+        $stripe = get_stripe();
+
+        $session = $stripe->checkout->sessions->create([
+            'mode' => 'payment',
+            'success_url' => base('order/place_order.php?session_id={CHECKOUT_SESSION_ID}'),
+            'cancel_url' => base('cart/cancel.php'),
+            'line_items' => $line_items,
+            'metadata' => $cart,
+            // 'client_reference_id' => $user->id,
+            // 'customer_email' => $user->email,
+        ]);
+
+
+        // Store stripe session id as session variable for checking later
+        $_SESSION['session_id'] = $session->id;
+
+        // Redirect to stripe
+        redirect($session->url);
+    }
+// Redirect to cart.php
+redirect('cart.php');
 ?>
 
-<!-- Checkout -->
-<section class="my-5 py-5">
-    <div class="container text center mt-3 pt-3">
-        <h2 class="form-weight-bold">Check Out</h2>
-        <hr class="mx-auto">
-    </div>
-    <div class="mx-auto container">
-        <form id="checkout-form" action="../order/place_order.php" method="post">
-            <div class="form-group checkout-small-element">
-                <label for="">Name</label>
-                <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required>
-            </div>
 
-            <div class="form-group checkout-small-element">
-                <label for="">Email</label>
-                <input type="text" class="form-control" id="checkout-email" name="email" placeholder="Email" required>
-            </div>
 
-            <div class="form-group checkout-small-element">
-                <label for="">Phone</label>
-                <input type="tel" class="form-control" id="checkout-phone" name="phone" placeholder="Phone" required>
-            </div>
-
-            <div class="form-group checkout-small-element">
-                <label for="">City</label>
-                <input type="text" class="form-control" id="checkout-city" name="city" placeholder="City" required>
-            </div>
-
-            <div class="form-group checkout-large-element">
-                <label for="">Address</label>
-                <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required>
-            </div>
-
-            <div class="form-group checkout-btn-container cart-total">
-                <p>Total amount: RM <?= $total ?></p>
-                <input type="submit" value="Place Order" id="checkout-btn" class="btn" name="place_order"/>
-            </div>
-            <?= temp('cart_total', $total);  ?>
-            
-
-        </form>
-    </div>
-</section>
-
-<?php include'_foot.php'?>
+<?php include('../_/customerLayout/_foot.php'); ?>
