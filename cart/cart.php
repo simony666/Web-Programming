@@ -1,5 +1,9 @@
 <?php 
     include('../_base.php');
+
+    // Authorization (member)
+    auth('Member');
+
     if (is_post()) {
         if (req('remove_product')){
             $id_to_remove = post('product_id');
