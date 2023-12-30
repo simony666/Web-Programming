@@ -65,6 +65,13 @@ button{
 button:hover{
     background-color: coral;
 }
+
+/* error messages (shipping address) */
+.err {
+    color: red;
+}
+
+
 /* navbar */
 .navbar{
     font-size: 16px;
