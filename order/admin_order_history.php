@@ -4,8 +4,8 @@
         "SELECT o.*, u.name 
         FROM orders AS o 
         JOIN user AS u ON o.user_id = u.id
-        WHERE o.order_status = 'Completed'
-        OR o.order_status = 'Cancelled'
+        WHERE o.order_status = 2
+        OR o.order_status = 3
         ORDER BY o.order_id DESC"
     )->fetchAll();
     
@@ -34,7 +34,6 @@
                       <th>Price (RM)</th>
                       <th>Date</th>
                       <th>Status</th>
-                      <th>View</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">
@@ -44,10 +43,8 @@
                             <td><?= $o->name ?></td>
                             <td><?= $o->total_cost ?></td>
                             <td><?= $o->order_date ?></td>
-                            <td><?= $o->order_status ?></td>
-                            <td>
-                                <button type="submit" name="update_order_btn" class="btn btn-primary mt-2">View details</button>
-                            </td>
+                            <td><?= $_orderStatus[$o->order_status] ?></td>
+                            
                         </tr>
                         <?php endforeach;?>
                     </tr>

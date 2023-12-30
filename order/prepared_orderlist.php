@@ -4,7 +4,7 @@
         "SELECT o.*, u.name 
         FROM orders AS o 
         JOIN user AS u ON o.user_id = u.id
-        WHERE o.order_status = 'Prepared'
+        WHERE o.order_status = 1
         ORDER BY o.order_id DESC"
     )->fetchAll();
     
@@ -47,7 +47,7 @@
                             <td><?= $o->name ?></td>
                             <td><?= $o->total_cost ?></td>
                             <td><?= $o->order_date ?></td>
-                            <td><?= $o->order_status ?></td>
+                            <td><?= $_orderStatus[$o->order_status] ?></td>
                             <td>
                                 <button type="submit" name="update_order_btn" class="btn btn-primary mt-2">View details</button>
                             </td>

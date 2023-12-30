@@ -172,28 +172,31 @@ function radios($key, $items, $br = false) {
     echo "</div>";
 }
 
-// TODO
-// Generate <select> for sizes
-// function selectSize($key, $selectedSize = null, $default = true, $attr = '') {
-//     $sizes = ['S' => 'Small', 'M' => 'Medium', 'L' => 'Large', 'XL' => 'Extra Large'];
+//  Generate <select> - order status
+function selectStatus($key, $items, $value = null, $default = true, $attr = '') {
+    $value ??= encode($GLOBALS[$key] ?? '');
     
-//     echo "<select id='{$key}_dropdown' name='{$key}_dropdown' $attr>";
-//     if ($default) {
-//         echo "<option value=''>- Select One -</option>";
-//     }
-//     foreach ($sizes as $id => $name) {
-//         $state = $id == $selectedSize ? 'selected' : '';
-//         echo "<option value='$id' $state>$id</option>";
-//     }
-//     echo "</select>";
-
-// }
+    echo "<select id='$key' name='$key' $attr class='form-select ps-2' onchange='disableOptions(this);'>";
+    
+    if ($default) {
+        echo "<option value=''>- Select One -</option>";
+    }
+    
+    foreach ($items as $id => $name) {
+        $state = $id == $value ? 'selected' : '';
+        $disabled = ($value == 3 || ($value >= 2 && $id < 2)) ? 'disabled' : ''; // Disable if "Cancelled" is selected or a status lower than "Preparing"
+        
+        echo "<option value='$id' $state $disabled>$name</option>";
+    }
+    
+    echo "</select>";
+}
 
 
 // Generate <select>
 function select($key, $items, $value = null, $default = true, $attr = '') {
     $value ??= encode($GLOBALS[$key] ?? '');
-    echo "<select id='$key' name='$key' $attr>";
+    echo "<select id='$key' name='$key' $attr >";
     if ($default) {
         echo "<option value=''>- Select One -</option>";
     }
@@ -350,24 +353,6 @@ function update_cart($id, $unit) {
     set_cart($cart);
 }
 
-// mine
-// function update_cart($id, $unit) {
-//     $cart = get_cart();
-
-//     // Check if the product is in the cart
-//     if (isset($cart[$id]) && is_array($cart[$id])) {
-//         // Validate the new quantity
-//         if ($unit >= 1 && $unit <= 10  && is_exists($id,'products','product_id')) {
-//             // Update the quantity in the cart
-//             $cart[$id]['product_quantity'] = $unit;
-//             set_cart($cart);
-//         } else {
-//             // Remove the product from the cart if the new quantity is not valid
-//             unset($cart[$id]);
-//             set_cart($cart);
-//         }
-//     }
-// }
 
 // Remove shopping cart
 function remove_from_cart($product_id) {
@@ -409,18 +394,102 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
 ]);
 
 
+
 // TODO
 function get_featured_products(){
     global $db;
-    $stm = $db->prepare('SELECT * FROM products LIMIT 4');
-    $stm->execute();
-    $featured_products = $stm->fetchAll();
-    return $featured_products;
+    $featured_products = $db->query('SELECT product_id FROM products ORDER BY product_id ASC LIMIT 4');
+    $fp = array();
+    foreach ($featured_products as $p){
+        $fp[] = get_product($p->product_id);
+    }
+    
+    return $fp;
+}
+
+function featured_products($product=null){
+    $product = $product ?? get_featured_products();
+
+    foreach ($product as $p){
+        $photo = $p->photos[0];
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
+        <a href='single_product.php?product_id=$p->product_id'>
+        <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
+          <div class='star'>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+          </div>
+          <h5 class='p-name'>$p->product_name</h5>
+          <h4 class='p-price'>RM$p->product_price</h4>
+          <button class='buy-btn'>Buy Now</button>
+        </a>
+      </div>";
+    }
+    
+}
+
+
+function get_product($id){
+    global $db;
+
+    $stm = $db->prepare(
+        "SELECT * 
+        FROM products 
+        WHERE product_id = ?
+    ");
+
+    $stm->execute([$id]);
+    $p = $stm->fetch();
+
+    $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$id'");
+    $rows = $stm -> fetchAll();
+    $p->photos = array();
+    foreach($rows as $row) {
+        $p->photos[] = $row->photo;
+    }
+    return $p;
+}
+function get_products($ids=null){
+    global $db;
+
+    if($ids){
+        $in = in($ids);
+        $stm = $db->prepare(
+            "SELECT * 
+            FROM products WHERE product_id IN ($in)
+        ");
+        $stm->execute($ids);
+        $arr = $stm->fetchAll();
+    }else{
+        $stm = $db->query(
+            "SELECT * 
+            FROM products
+        ");
+        $arr = $stm->fetchAll();
+    }
+
+    foreach($arr as $p){
+        $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$p->product_id'");
+        $rows = $stm -> fetchAll();
+        $p->photos = array();
+        foreach($rows as $row) {
+            $p->photos[] = $row->photo;
+        }
+    }
+    return $arr;
 }
 // ============================================================================
 // Lookup Tables
 // ============================================================================
-
+$_orderStatus = [
+    0 => 'Pending',
+    1 => 'Preparing',
+    2 => 'Completed',
+    3 => 'Cancelled',
+];
 
 // ============================================================================
 // Global Variables and Constants

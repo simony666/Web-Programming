@@ -28,9 +28,9 @@
         $stm->execute([$order_id]);
         $product_details = $stm->fetchAll();
         
-        // order details total_cost
+        // order details total_cost + order status
         $stm = $db->prepare(
-            "SELECT total_cost
+            "SELECT total_cost, order_status
             FROM orders
             WHERE order_id = ?
         ");
@@ -110,12 +110,12 @@
                             <tbody>
                                 <?php  foreach ($product_details as $p): ?>
                                     <tr>
-                                        <td class="align-middle">
+                                        <td class="align-middle" style="text-wrap:wrap;">
                                             <img src="../_/photos/products/<?= $p->photo[0]?>" alt="">
                                             <?= $p->product_name ?>
                                         </td>
                                         <td class="align-middle text-center">
-                                        <?= $p->product_price ?>
+                                            <?= $p->product_price ?>
                                         </td>
                                         <td class="align-middle text-center">
                                             <?= $p->unit ?>
@@ -126,26 +126,28 @@
                         </table>
                         <hr>
                         <h5>
-                            <?php  foreach ($order_details as $o): ?>
+                            <?php  foreach ($order_details as $o): 
+                                $defaultStatus = $o->order_status;    
+                            ?>
                                 Total Price:
                                 <span class="float-end fw-bold">RM<?=  sprintf('%.2f',$o->total_cost) ?></span>
-                            <?php endforeach?>
+                            
                         </h5>
 
                         <hr>
-
+                        
                         <label class="fw-bold">Status</label>
                         <div class="mb-3">
-                            <form method="post">
-                                <select name="order_status" id="" class="form-select ps-2">
-                                    <option value="0">Pending</option>
-                                    <option value="1">Preparing</option>
-                                    <option value="2">Completed</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                                <button type="submit" name="update_order_btn" class="btn btn-primary mt-2">Update Status</button>
-                            </form>
                             
+                            <form method="post" action="all_orderlist.php">
+                                <?= hidden('order_id', 
+                                $order_id)?>
+                                
+                                <?= selectStatus('order_status',$_orderStatus, $defaultStatus, true)?>
+                                
+                                <input type="submit" name="update_status_btn" class="btn btn-primary mt-2" value="Update Status" />
+                            </form>
+                        <?php endforeach?>
                         </div>
                     </div> 
                 </div>
@@ -153,6 +155,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function disableOptions(selectElement) {
+            var selectedValue = selectElement.value;
+            var options = selectElement.options;
+
+            for (var i = 0; i < options.length; i++) {
+                if (selectedValue >= 2 && options[i].value < 2) {
+                    options[i].disabled = true;
+                } else {
+                    options[i].disabled = false;
+                }
+            }
+        }
+</script>
 
 <?php 
     include('../_/adminLayout/footer.php')
