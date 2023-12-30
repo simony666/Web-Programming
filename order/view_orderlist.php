@@ -1,44 +1,58 @@
 <?php
     include('../_base.php');
     
-    if(req('update_order_btn') && req('order_id')){
+    if ( req('update_status_btn') || req('update_order_btn') && req('order_id')) {
+        // order_id get from orderlist 
         $order_id = post("order_id");
-        
+    
+        // Get the new status from the form (update status)
+        $newStatus = req('order_status');
 
-        // delivery details
+        // Update the order status in the database
+        $stm = $db->prepare(
+            "UPDATE orders
+            SET order_status = ?
+            WHERE order_id = ?"
+        );
+
+        $order_status = $stm->execute([$newStatus, $order_id]);
+    
+        // Fetch delivery details
         $stm = $db->prepare(
             "SELECT u.*, s.*
             FROM user AS u
             JOIN shipping_address AS s 
-            ON s.user_id = u.id
-        ");
-
+            ON s.user_id = u.id"
+        );
+    
         $stm->execute();
         $delivery_details = $stm->fetchAll();
-
-        // order details products part
+    
+        // Fetch order details products part
         $stm = $db->prepare(
             "SELECT o.*, p.*
             FROM order_items AS o
             JOIN products AS p 
             ON o.product_id = p.product_id
-            WHERE o.order_id = ?
-            ");
-
+            WHERE o.order_id = ?"
+        );
+    
         $stm->execute([$order_id]);
         $product_details = $stm->fetchAll();
-        
-        // order details total_cost + order status
+    
+        // Fetch order details total_cost + order status
         $stm = $db->prepare(
             "SELECT total_cost, order_status
             FROM orders
-            WHERE order_id = ?
-        ");
+            WHERE order_id = ?"
+        );
+    
         $stm->execute([$order_id]);
         $order_details = $stm->fetchAll();
-    }else{
-         echo "Orders not found!";
+    } else {
+        echo "Orders not found!";
     }
+  
 
     include('../_/adminLayout/header.php');
 ?>
@@ -127,7 +141,7 @@
                         <hr>
                         <h5>
                             <?php  foreach ($order_details as $o): 
-                                $defaultStatus = $o->order_status;    
+                                 $defaultStatus = post("order_status")
                             ?>
                                 Total Price:
                                 <span class="float-end fw-bold">RM<?=  sprintf('%.2f',$o->total_cost) ?></span>
@@ -139,11 +153,11 @@
                         <label class="fw-bold">Status</label>
                         <div class="mb-3">
                             
-                            <form method="post" action="all_orderlist.php">
+                            <form method="post">
                                 <?= hidden('order_id', 
                                 $order_id)?>
                                 
-                                <?= selectStatus('order_status',$_orderStatus, $defaultStatus, true)?>
+                                <?= selectStatus('order_status',$_orderStatus, $defaultStatus, false)?>
                                 
                                 <input type="submit" name="update_status_btn" class="btn btn-primary mt-2" value="Update Status" />
                             </form>
@@ -169,6 +183,8 @@
                 }
             }
         }
+
+
 </script>
 
 <?php 

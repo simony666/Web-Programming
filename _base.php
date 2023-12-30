@@ -184,7 +184,7 @@ function selectStatus($key, $items, $value = null, $default = true, $attr = '') 
     
     foreach ($items as $id => $name) {
         $state = $id == $value ? 'selected' : '';
-        $disabled = ($value == 3 || ($value >= 2 && $id < 2)) ? 'disabled' : ''; // Disable if "Cancelled" is selected or a status lower than "Preparing"
+        $disabled = ($value >= 1 && $id <2 ) ? 'disabled' : ''; // Disable if "Cancelled" is selected or a status lower than "Preparing"
         
         echo "<option value='$id' $state $disabled>$name</option>";
     }
@@ -488,7 +488,6 @@ $_orderStatus = [
     0 => 'Pending',
     1 => 'Preparing',
     2 => 'Completed',
-    3 => 'Cancelled',
 ];
 
 // ============================================================================

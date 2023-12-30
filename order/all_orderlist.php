@@ -7,19 +7,7 @@
         ORDER BY o.order_id DESC"
     )->fetchAll();
     
-    if(req('update_status_btn')){
-      $newStatus = req('order_status');
-      $id = req('order_id');
-
-      $stm = $db->prepare(
-        "UPDATE orders
-        SET order_status = ?
-        WHERE order_id = ?
-      ");
-
-      $order_status = $stm->execute([$newStatus,$id]);
-    }
-
+    
     include('../_/adminLayout/header.php');
 ?>
     <div class="container">
@@ -63,7 +51,7 @@
                             <td><?= $_orderStatus[$o->order_status] ?></td>
                             <td>
                               <form action="view_orderlist.php" method="post">
-                                <?= hidden($_orderStatus[$o->order_status]) ?>
+                                <?= hidden('order_status',$o->order_status) ?>
                                 <?= hidden('order_id',$o->order_id); ?>
                                 <input type="submit" name="update_order_btn" class="btn btn-primary mt-2" value="View details"/>
                               </form>

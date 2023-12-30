@@ -46,9 +46,10 @@
                             <td><?= $o->name ?></td>
                             <td><?= $o->total_cost ?></td>
                             <td><?= $o->order_date ?></td>
-                            <td><?= $o->order_status ?></td>
+                            <td><?= $_orderStatus[$o->order_status] ?></td>
                             <td>
                               <form action="view_orderlist.php" method="post">
+                                <?= hidden('order_status',$o->order_status) ?>
                                 <?= hidden('order_id',$o->order_id); ?>
                                 <input type="submit" name="update_order_btn" class="btn btn-primary mt-2" value="View details"/>
                               </form>
