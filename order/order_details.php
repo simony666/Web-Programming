@@ -1,10 +1,5 @@
 <?php 
 
-    /*Order status*/ 
-    // 1) delivered
-    // 2) Shipped
-    // 3) Unpaid
-
     include('../_base.php');
 
     if(req('order_details_btn') && req('order_id')){
