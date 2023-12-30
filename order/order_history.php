@@ -12,9 +12,10 @@
     $user_id = '1';
     
     $stm = $db->prepare(
-        "SELECT * 
+        "SELECT *
         FROM orders 
         WHERE user_id = ?
+        ORDER BY order_id DESC
         ");
     $stm->execute([$user_id]);
 
