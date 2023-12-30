@@ -498,7 +498,24 @@ function get_products($ids=null){
 // ============================================================================
 // Lookup Tables
 // ============================================================================
-
+$_states = [
+    'JHR' => "Johor",
+    'KDH' =>"Kedah",
+    'KTN' =>"Kelantan",
+    'MLK' =>"Melaka",
+    'NSN' =>"Negeri Sembilan",
+    'PHG' => "Pahang",
+    'PRK' => "Perak",
+    'PLS' => "Perlis",
+    'PNG' => "Pulau Pinang",
+    'SWK' => "Sarawak",
+    'SGR' => "Selangor",
+    'TRG' => "Terengganu",
+    'KUL' => "Kuala Lumpur",
+    'LBN' => "Labuan",
+    'SBH' => "Sabah",
+    'PJY' => "Putrajaya"
+];
 
 // ============================================================================
 // Global Variables and Constants
