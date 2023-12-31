@@ -69,26 +69,7 @@
       <p>Here you can check out our featured products</p>
     </div>
     <div class="row mx-auto container-fluid">
-      <?php $featured_products = get_featured_products();
-       foreach ($featured_products as $row):?>
-      <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
-        <a href="single_product.php?product_id=<?= $row->product_id ?>">
-          <img src="../_/photos/products/<?=  $row->product_image ?>" alt="" class="img-fluid mb-3">
-          <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-          <h5 class="p-name"><?=  $row->product_name ?></h5>
-          <h4 class="p-price">RM<?=  $row->product_price ?></h4>
-          <a href="<?php echo "single_product.php?product_id=".$row->product_id?> ">
-            <button class="buy-btn">Buy Now</button>
-          </a>
-        </a>
-      </div>
-    <?php endforeach; ?>
+      <?php featured_products();?>
     </div>  
 
   </section>
@@ -110,23 +91,7 @@
     <p>Here you can check out our amazing clothes</p>
   </div>
   <div class="row mx-auto container-fluid">
-    <?php foreach ($featured_products as $row):?>
-      <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
-        <a href="single_product.php?product_id=<?=  $row->product_id ?>">
-          <img src="../_/photos/products/<?=  $row->product_image ?>" alt="" class="img-fluid mb-3">
-          <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-          <h5 class="p-name"><?=  $row->product_name ?></h5>
-          <h4 class="p-price">RM<?=  $row->product_price ?></h4>
-          <button class="buy-btn">Buy Now</button>
-        </a>
-      </div>
-    <?php endforeach; ?>
+    <?php featured_products();?>
     </div>  
 </section>
 

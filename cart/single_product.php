@@ -6,15 +6,7 @@
     if(req('product_id')){
         $pId = req('product_id');
 
-        $stm = $db->prepare(
-            "SELECT * 
-            FROM products 
-            WHERE product_id = ?
-            LIMIT 1
-        ");
-
-        $stm->execute([$pId]);
-        $product = $stm->fetch(); 
+        $product = get_product($pId);
     }else{
         redirect('index.php');
     }
@@ -28,20 +20,13 @@
         <div class="row mt-5">
         <?php if ($product):?>
                 <div class="col-lg-5 col-md-6 col-sm-12">
-                    <img class="img-fluid w-100 pb-1" src="../_/photos/products/<?= $product->product_image ?>" alt="" id="mainImg">
+                    <img class="img-fluid w-100 pb-1" src="../_/photos/products/<?= $product->photos[0] ?>" alt="" id="mainImg">
                     <div class="small-img-group">
+                        <?php foreach($product->photos as $photo):?>
                         <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image ?>" alt="" class="small-img" width="100%">
+                            <img src="../_/photos/products/<?= $photo ?>" alt="" class="small-img" width="100%">
                         </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image2 ?>" alt="" class="small-img" width="100%">
-                        </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image3 ?>" alt="" class="small-img" width="100%">
-                        </div>
-                        <div class="small-img-col">
-                            <img src="../_/photos/products/<?= $product->product_image4 ?>" alt="" class="small-img" width="100%">
-                        </div>
+                        <?php endforeach;?>
                     </div>
                 </div>
                 
@@ -73,28 +58,13 @@
         <hr class="mx-auto">
         </div>
         <div class="row mx-auto container-fluid">
-        <?php foreach ($featured_products as $row):?>
-      <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
-        <a href="single_product.php?product_id=<?=  $row->product_id ?>">
-          <img src="../_/photos/products/<?=  $row->product_image ?>" alt="" class="img-fluid mb-3">
-          <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-          <h5 class="p-name"><?=  $row->product_name ?></h5>
-          <h4 class="p-price">RM<?=  $row->product_price ?></h4>
-          <button class="buy-btn">Buy Now</button>
-        </a>
-      </div>
-    <?php endforeach; ?>
+        <?php featured_products(get_featured_products()); ?>
         </div>
     </section>
 
     <!-- click small image -->
     <script>
+        
         var mainImg = document.getElementById("mainImg");
         var smallImg = document.getElementsByClassName("small-img"); // will return array
 

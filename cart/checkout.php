@@ -1,85 +1,75 @@
-<?php 
-    include('../_base.php'); 
-    include('../_/customerLayout/_head.php');
+<?php
+include('../_base.php');
 
-    // developer page -> bussiness name -> account
-    if (is_post()) {
-        //$order_status = get('order_status') ?? '';
-    
-        // Get shopping cart (reject if empty)
-        $cart = get_cart();
-       
-        if (!$cart){
-            redirect('cart.php');   
-        }
+// validation
+if (post('place-order')) {
+    $user_id = $user->id;
+    $address = req('address');
+    $state = req('state');
+    $postal = req('postal');
 
-        // Prepared statement to select a product by id
-        $stm = $db->prepare(
-            'SELECT * FROM products WHERE product_id = ?');
-           
-        //  Create line items
-        // =======================
-        // - price_data
-        //     - product_data
-        //         - name
-        //     - currency (will in cents)
-        //     - unit_amount
-        // - quantity
-
-        // Array [key|value]
-        // [P001|2]
-
-        $line_items = [];
-
-        foreach($cart as $product_id => $unit){
-            $stm->execute([$product_id]);
-            $p = $stm->fetch();
-        
-            $line_items[] = [
-                'price_data' => [
-                    'product_data' => [
-                        'name' => "$p->product_id | $p->product_name",
-                    ],
-                    'currency' => 'myr',
-                    'unit_amount' => $p->product_price * 100,
-                ],
-                'quantity' => $unit,
-            ];
-        }
-    
-        //  Create stripe checkout session
-        // ====================================
-        // - mode
-        // - success_url
-        // - cancel_url
-        // - line_items
-        // - metadata (optional) <-- shopping cart
-        // - client_reference_id (optional) <-- user id
-        // - customer_email (optional) <-- user email
-
-        $stripe = get_stripe();
-
-        $session = $stripe->checkout->sessions->create([
-            'mode' => 'payment',
-            'success_url' => base('order/place_order.php?session_id={CHECKOUT_SESSION_ID}'),
-            'cancel_url' => base('cart/cancel.php'),
-            'line_items' => $line_items,
-            'metadata' => $cart,
-            // 'client_reference_id' => $user->id,
-            // 'customer_email' => $user->email,
-        ]);
-
-
-        // Store stripe session id as session variable for checking later
-        $_SESSION['session_id'] = $session->id;
-
-        // Redirect to stripe
-        redirect($session->url);
+    // Input: address
+    if (!$address) {
+        $err['address'] = 'Required';
     }
-// Redirect to cart.php
-redirect('cart.php');
+    
+    // input: state
+    if(!$state){
+        $err['state'] = 'Required';
+    }else if(!array_key_exists($state, $_states)){
+        $err['state'] = 'Not exists';
+    }
+
+    // Input: postal code
+    if (!$postal) {
+        $err['postal'] = 'Required';
+    }else if(!preg_match('/^[0-9]{5}$/',$postal)){
+        $err['postal'] = 'Postal code only consists 5 digits';
+    }
+
+    // insert record to database
+    $stm = $db->prepare(
+        " INSERT INTO shipping_address(user_id,address,state,postal)
+        VALUES (?,?,?,?)
+        ");
+    $stm->execute([$user_id,$address,$state,$postal]);
+}
+
+
+
+include('../_/customerLayout/_head.php');
 ?>
 
+<section class="my-5 py-5">
+    <div class="container text-center mt-3 pt-5">
+        <h2 class="form-weight-bold">Shipping Address</h2>
+        <hr class="mx-auto">
+    </div>
+    <div class="mx-auto container">
+        <form id="checkout-form" method="post" action="payment.php">
+            <div class="form-group checkout-large-element">
+                <label>Address <span style="color:red;">*</span></label>
+                <?= text('address','class="form-control" maxlength="100" placeholder="Address" required ')?>
+                <?= err('address') ?>
+            </div>
 
+            <div class="form-group checkout-small-element">
+                <label>State<span style="color:red;">*</span></label>
+                <?= select('state',$_states, null, false,'class="form-control" required') ?>
+                <?= err('state') ?>
+            </div>
+
+            <div class="form-group checkout-small-element">
+                <label>Postal Code<span style="color:red;">*</span></label>
+                <?= text('postal','class="form-control" maxlength="5" pattern="\d{5}" placeholder="XXXXX" required ')?>
+                <?= err('postal') ?>
+            </div>
+
+            <div class="form-group checkout-btn-container">
+                <input type="submit" value="Checkout" class="btn" id="checkout-btn" name="place-order" />
+            </div>
+        </form>
+    </div>
+</section>
 
 <?php include('../_/customerLayout/_foot.php'); ?>
