@@ -51,7 +51,6 @@ include '_head.php';
     <?= password('password', 'maxlength="100"') ?>
     <?= err('password') ?>
     
-
     <section>
         <button>Login</button>
         <button type="reset">Reset</button>
