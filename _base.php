@@ -362,6 +362,93 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
 
+
+function get_featured_products(){
+    global $db;
+    $featured_products = $db->query('SELECT product_id FROM products ORDER BY product_id ASC LIMIT 4');
+    $fp = array();
+    foreach ($featured_products as $p){
+        $fp[] = get_product($p->product_id);
+    }
+    
+    return $fp;
+}
+
+function featured_products($product=null){
+    $product = $product ?? get_featured_products();
+
+    foreach ($product as $p){
+        $photo = $p->photos[0];
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
+        <a href='single_product.php?product_id=$p->product_id'>
+        <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
+          <div class='star'>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+            <i class='fas fa-star'></i>
+          </div>
+          <h5 class='p-name'>$p->product_name</h5>
+          <h4 class='p-price'>RM$p->product_price</h4>
+          <button class='buy-btn'>Buy Now</button>
+        </a>
+      </div>";
+    }
+    
+}
+
+
+function get_product($id){
+    global $db;
+
+    $stm = $db->prepare(
+        "SELECT * 
+        FROM products 
+        WHERE product_id = ?
+    ");
+
+    $stm->execute([$id]);
+    $p = $stm->fetch();
+
+    $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$id'");
+    $rows = $stm -> fetchAll();
+    $p->photos = array();
+    foreach($rows as $row) {
+        $p->photos[] = $row->photo;
+    }
+    return $p;
+}
+function get_products($ids=null){
+    global $db;
+
+    if($ids){
+        $in = in($ids);
+        $stm = $db->prepare(
+            "SELECT * 
+            FROM products WHERE product_id IN ($in)
+        ");
+        $stm->execute($ids);
+        $arr = $stm->fetchAll();
+    }else{
+        $stm = $db->query(
+            "SELECT * 
+            FROM products
+        ");
+        $arr = $stm->fetchAll();
+    }
+
+    foreach($arr as $p){
+        $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$p->product_id'");
+        $rows = $stm -> fetchAll();
+        $p->photos = array();
+        foreach($rows as $row) {
+            $p->photos[] = $row->photo;
+        }
+    }
+    var_dump($arr);
+    return $arr;
+}
 // ============================================================================
 // Lookup Tables
 // ============================================================================
