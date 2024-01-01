@@ -13,11 +13,13 @@
 
 <!-- Home -->
 <section id="home">
-    <div class="container">
-      <h5>NEW ARRIVALS</h5>
-      <h1><span>Best Prices</span> This Season</h1>
-      <p>Unique offers the best products for the most affordable prices</p>
-      <button>Shop Now</button>
+  <div class="container">
+      <h5 class="text-white">NEW ARRIVALS</h5>
+      <h1 class="text-white" ><span>Best Prices</span> This Season</h1>
+      <p class="text-white">Unique offers the best products for the most affordable prices</p>
+      <button onclick="location.href = 'shop.php';">
+        Shop Now
+      </button>
     </div>
   </section>
 
@@ -36,7 +38,7 @@
     <div class="row p-0 m-0">
       <!-- One -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="../../cart/images/new/goods_09_450698.webp">
+        <img class="img-fluid" src="../../cart/images/products/P002/features1.webp">
         <div class="details">
           <h2>Extremely Awesome Shoes</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -44,7 +46,7 @@
       </div>
       <!-- Two -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="../../cart/images/new/goods_09_454218.avif">
+        <img class="img-fluid" src="../../cart/images/products/P006/jacket1.jpg">
         <div class="details">
           <h2>Awesome Jackets</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -52,7 +54,7 @@
       </div>
       <!-- Three -->
       <div class="one col-lg-4 col-md-12 col-sm-12 p-0">
-        <img class="img-fluid" src="../../cart/images/new/goods_09_454373.png">
+        <img class="img-fluid" src="../../cart/images/products/P005/watch2.avif">
         <div class="details">
           <h2>50% OFF Watches</h2>
           <button class="text-uppercase">Shop Now</button>
@@ -62,7 +64,7 @@
   </section>
 
 <!-- Features -->
-  <section id="featured" class="my-5 pb-5">
+<section id="featured" class="my-5 pb-5">
     <div class="container text-center mt-5 py-5">
       <h3>Our Featured</h3>
       <hr class="mx-auto">
@@ -72,7 +74,7 @@
       <?php featured_products();?>
     </div>  
 
-  </section>
+</section>
 
 <!-- Banner -->
 <section id="banner" class="my-5 py-5">

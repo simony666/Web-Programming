@@ -137,7 +137,7 @@ button:hover{
 }
 
 #home{
-    background-image: url(../images/Man_Streetware2.jpg);
+    background-image: url(../../cart/images/Man_Streetware2.jpg);
     width: 100%;
     height: 100vh;
     background-size: cover;
@@ -205,10 +205,27 @@ button:hover{
     text-align: end;
 }
 
+
 /* Shop - products */
+
 .product{
+    position: relative;
     cursor: pointer;
     margin-bottom: 2rem;
+}
+
+/* add to favourite icon */
+.product .fa-heart{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: rgb(24, 23, 23);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.fa-heart.red{
+  color: rgb(255, 0, 0);
 }
 
 .product a{
