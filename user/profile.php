@@ -6,7 +6,7 @@ include '../_base.php';
 auth();
 
 if (is_get()) {
-    $u = get_user($user->id);
+    $u = get_user($user->id,true);
 
     if (!$u) {
         redirect('/');
@@ -71,7 +71,7 @@ if (is_post()) {
         ');
         $stm->execute([$email, $name, $user->id]);
 
-        get_user($user->id);
+        get_user($user->id,true);
 
         temp('info', 'Record updated');
         redirect('/');

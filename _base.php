@@ -307,10 +307,10 @@ function auth(...$roles) {
         }
     }
     
-    redirect('/_login.php');
+    redirect('/login.php');
 }
 
-function get_user($id){
+function get_user($id,$save=false){
     global $db;
     $stm = $db->prepare('SELECT * FROM user WHERE id = ?');
     $stm->execute([$id]);
@@ -325,7 +325,9 @@ function get_user($id){
     }
 
     unset($u->password);
-    $_SESSION['user'] = $u;
+    if ($save) {
+        $_SESSION['user'] = $u;
+    }
 
     return $u;
 }

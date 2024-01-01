@@ -48,7 +48,8 @@ include '../_head.php';
         <th></th>
     </tr>
 
-    <?php foreach ($arr as $u): ?>
+    <?php foreach ($arr as $user){ 
+        $u=get_user($user->id)?>
     <tr>
         <td><?= $u->id ?></td>
         <td><?= $u->email ?></td>
@@ -57,14 +58,14 @@ include '../_head.php';
         <td><?= $u->role ?></td>
         <td>
             <!-- Hide for user #1 -->
-            <?php if ($u->id != 1): ?>
+            <?php if ($u->id != $_SESSION["user"]->id && $u->id != 1 ): ?>
                 <button data-post="delete.php?id=<?= $u->id ?>">Delete</button>
             <?php endif ?>
 
-            <img src="/_/photos/<?= $u->photo ?>" class="photo popup">
+            <img src="/_/photos/<?= $u->photos[0] ?>" class="photo popup">
         </td>
     </tr>
-    <?php endforeach ?>
+    <?php } ?>
 </table>
 
 <?php
