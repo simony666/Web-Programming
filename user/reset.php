@@ -24,6 +24,7 @@ if (is_post()) {
         $stm = $db->prepare('SELECT * FROM user WHERE email = ?');
         $stm->execute([$email]);
         $u = $stm->fetch();
+        echo $u->id;
 
         // TODO: (2) Generate token id
         $id = sha1(rand());
@@ -32,18 +33,19 @@ if (is_post()) {
         $stm = $db->prepare('
             DELETE FROM reset_token WHERE user_id = ?;
 
-            INSERT INTO reset_token (id, expire, user_id)
+            INSERT INTO reset_token (token, expired, user_id)
             VALUES (?, ADDTIME(NOW(), "00:05"), ?);
         ');   
         $stm->execute([$u->id, $id, $u->id]); 
 
         // TODO: (4) General token url
-        $url = base("reset_token.php?id=$id");
+        $url = base("user/reset_token.php?id=$id");
+        echo $url;
 
         // TODO: (5) Send email
         $m = get_mail();
         $m->addAddress($u->email, $u->name);
-        $m->addEmbeddedImage("_/photos/$u->photo", 'photo');
+        //$m->addEmbeddedImage("_/photos/profile_pic", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
@@ -59,7 +61,8 @@ if (is_post()) {
             
 
         temp('info', 'Email sent');
-        redirect('/');
+        //redirect('/');
+
     }
 }
 

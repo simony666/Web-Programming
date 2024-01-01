@@ -43,6 +43,7 @@ include '../_head.php';
         <th>Id</th>
         <th>Email</th>
         <th>Name</th>
+        <th>Gender</th>
         <th>Role</th>
         <th></th>
     </tr>
@@ -52,6 +53,7 @@ include '../_head.php';
         <td><?= $u->id ?></td>
         <td><?= $u->email ?></td>
         <td><?= $u->name ?></td>
+        <td><?= $u->gender ?></td>
         <td><?= $u->role ?></td>
         <td>
             <!-- Hide for user #1 -->

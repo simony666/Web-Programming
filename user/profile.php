@@ -58,7 +58,7 @@ if (is_post()) {
     // DB operation
     if (!$err) {
         // (1) Delete and save photo (optional)
-        if ($f) {
+        if ($f && true == false) {
             unlink("../_/photos/$photo");
             $photo = save_photo($f, '../_/photos');
         }
@@ -66,12 +66,12 @@ if (is_post()) {
         // (2) Update user (email, name, photo)
         $stm = $db->prepare('
             UPDATE user
-            SET email = ?, name = ?, photo = ?
+            SET email = ?, name = ?
             WHERE id = ?
         ');
-        $stm->execute([$email, $name, $photo, $user->id]);
+        $stm->execute([$email, $name, $user->id]);
 
-        get_user($id);
+        get_user($user->id);
 
         temp('info', 'Record updated');
         redirect('/');

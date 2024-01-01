@@ -9,6 +9,7 @@ if (is_post()) {
     $confirm = req('confirm');
     $name = req('name');
     $f = get_file('photo');
+    $gender = req('gender');
 
     // Input: email
     if (!$email) {
@@ -68,8 +69,8 @@ if (is_post()) {
         $photo = save_photo($f,'_/photos');
         
         // (2) Insert user (member)
-        $stm = $db->prepare('INSERT INTO user (email,password,name,role) VALUES (?,SHA1(?),?,\'Member\')');
-        $stm->execute([$email,$password,$name]);
+        $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
+        $stm->execute([$email,$password,$name,$gender]);
         $userID = $db->lastInsertId();
         $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
         $stm->execute([$photo]);

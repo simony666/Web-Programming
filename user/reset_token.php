@@ -4,11 +4,11 @@ include '../_base.php';
 // ----------------------------------------------------------------------------
 
 // TODO: (1) Delete expired tokens
-$db->query('DELETE FROM token WHERE expire < NOW()');
+$db->query('DELETE FROM reset_token WHERE Expired < NOW()');
 
 // TODO: (2) Is token id valid?
 $id = req('id');
-if (!is_exists($id, 'token', 'id')) {
+if (!is_exists($id, 'reset_token', 'token')) {
     temp('info', 'Invalid token. Try again');
     redirect('/');
 }
@@ -43,9 +43,9 @@ if (is_post()) {
         $stm = $db->prepare('
             UPDATE user 
             SET password = SHA1(?)
-            WHERE id = (SELECT user_id FROM token WHERE id = ?);
+            WHERE id = (SELECT user_id FROM reset_token WHERE token = ?);
 
-            DELETE FROM token WHERE id =?;
+            DELETE FROM reset_token WHERE token =?;
         ');
         $stm->execute([$password, $id, $id]);
 
