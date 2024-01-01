@@ -502,6 +502,7 @@ $_states = [
     'LBN' => "Labuan",
     'SBH' => "Sabah",
     'PJY' => "Putrajaya"
+];
 
 $_orderStatus = [
     0 => 'Pending',
