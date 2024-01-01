@@ -37,8 +37,8 @@
     
     // 2) store info in database
     // hard code
-    $order_status = "Paid";
-    $user_id = 1;
+    $order_status = 0;
+    $user_id = $user->id;
     $order_date = date('Y-m-d H:i:s');
     
     //  DB transaction (insert orders and order_items)
@@ -58,8 +58,8 @@
     // (5) Insert order_items    
     $stm = $db->prepare(
         "INSERT INTO order_items
-        (user_id, order_id, product_id,  product_price, unit, subtotal)
-        VALUES (?, ?, ?, 
+        (order_id, product_id,  product_price, unit, subtotal)
+        VALUES ( ?, ?, 
             (SELECT product_price FROM products
             WHERE product_id = ?),
                 ?, 
@@ -67,7 +67,7 @@
     );
         
     foreach ($cart as $product_id => $unit) {
-        $stm->execute([$user_id, $order_id, $product_id, $product_id, $unit]);
+        $stm->execute([$order_id, $product_id, $product_id, $unit]);
     }
         
     // (6) Update orders (count and total)
@@ -95,6 +95,6 @@
 
     // 9) inform user whether everything is fine or there is a problem
     temp('info','Checkout success');
-    redirect('../order/order_history.php');
+    redirect("../cart/shippingAddress.php?order_id=$order_id");
    
 ?>
