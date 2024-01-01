@@ -407,25 +407,30 @@ function get_featured_products(){
     return $fp;
 }
 
+// add to favourite
+
+
+// get featured products
 function featured_products($product=null){
     $product = $product ?? get_featured_products();
 
     foreach ($product as $p){
         $photo = $p->photos[0];
         echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
-        <a href='single_product.php?product_id=$p->product_id'>
-        <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
-          <div class='star'>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-          </div>
-          <h5 class='p-name'>$p->product_name</h5>
-          <h4 class='p-price'>RM$p->product_price</h4>
-          <button class='buy-btn'>Buy Now</button>
-        </a>
+            <a href='single_product.php?product_id=$p->product_id'>
+            <i onclick='toggleHeart(event,'$p->product_id')' class='red fa-regular fa-heart'></i>
+            <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
+            <div class='star'>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+            </div>
+            <h5 class='p-name'>$p->product_name</h5>
+            <h4 class='p-price'>RM$p->product_price</h4>
+            <button class='buy-btn'>Buy Now</button>
+            </a>
       </div>";
     }
     
@@ -502,12 +507,12 @@ $_states = [
     'LBN' => "Labuan",
     'SBH' => "Sabah",
     'PJY' => "Putrajaya"
+];
 
 $_orderStatus = [
     0 => 'Pending',
     1 => 'Preparing',
     2 => 'Completed',
-
 ];
 
 // ============================================================================
