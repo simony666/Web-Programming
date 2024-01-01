@@ -82,6 +82,11 @@ function is_email($value) {
 
 // Initialize and return mail object
 function get_mail() {
+    global $s_mail_host;
+    global $s_mail_port;
+    global $s_mail_username;
+    global $s_mail_password;
+    global $s_mail_name;
     // Username = BAIT2173.email@gmail.com
     // Password = qopeyfvldofsizpp
 
