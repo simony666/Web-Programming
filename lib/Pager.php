@@ -44,16 +44,17 @@ class Pager {
         $next = min($this->page + 1, $this->page_count);
 
         echo "<nav class='pager' $attr>";
-        echo "<a href='?page=1&$href'>First</a>";
-        echo "<a href='?page=$prev&$href'>Previous</a>";
+        echo "<ul class='pagination mt-5'>";
+        echo "<li class='page-item'><a href='?page=1&$href' class='page-link'>First</a></li>";
+        echo "<li class='page-item'><a href='?page=$prev&$href' class='page-link'>Previous</a></li>";
 
         foreach (range(1, $this->page_count) as $p) {
             $c = $p == $this->page ? 'active' : '';
-            echo "<a href='?page=$p&$href' class='$c'>$p</a>";
+            echo "<li class='page-item'><a href='?page=$p&$href' class='$c page-link'>$p</a></li>";
         }
 
-        echo "<a href='?page=$next&$href'>Next</a>";
-        echo "<a href='?page=$this->page_count&$href'>Last</a>";
+        echo "<li class='page-item'><a href='?page=$next&$href' class='page-link'>Next</a></li>";
+        echo "<li class='page-item'><a href='?page=$this->page_count&$href' class='page-link'>Last</a></li>";
         echo "</nav>";
     }
 }
