@@ -3,7 +3,7 @@
 // ============================================================================
 // PHP Setups
 // ============================================================================
-
+date_default_timezone_set('Asia/Kuala_Lumpur');
 session_start();
 require '_settings.php';
 
@@ -82,6 +82,11 @@ function is_email($value) {
 
 // Initialize and return mail object
 function get_mail() {
+    global $s_mail_host;
+    global $s_mail_port;
+    global $s_mail_username;
+    global $s_mail_password;
+    global $s_mail_name;
     // Username = BAIT2173.email@gmail.com
     // Password = qopeyfvldofsizpp
 
@@ -113,7 +118,7 @@ function base($path = '') {
 
 // Initialize and return stripe client
 function get_stripe() {
-    $key = 'sk_test_51ON8CbCME2Wa4fbgxEC49szdqaTvekSlgjDuXe6frnjdWstNA81zEP2mF12d8f9KR4sdMHbr55ayX6pwj57HvqJB00vNXgz0YW';
+    $key = 'sk_test_51ORvmlBZ0phwb5Fpe7Rq7VmnFlp5VRCc6prMsrXzu3zV6VowA4dEebasCnQ7daHC53fyIj7m5CPbLQnJRagywklP00B81RpDBn';
     require_once 'lib/stripe/init.php';
     return new \Stripe\StripeClient($key);
 }
@@ -172,10 +177,31 @@ function radios($key, $items, $br = false) {
     echo "</div>";
 }
 
+//  Generate <select> - order status
+function selectStatus($key, $items, $value = null, $default = true, $attr = '') {
+    $value ??= encode($GLOBALS[$key] ?? '');
+    
+    echo "<select id='$key' name='$key' $attr class='form-select ps-2' onchange='disableOptions(this);'>";
+    
+    if ($default) {
+        echo "<option value=''>- Select One -</option>";
+    }
+    
+    foreach ($items as $id => $name) {
+        $state = $id == $value ? 'selected' : '';
+        $disabled = ($value >= 1 && $id <2 ) ? 'disabled' : ''; // Disable if "Cancelled" is selected or a status lower than "Preparing"
+        
+        echo "<option value='$id' $state $disabled>$name</option>";
+    }
+    
+    echo "</select>";
+}
+
+
 // Generate <select>
 function select($key, $items, $value = null, $default = true, $attr = '') {
     $value ??= encode($GLOBALS[$key] ?? '');
-    echo "<select id='$key' name='$key' $attr>";
+    echo "<select id='$key' name='$key' $attr >";
     if ($default) {
         echo "<option value=''>- Select One -</option>";
     }
@@ -322,7 +348,7 @@ function set_cart($cart = []) {
 function update_cart($id, $unit) {
     $cart = get_cart();
 
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product', 'id')) {
+    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'products', 'product_id')) {
         $cart[$id] = $unit;
     }
     else {
@@ -330,6 +356,16 @@ function update_cart($id, $unit) {
     }
 
     set_cart($cart);
+}
+
+
+// Remove shopping cart
+function remove_from_cart($product_id) {
+    $cart = get_cart();
+    if (isset($cart[$product_id])) {
+        unset($cart[$product_id]);
+        set_cart($cart);
+    }
 }
 
 // ============================================================================
@@ -362,9 +398,127 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
 
+
+
+// TODO
+function get_featured_products(){
+    global $db;
+    $featured_products = $db->query('SELECT product_id FROM products ORDER BY product_id ASC LIMIT 4');
+    $fp = array();
+    foreach ($featured_products as $p){
+        $fp[] = get_product($p->product_id);
+    }
+    
+    return $fp;
+}
+
+// add to favourite
+
+
+// get featured products
+function featured_products($product=null){
+    $product = $product ?? get_featured_products();
+
+    foreach ($product as $p){
+        $photo = $p->photos[0];
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
+            <a href='single_product.php?product_id=$p->product_id'>
+            <i onclick='toggleHeart(event,'$p->product_id')' class='red fa-regular fa-heart'></i>
+            <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
+            <div class='star'>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+            </div>
+            <h5 class='p-name'>$p->product_name</h5>
+            <h4 class='p-price'>RM$p->product_price</h4>
+            <button class='buy-btn'>Buy Now</button>
+            </a>
+      </div>";
+    }
+    
+}
+
+
+function get_product($id){
+    global $db;
+
+    $stm = $db->prepare(
+        "SELECT * 
+        FROM products 
+        WHERE product_id = ?
+    ");
+
+    $stm->execute([$id]);
+    $p = $stm->fetch();
+
+    $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$id'");
+    $rows = $stm -> fetchAll();
+    $p->photos = array();
+    foreach($rows as $row) {
+        $p->photos[] = $row->photo;
+    }
+    return $p;
+}
+function get_products($ids=null){
+    global $db;
+
+    if($ids){
+        $in = in($ids);
+        $stm = $db->prepare(
+            "SELECT * 
+            FROM products WHERE product_id IN ($in)
+        ");
+        $stm->execute($ids);
+        $arr = $stm->fetchAll();
+    }else{
+        $stm = $db->query(
+            "SELECT * 
+            FROM products
+        ");
+        $arr = $stm->fetchAll();
+    }
+
+    foreach($arr as $p){
+        $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$p->product_id'");
+        $rows = $stm -> fetchAll();
+        $p->photos = array();
+        foreach($rows as $row) {
+            $p->photos[] = $row->photo;
+        }
+    }
+    return $arr;
+}
 // ============================================================================
 // Lookup Tables
 // ============================================================================
+
+$_states = [
+    'JHR' => "Johor",
+    'KDH' =>"Kedah",
+    'KTN' =>"Kelantan",
+    'MLK' =>"Melaka",
+    'NSN' =>"Negeri Sembilan",
+    'PHG' => "Pahang",
+    'PRK' => "Perak",
+    'PLS' => "Perlis",
+    'PNG' => "Pulau Pinang",
+    'SWK' => "Sarawak",
+    'SGR' => "Selangor",
+    'TRG' => "Terengganu",
+    'KUL' => "Kuala Lumpur",
+    'LBN' => "Labuan",
+    'SBH' => "Sabah",
+    'PJY' => "Putrajaya"
+];
+
+$_orderStatus = [
+    0 => 'Pending',
+    1 => 'Preparing',
+    2 => 'Completed',
+];
 
 // ============================================================================
 // Global Variables and Constants
