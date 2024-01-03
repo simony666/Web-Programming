@@ -66,7 +66,7 @@ include '_head.php';
     <label for="password">Password</label>
     <?= password('password', 'maxlength="100"') ?>
     <?= err('password') ?>
-
+    
     <section>
         <button>Login</button>
         <button type="reset">Reset</button>
