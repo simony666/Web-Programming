@@ -12,6 +12,7 @@ if (is_get()) {
         $stm->execute([$email]);
         $u = $stm->fetch();
         if ($u->status == "ACTIVE") redirect("/");
+        $u = get_user($u->id);
 
         // TODO: (2) Generate token id
         $id = sha1(rand());
@@ -33,7 +34,7 @@ if (is_get()) {
         $photo = $u->photos[0];
         $m = get_mail();
         $m->addAddress($u->email, $u->name);
-        $m->addEmbeddedImage("_/photos/$photo", 'photo');
+        $m->addEmbeddedImage("../_/photos/$photo", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Activate Account';
         $m->Body = "

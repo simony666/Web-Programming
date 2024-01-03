@@ -10,9 +10,10 @@ if (is_post()) {
     $password = req('password');
     $confirm = req('confirm');
     $name = req('name');
+    $gender = req('gender');
     $f = get_file('photo');
+    $gender = req('gender');
 
-    // Input: email
     if (!$email) {
         $err['email'] = 'Required';
     }
@@ -26,7 +27,6 @@ if (is_post()) {
         $err['email'] = 'Duplicated';
     }
 
-    // Input: password
     if (!$password) {
         $err['password'] = 'Required';
     }
@@ -34,7 +34,6 @@ if (is_post()) {
         $err['password'] = 'Between 5-100 characters';
     }
 
-    // Input: confirm
     if (!$confirm) {
         $err['confirm'] = 'Required';
     }
@@ -45,7 +44,6 @@ if (is_post()) {
         $err['confirm'] = 'Not matched';
     }
 
-    // Input: name
     if (!$name) {
         $err['name'] = 'Required';
     }
@@ -53,7 +51,6 @@ if (is_post()) {
         $err['name'] = 'Maximum 100 characters';
     }
 
-    // Input: photo
     if (!$f) {
         $err['photo'] = 'Required';
     }
@@ -64,22 +61,21 @@ if (is_post()) {
         $err['photo'] = 'Maximum 1MB';
     }
 
-    // DB operation
     if (!$err) {
-        // (1) Save photo
-        $photo = save_photo($f, '../_/photos');
-        
-        // (2) Insert user (member)
-        $stm = $db->prepare('INSERT INTO user (email,password,name,role) VALUES (?,SHA1(?),?,\'Admin\')');
-        $stm->execute([$email,$password,$name]);
-        $userID = $db->lastInsertId();
-        $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
-        $stm->execute([$photo]);
+            $photo = save_photo($f,'../_/photos');
+            
+            $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
+            $stm->execute([$email,$password,$name,$gender]);
+            $userID = $db->lastInsertId();
+            $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
+            $stm->execute([$photo]);            
 
-        temp('info', 'Record inserted');
-        redirect('index.php');
-    }
+
+            
+            redirect("/user/activate.php?email=$email");
+        }
 }
+
 
 // ----------------------------------------------------------------------------
 
@@ -104,12 +100,20 @@ include '../_head.php';
     <?= text('name', 'maxlength="100"') ?>
     <?= err('name') ?>
 
+    <label for="gender">Gender</label>
+    <div>
+    <input type="radio" name="gender" value="Male" required> Male
+    <input type="radio" name="gender" value="Female" required> Female
+    </div>
+    <?= err('gender') ?>
+
     <label for="photo">Photo</label>
     <label class="upload">
         <?= _file('photo', 'image/*') ?>
         <img src="/_/images/photo.jpg">
     </label>
     <?= err('photo') ?>
+
 
     <section>
         <button>Submit</button>
