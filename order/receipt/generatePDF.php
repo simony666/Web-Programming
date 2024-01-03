@@ -1,8 +1,8 @@
 <?php 
     include('../../_base.php');
     // fetch record from database
-    if(is_post()){
-        $order_id = post("order_id");
+    // if(is_post()){
+        $order_id = req("order_id");
         $user_id = $user->id;
 
         // order details 
@@ -35,9 +35,9 @@
 
         $user_name = $user_details->name;
 
-    }else{
-         redirect("../order_history.php");
-    }
+    // }else{
+        //  redirect("../order_history.php");
+    // }
     
 
     // generate PDF
@@ -128,10 +128,11 @@
      //$m->addAttachment('generatePDF.php');
      // Attach the PDF content as an inline attachment
     $m->addStringAttachment($pdfContent, 'Receipt.pdf', 'base64', 'application/pdf');
+    
     // send email 
     $m->send();
     //echo 'Email sent successfully';
     temp('info', 'Email sent');
-     redirect();
+    redirect('../order_history.php');
     
 ?>
