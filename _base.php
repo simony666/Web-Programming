@@ -345,6 +345,21 @@ function set_cart($cart = []) {
     $_SESSION['cart'] = $cart;
 }
 
+function add_cart($id, $unit) {
+    $cart = get_cart();
+    $count = $cart[$id];
+    $unit = $count + $unit;
+
+    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'products', 'product_id')) {
+        $cart[$id] = $unit;
+    }
+    else {
+        unset($cart[$id]);
+    }
+
+    set_cart($cart);
+}
+
 // Update shopping cart
 function update_cart($id, $unit) {
     $cart = get_cart();

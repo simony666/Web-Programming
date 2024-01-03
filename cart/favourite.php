@@ -1,6 +1,6 @@
 <?php 
     include('../_base.php'); 
-    auth('Member','Admin');
+    auth('Member');
 
     if(is_post()){
         $u = $_SESSION['user'] ?? null;
@@ -12,8 +12,19 @@
                 $stm->execute([$u->id,$id]);
             }
         }
-        if (req('addCart')){
+        if (req('addCarts')){
             $cartids = req("cartids",[]);
+            if (count($cartids)>0){
+                foreach($cartids as $id){
+                    add_cart($id, '1');
+                }
+                redirect("./cart.php");
+            }
+        }
+        if (req('addCart')){
+            $id = req('product_id');
+            add_cart($id, '1');
+            redirect("./cart.php");
         }
     }
 
@@ -65,7 +76,7 @@
             <?php endforeach;?>
         </tbody>
         <form method="post" id='f'>
-            <input class="btn add-to-cart-btn" value="Add To Cart" type="submit" name="addCart"/>
+            <input class="btn add-to-cart-btn" value="Add To Cart" type="submit" name="addCarts"/>
         </form>
     </table>
 </section>
