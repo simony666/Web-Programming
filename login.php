@@ -22,16 +22,32 @@ if (is_post()) {
 
     // Login user
     if (!$err) {
-        $stm = $db->prepare('SELECT * FROM user WHERE email = ? AND password = SHA1(?)');
-        $stm->execute([$email, $password]);
+        $stm = $db->prepare('SELECT * FROM user WHERE email = ?');
+        $stm->execute([$email]);
         $u = $stm->fetch();
+        
+        $stm = $db->prepare("INSERT INTO `login` (`user_id`, `datetime`, `status`, `ipv4`) VALUES (?,now(), ?,?)");
 
-        if ($u) {
+        if($u->login >= $s_login_attempt){
+            temp('info', 'Account Locked, Please Contact Admin To Unlock Your Account');
+        }else if (sha1($password) == $u->password && $u->status == "ACTIVE") {
+            $stm->execute([$u->id,"SUCCESS",$_SERVER['REMOTE_ADDR']]);
+            $stm = $db->prepare("UPDATE `user` SET `login`=0 WHERE id = ?");
+            $stm->execute([$u->id]);
             temp('info', 'Login successfully');
             login($u);
+        }else if (sha1($password) == $u->password && $u->status == "INACTIVE"){
+            $stm->execute([$u->id,"ACTIVATING",$_SERVER['REMOTE_ADDR']]);
+            $stm = $db->prepare("UPDATE `user` SET `login`=0 WHERE id = ?");
+            $stm->execute([$u->id]);
+            temp('info', 'Please Activate Your Account');
         }
         else {
-            $err['password'] = 'Not matched';
+            $stm->execute([$u->id,"FAILED",$_SERVER['REMOTE_ADDR']]);
+            $stm = $db->prepare("UPDATE `user` SET `login`=`login` +1 WHERE id = ?");
+            $stm->execute([$u->id]);
+            $left = $s_login_attempt - $u->login - 1;
+            $err['password'] = "Not matched, $left attempt remaining";
         }
     }
 }

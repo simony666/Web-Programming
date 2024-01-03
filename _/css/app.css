@@ -204,6 +204,7 @@ label > * {
     place-items: center start;
 }
 
+
 /* For labels that contain no other elements */
 .form > label:not(:has(*)) {
     place-self: stretch;
@@ -211,6 +212,14 @@ label > * {
     font-weight: bold;
     padding: 5px;
 }
+
+.form input[type="radio"] {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: top; 
+}
+
+
 
 .form > section {
     grid-column: 1 / -1;
