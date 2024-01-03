@@ -32,9 +32,13 @@
 
         <?php if ($user?->role == 'Admin'): ?>
             <a href="/user/index.php">User</a>
+            <a href="/Report/chart.php">Chart 1</a>
+            <a href="/Report/chart2.php">Chart 2</a>
+            <a href="/Report/NoOfProductSell.php">Chart 3</a>
+            <a href="/Report/orderStatus.php">Chart 4</a>
+            <a href="/Report/OverallSalesbyDay.php">Chart 5</a>
+
         <?php endif ?>
-        <a href="/chart.php">Chart</a>
-        <a href="/chart2.php">Chart2</a>
 
         <div></div>
 

@@ -1,5 +1,5 @@
 <?php
-include '_base.php';
+include '../_base.php';
 
 // Fetch date, successful login count, and failed login count aggregated by day from the login table in s3_database
 $query = $db->query("
@@ -32,7 +32,7 @@ foreach ($loginData as $row) {
 }
 
 $_title = 'Login Data Visualization'; // Update title
-include '_head.php';
+include '../_head.php';
 ?>
 
 <div id="chart" style="width: 800px; height: 400px"></div>
@@ -84,5 +84,5 @@ include '_head.php';
 </script>
 
 <?php
-include '_foot.php';
+include '../_foot.php';
 ?>
