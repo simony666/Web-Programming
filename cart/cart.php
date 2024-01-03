@@ -25,7 +25,13 @@
     $in = in($ids);
     $stm = $db->prepare("SELECT * FROM products WHERE product_id IN ($in)");
     $stm->execute($ids);
-    $arr = get_products($ids);
+    
+    if($stm->rowCount() > 0){
+        $arr = get_products($ids);
+    }else{
+        $total = 0;
+        $arr = null;
+    }
 
     include('../_/customerLayout/_head.php');
 ?>
@@ -43,6 +49,7 @@
             <th>Quantity</th>
             <th>Subtotal</th>
         </tr>
+
 
     <?php if ($arr !== null): ?>
         <?php 
@@ -98,16 +105,17 @@
 
     <!--  Store total using the temp function -->
     
-
-    <div class="checkout-container">
-        <form method="post" action="checkout.php">
-            <?php foreach ($arr as $p): ?>
-                <!-- TODO -->
-                <?php hidden("product_id[]", $p->product_id); ?>
-            <?php endforeach; ?>
-            <input class="btn checkout-btn" value="Checkout" type="submit" name="checkout"/>
-        </form>
-    </div>
+    <?php if ($arr !== null): ?>
+        <div class="checkout-container">
+            <form method="post" action="payment.php">
+                <?php foreach ($arr as $p): ?>
+                    <!-- TODO -->
+                    <?php hidden("product_id[]", $p->product_id); ?>
+                <?php endforeach; ?>
+                <input class="btn checkout-btn" value="Checkout" type="submit" name="checkout"/>
+            </form>
+        </div>
+    <?php endif; ?>
 </section>
 <script>
     // (A) Non-AJAX submit

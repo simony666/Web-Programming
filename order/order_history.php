@@ -3,14 +3,13 @@
     include('../_/customerLayout/_head.php');
 
     // user account
+    auth("Member");
 
-
-    // get orders
-    // use if statement to check is user login?
-
-    // I hard code the user_id = 1
-    $user_id = '1';
     
+    
+    $user_id = $user->id;
+    
+    // get orders
     $stm = $db->prepare(
         "SELECT *
         FROM orders 
@@ -45,7 +44,7 @@
                     <span><?= $p->total_cost ?></span>
                 </td>
                 <td>
-                    <span><?= $p->order_status ?></span>
+                    <span><?= $_orderStatus[$p->order_status] ?></span>
                 </td>
                 <td>
                     <span><?= $p->order_date ?></span>
@@ -56,9 +55,7 @@
                         <?= hidden('order_id',$p->order_id); ?>
                         <input type="submit" class="btn order-details-btn" value="details" name="order_details_btn">
                     </form>
-                    
                 </td>   
-
             </tr>
         <?php endforeach; ?>
     </table>
