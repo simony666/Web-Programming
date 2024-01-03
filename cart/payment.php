@@ -65,8 +65,8 @@
             'cancel_url' => base('cart/cancel.php'),
             'line_items' => $line_items,
             'metadata' => $cart,
-            // 'client_reference_id' => $user->id,
-            // 'customer_email' => $user->email,
+            'client_reference_id' => $user->id,
+            'customer_email' => $user->email,
         ]);
 
 

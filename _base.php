@@ -223,6 +223,18 @@ function hidden($key, $value = null, $attr = '') {
     echo "<input type='hidden' id='$key' name='$key' value='$value' $attr>";
 }
 
+// Generate <input type='month'>
+function month($key, $attr = '') {
+    $value = encode($GLOBALS[$key] ?? '');
+    echo "<input type='month' id='$key' name='$key' value='$value' $attr>";
+}
+
+// Generate <input type='date'>
+function _date($key, $attr = '') {
+    $value = encode($GLOBALS[$key] ?? '');
+    echo "<input type='date' id='$key' name='$key' value='$value' $attr>";
+}
+
 // Generate table headers (th)
 function table_headers($fields, $sort, $dir, $href = '') {
     foreach ($fields as $f) {
@@ -428,6 +440,7 @@ function get_featured_products(){
     return $fp;
 }
 
+
 // add to favourite
 function get_favourite($u=null){
     global $db;
@@ -444,7 +457,6 @@ function featured_products($product=null){
 
     foreach ($product as $p){
         $photo = $p->photos[0];
-        
         echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >";
         if (in_array($p->product_id,$fav_p)){
             echo "<i data-fav='$p->product_id' class='red fa-solid fa-heart' style='z-index:100;'></i>";
