@@ -96,5 +96,6 @@
     // 9) inform user whether everything is fine or there is a problem
     temp('info','Checkout success');
     redirect("../cart/shippingAddress.php?order_id=$order_id");
+    
    
 ?>
