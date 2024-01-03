@@ -282,8 +282,7 @@ $user = $_SESSION['user'] ?? null;
 
 // Login user
 function login($user, $url = '/') {
-    unset($user->password);
-    $_SESSION['user'] = $user;
+    get_user($user->id,true);
     redirect($url);
 }
 
