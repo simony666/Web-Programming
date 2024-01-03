@@ -1,5 +1,5 @@
 <?php 
-    include('../../_base.php');
+    include('/_/_base.php');
     // fetch record from database
     // if(is_post()){
         $order_id = req("order_id");
@@ -41,7 +41,7 @@
     
 
     // generate PDF
-    require('../../lib/fpdf/fpdf.php');
+    require('/_/lib/fpdf/fpdf.php');
 
     $pdf = new FPDF('P', 'mm',"A4");
 

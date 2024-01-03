@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '/_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ if (is_post()) {
     }
 
     if (!$err) {
-            $photo = save_photo($f,'../_/photos');
+            $photo = save_photo($f,'/_/photos/profile');
             
             $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
             $stm->execute([$email,$password,$name,$gender]);
@@ -80,7 +80,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Insert Admin';
-include '../_head.php';
+include '/_/_head.php';
 ?>
 
 <form method="post" class="form" enctype="multipart/form-data">
@@ -122,4 +122,5 @@ include '../_head.php';
 </form>
 
 <?php
-include '../_foot.php';
+include('../liveChat.php');
+include '/_/_foot.php';

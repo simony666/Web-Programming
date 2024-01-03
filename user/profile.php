@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '/_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ if (is_get()) {
         redirect('/');
     }
 
-    $email = $_SESSION['email'] = $u->email;
+    $email = $u->email;
     $name  = $u->name;
     $photo = $u->photos[0];
 }
@@ -111,4 +111,5 @@ include '../_head.php';
 </form>
 
 <?php
-include '../_foot.php';
+include('../liveChat.php');
+include '/_/_foot.php';

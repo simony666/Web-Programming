@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '/_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ $db->query('DELETE FROM reset_token WHERE Expired < NOW()');
 $id = req('id');
 if (!is_exists($id, 'reset_token', 'token')) {
     temp('info', 'Invalid token. Try again');
-    redirect('/');
+    redirect('../');
 }
 
 
@@ -57,7 +57,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Reset Password';
-include '../_head.php';
+include '/_/_head.php';
 ?>
 
 <form method="post" class="form">
@@ -76,4 +76,5 @@ include '../_head.php';
 </form>
 
 <?php
-include '../_foot.php';
+include('../liveChat.php');
+include '/_/_foot.php';

@@ -1,5 +1,5 @@
 <?php
-include '../../_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 // delete photos
@@ -27,7 +27,7 @@ $arr = array_map('basename',$arr);
 // ----------------------------------------------------------------------------
 
 $_title = 'Browse';
-include '../../_head.php';
+include '../../_/_head.php';
 ?>
 
 <style>
@@ -82,4 +82,4 @@ include '../../_head.php';
 </div>
 
 <?php
-include '../../_foot.php';
+include '../../_/_foot.php';

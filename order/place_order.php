@@ -1,5 +1,5 @@
 <?php
-    include ('../_base.php');
+    include ('../_/_base.php');
 
         // Get stripe session id from URL (reject if null) 要不然user might cheat us 开两个tab，买不同的东西，with one stripe session
         $session_id = req('session_id');
@@ -25,7 +25,7 @@
 
     // Get shopping cart data from stripe session metadata
     $cart = $session->metadata->toArray();
-    if (!$cart) redirect('cart.php');
+    if (!$cart) redirect(base('/cart/cart.php'));
 
 
 //=================================================
@@ -95,7 +95,7 @@
 
     // 9) inform user whether everything is fine or there is a problem
     temp('info','Checkout success');
-    redirect("../cart/shippingAddress.php?order_id=$order_id");
+    redirect(base("cart/shippingAddress.php?order_id=$order_id"));
     
-   
+    include('../liveChat.php');
 ?>

@@ -1,5 +1,5 @@
 <?php 
-    include('../_base.php');
+    include('../_/_base.php');
 
     $email = $user->email;
     $subject = "Unique Receipt";

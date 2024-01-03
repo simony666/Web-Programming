@@ -1,6 +1,6 @@
 <?php 
 
-    include('../_base.php');
+    include('/_/_base.php');
 
     if(req('order_details_btn') && req('order_id')){
         $order_id = post("order_id");
@@ -32,7 +32,7 @@
          redirect("order_history.php");
     }
 
-    include('../_/customerLayout/_head.php');
+    include('../_/layout/customer/_head.php');
 ?>
 
 <!-- Orders -->
@@ -65,7 +65,7 @@
                 <tr>
                     <td>
                         <div class="product-info">
-                            <img src="../_/photos/products/<?= $p->photos[0] ?>" alt="">
+                            <img src="/_/photos/products/<?= $p->photos[0] ?>" alt="">
                             <div>
                                 <p class="mt-3"><?= $p->product_name ?></p>
                             </div>
@@ -89,12 +89,12 @@
             </tr>
         </tfoot>
     </table>
-    <form action="../order/receipt/e-receipt.php" method="post" class="float-end">
+    <form action="./receipt/e-receipt.php" method="post" class="float-end">
         <?= hidden('order_id',$o->order_id); ?>
         <input type="submit" class="btn order-details-btn" value="View Receipt" name="receipt_btn">
     </form>
 </section>
 
 
-
-<?php include('../_/customerLayout/_foot.php'); ?>
+<?php include('../liveChat.php');?>
+<?php include('../_/layout/customer/_foot.php'); ?>

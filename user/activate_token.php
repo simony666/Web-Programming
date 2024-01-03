@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ include '../_base.php';
 $id = req('id');
 if (!is_exists($id, 'activate_token', 'token')) {
     temp('info', 'Invalid token. Try again');
-    redirect('/login.php');
+    redirect('../login.php');
     return;
 }
 $db->query('DELETE FROM activate_token WHERE Expired < NOW()');
@@ -32,5 +32,5 @@ if (is_exists($id, 'activate_token', 'token')){
 }
 
 // Check if user status is active, then redirect to login page
-redirect('/login.php');
+redirect('../login.php');
 
