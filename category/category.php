@@ -28,6 +28,45 @@ $_title = 'Category | product';
 include '../_head.php';
 ?>
 
+<style>
+    #cat_product {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .product {
+        border: 1px solid #333;
+        width: 200px;
+        height: 200px;
+        position: relative;
+    }
+
+    .product img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .product form,
+    .product div {
+        position: absolute;
+        background: #0009;
+        color: #fff;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .product form {
+        inset: 0 0 auto auto;
+    }
+
+    .product div {
+        inset: auto 0 0 0;
+    }
+</style>
+
 <?php 
 echo "Category = $id"; 
 ?>
@@ -36,7 +75,7 @@ echo "Category = $id";
 <div id="cat_product">
     <?php foreach ($p_arr as $p): ?>
         <div class="product">
-            <img src="../_/photos/<?= $p->photos[0] ?>"
+            <img src="../_/photos/products/<?= $p->photos[0] ?>"
                  data-get="../product/product_detail.php?id=<?= $p->product_id ?>">
             <div>
                 <?= $p->product_name ?> |

@@ -103,7 +103,7 @@ if (is_post()) {
         $img = new SimpleImage();
         $img->fromFile($f->tmp_name)
             ->thumbnail(200, 200)
-            ->toFile("../_/photos/$photo", 'image/jpeg');
+            ->toFile("../_/photos/products/$photo", 'image/jpeg');
         
 
         $stm = $db->prepare('

@@ -41,6 +41,7 @@
                         <input type="number" value="1" name="product_quantity"/>
                         <button class="buy-btn" type="submit" name="add_to_cart" value="1">Add to Cart</button>
                     </form>
+                    <span style="color: red;"><?= $product->product_stock ?> Stock left</span>
                     <h4 class="mt-5 mb-5">Product details</h4>
                     <span><?= $product->product_desc ?></span>
                 </div>

@@ -25,7 +25,7 @@ echo "$id";
     <tr>
         <?php for ($i = 1; $i <= count($p->photos); $i++) : ?>
             <?php $photo = $p->photos[$i - 1]; ?>
-            <img src="../_/photos/<?= $photo ?>" alt="Product Photo <?= $i ?>">
+            <img src="../_/photos/products/<?= $photo ?>" alt="Product Photo <?= $i ?>">
         <?php endfor; ?>
     </tr>
 </p>

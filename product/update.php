@@ -79,7 +79,7 @@ if (is_post()) {
                 $img = new SimpleImage();
                 $img->fromFile($f->tmp_name)
                     ->thumbnail(200, 200)
-                    ->toFile("../_/photos/$newPhoto", 'image/jpeg');
+                    ->toFile("../_/photos/products/$newPhoto", 'image/jpeg');
 
                 $newPhotos[] = $newPhoto;
             }
@@ -114,7 +114,7 @@ if (is_post()) {
             $img = new SimpleImage();
             $img->fromFile($nf->tmp_name)
                 ->thumbnail(200, 200)
-                ->toFile("../_/photos/$photo", 'image/jpeg');
+                ->toFile("../_/photos/products/$photo", 'image/jpeg');
 
             $stm = $db->prepare('INSERT INTO product_pic(id,photo) VALUES (?,?)');
             $stm->execute([$id, $photo]);
@@ -165,7 +165,7 @@ include '../_head.php';
     <label class="upload">
         <?php for ($i = 1; $i <= count($p->photos); $i++) : ?>
             <?php $photo = $p->photos[$i - 1]; ?>
-            <img src="../_/photos/<?= $photo ?>" data-dog="<?= $photo ?>" alt="Product Photo <?= $i ?>">
+            <img src="../_/photos/products/<?= $photo ?>" data-dog="<?= $photo ?>" alt="Product Photo <?= $i ?>">
 
         <?php endfor; ?>
     </label>

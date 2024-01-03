@@ -37,6 +37,8 @@
             <a href="/Report/NoOfProductSell.php">Chart 3</a>
             <a href="/Report/orderStatus.php">Chart 4</a>
             <a href="/Report/OverallSalesbyDay.php">Chart 5</a>
+            <a href="/Report/OverallTopSalesProduct.php">Chart 6</a>
+            <a href="/Report/OverallSalesbyMonth.php">Chart 7</a>
 
         <?php endif ?>
 

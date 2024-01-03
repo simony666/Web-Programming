@@ -71,7 +71,7 @@ include '../_head.php';
                     // }
                     if (!empty($p->photos)) {
                         foreach ($p->photos as $photo) {
-                        echo "<img src='/_/photos/$photo'> ";
+                        echo "<img src='/_/photos/products/$photo'> ";
                     }
                 }
                 ?>

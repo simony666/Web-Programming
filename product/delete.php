@@ -18,7 +18,7 @@ if (is_post()) {
     $p = get_product($id);
 
     foreach ($p->photos as $photo) {
-        unlink("../_/photos/$photo");
+        unlink("../_/photos/products/$photo");
     }
 
     $stm = $db->prepare("DELETE FROM product_pic WHERE id = ?");
