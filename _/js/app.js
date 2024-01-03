@@ -94,5 +94,30 @@ $(() => {
             e.target.value = '';
         }
     });
+    $('[data-fav]').click(e => {
+        fav = e.target.dataset.fav;
+        i = $(e.target)
 
+        if (i.hasClass('fa-regular')){
+            $.get("./addfav.php?id="+fav).done(res=>{
+                console.log(res);
+                console.log(i[0]);
+                if (res=="true"){
+                    $(i[0]).removeClass('fa-regular');
+                    $(i[0]).addClass('fa-solid');
+                }else{
+                    alert("Unable Add To Favourite, "+ res);
+                }
+            });
+        }else{
+            $.get("./removefav.php?id="+fav).done(res=>{
+                if (res=="true"){
+                    $(i[0]).addClass('fa-regular');
+                    $(i[0]).removeClass('fa-solid');
+                }else{
+                    alert("Unable Remove From Favourite, "+ res);
+                }
+            });
+        }
+    });
 });

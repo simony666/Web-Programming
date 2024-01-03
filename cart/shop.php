@@ -15,17 +15,12 @@
     if (is_post()) {
       $category_id = req('category_id');
       $price = req('price');
-      echo "<script>console.log('post')</script>";
-      echo "<script>console.log('$category_id')</script>";
-      echo "<script>console.log('$price')</script>";
 
       // Check if search criteria are provided
       if (!$category_id && !$price) {
-          echo "<script>console.log('empty')</script>";
           // Search criteria are empty, return all products
           $products = get_products();
       } else {
-        echo "<script>console.log('not empty')</script>";
           $stm = $db->prepare(
             "SELECT p.product_id
             FROM products AS p
@@ -45,8 +40,8 @@
     } else {
       // User didn't use search features, return all products
       $products = get_products();
-      echo "<script>console.log('nopost')</script>";
     }
+    $fav_p = get_favourite();
 
       include('../_/customerLayout/_head.php');
 ?>
@@ -114,6 +109,11 @@
         foreach ($products as $p):
       ?>
         <div class="product text-center col-lg-3 col-md-4 col-sm-12" >
+            <?php if (in_array($p->product_id,$fav_p)):?>
+              <i data-fav="<?=  $p->product_id ?>" class='red fa-solid fa-heart' style='z-index:100;'></i>
+            <?php else:?>
+              <i data-fav="<?=  $p->product_id ?>" class='red fa-regular fa-heart' style='z-index:100;'></i>
+            <?php endif;?>
           <a href="single_product.php?product_id=<?=  $p->product_id ?>">
             <img src="../_/photos/products/<?=  $p->photos[0] ?>" alt="" class="img-fluid mb-3">
             <div class="star">
