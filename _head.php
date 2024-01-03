@@ -23,7 +23,7 @@
                 <?= $user->role ?>
             </div>
         
-            <img src="/_/photos/<?= $user->photo ?>">
+            <img src="/_/photos/<?= $user->photos[0] ?>">
         <?php endif ?>
     </header>
 
@@ -33,6 +33,8 @@
         <?php if ($user?->role == 'Admin'): ?>
             <a href="/user/index.php">User</a>
         <?php endif ?>
+        <a href="/chart.php">Chart</a>
+        <a href="/chart2.php">Chart2</a>
 
         <div></div>
 
