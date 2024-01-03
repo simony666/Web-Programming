@@ -1,7 +1,6 @@
 <?php
 include '_base.php';
 
-// ----------------------------------------------------------------------------
 
 if (is_post()) {
     $email = req('email');
@@ -11,7 +10,6 @@ if (is_post()) {
     $f = get_file('photo');
     $gender = req('gender');
 
-    // Input: email
     if (!$email) {
         $err['email'] = 'Required';
     }
@@ -25,7 +23,6 @@ if (is_post()) {
         $err['email'] = 'Duplicated';
     }
 
-    // Input: password
     if (!$password) {
         $err['password'] = 'Required';
     }
@@ -33,7 +30,6 @@ if (is_post()) {
         $err['password'] = 'Between 5-100 characters';
     }
 
-    // Input: confirm
     if (!$confirm) {
         $err['confirm'] = 'Required';
     }
@@ -44,7 +40,6 @@ if (is_post()) {
         $err['confirm'] = 'Not matched';
     }
 
-    // Input: name
     if (!$name) {
         $err['name'] = 'Required';
     }
@@ -52,7 +47,6 @@ if (is_post()) {
         $err['name'] = 'Maximum 100 characters';
     }
 
-    // Input: photo
     if (!$f) {
         $err['photo'] = 'Required';
     }
@@ -63,20 +57,43 @@ if (is_post()) {
         $err['photo'] = 'Maximum 1MB';
     }
 
-    // DB operation
-    if (!$err) {
-        // (1) Save photo
-        $photo = save_photo($f,'_/photos');
-        
-        // (2) Insert user (member)
-        $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
-        $stm->execute([$email,$password,$name,$gender]);
-        $userID = $db->lastInsertId();
-        $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
-        $stm->execute([$photo]);
+    $recaptchaSecret = '6Lf1AUQpAAAAAOdV9GEnL9dFV7KwkNj6Ew1GtF6M';
+    $recaptchaResponse = $_POST['g-recaptcha-response'];
 
-        temp('info', 'Record inserted');
-        redirect('/login.php');
+    $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptchaData = [
+        'secret' => $recaptchaSecret,
+        'response' => $recaptchaResponse
+    ];
+
+    $options = [
+        'http' => [
+            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($recaptchaData)
+        ]
+    ];
+
+    $context = stream_context_create($options);
+    $recaptchaResult = file_get_contents($recaptchaUrl, false, $context);
+    $recaptchaJson = json_decode($recaptchaResult);
+
+    if (!$recaptchaJson->success) {
+        $err['recaptcha'] = 'reCAPTCHA verification failed';
+    } else {
+        if (!$err) {
+            $photo = save_photo($f,'_/photos');
+            
+            $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
+            $stm->execute([$email,$password,$name,$gender]);
+            $userID = $db->lastInsertId();
+            $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
+            $stm->execute([$photo]);            
+
+
+            
+            redirect("./user/activate.php?email=$email");
+        }
     }
 }
 
@@ -85,6 +102,7 @@ if (is_post()) {
 $_title = 'User | Register Member';
 include '_head.php';
 ?>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
@@ -116,6 +134,9 @@ include '_head.php';
         <img src="/_/images/photo.jpg">
     </label>
     <?= err('photo') ?>
+
+    <div class="g-recaptcha" data-sitekey="<?= $s_recaptcha_site_key?>"></div>
+    <?= err('recaptcha') ?>
 
     <section>
         <button>Submit</button>

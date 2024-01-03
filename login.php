@@ -26,9 +26,11 @@ if (is_post()) {
         $stm->execute([$email, $password]);
         $u = $stm->fetch();
 
-        if ($u) {
+        if ($u && $u->status == "ACTIVE") {
             temp('info', 'Login successfully');
             login($u);
+        }else if ($u && $u->status == "INACTIVE"){
+            temp('info', 'Please Activate Your Account');
         }
         else {
             $err['password'] = 'Not matched';
