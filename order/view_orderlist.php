@@ -20,35 +20,27 @@
         // Fetch delivery details
         $stm = $db->prepare(
             "SELECT u.*, s.*
-            FROM user AS u
-            JOIN shipping_address AS s 
-            ON s.user_id = u.id"
+            FROM user u, shipping_address s 
+            WHERE s.user_id = u.id
+            AND s.order_id = ?;"
         );
     
-        $stm->execute();
+        $stm->execute([$order_id]);
         $delivery_details = $stm->fetchAll();
     
-        // Fetch order details products part
+        
+        // order details products part
         $stm = $db->prepare(
-            "SELECT o.*, p.*
-            FROM order_items AS o
-            JOIN products AS p 
-            ON o.product_id = p.product_id
-            WHERE o.order_id = ?"
-        );
-    
-        $stm->execute([$order_id]);
-        $product_details = $stm->fetchAll();
-    
-        // Fetch order details total_cost + order status
-        $stm = $db->prepare(
-            "SELECT total_cost, order_status
-            FROM orders
-            WHERE order_id = ?"
-        );
-    
+            "SELECT oi.*,o.* 
+            FROM order_items oi, orders o 
+            WHERE o.order_id = oi.order_id 
+            AND o.order_id = ?;
+            ");
+
         $stm->execute([$order_id]);
         $order_details = $stm->fetchAll();
+    
+        
     } else {
         echo "Orders not found!";
     }
@@ -122,7 +114,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php  foreach ($product_details as $p): ?>
+                                <?php  foreach ($order_details as $o){ 
+                                    $p = get_product($o->product_id);
+                                    ?>
                                     <tr>
                                         <td class="align-middle" style="text-wrap:wrap;">
                                             <img src="../_/photos/products/<?= $p->photo[0]?>" alt="">
@@ -132,17 +126,15 @@
                                             <?= $p->product_price ?>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <?= $p->unit ?>
+                                            <?= $o->unit ?>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php } ?>
                             </tbody>
                         </table>
                         <hr>
                         <h5>
-                            <?php  foreach ($order_details as $o): 
-                                 $defaultStatus = post("order_status")
-                            ?>
+                            <?php  $defaultStatus = post("order_status") ?>
                                 Total Price:
                                 <span class="float-end fw-bold">RM<?=  sprintf('%.2f',$o->total_cost) ?></span>
                             
@@ -161,7 +153,7 @@
                                 
                                 <input type="submit" name="update_status_btn" class="btn btn-primary mt-2" value="Update Status" />
                             </form>
-                        <?php endforeach?>
+                        
                         </div>
                     </div> 
                 </div>
