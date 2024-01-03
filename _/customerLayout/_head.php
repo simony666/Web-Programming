@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/878b21e3fe.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../_/css/style.css">
+    <script src="/_/js/app.js"></script>
 </head>
 <body>
     <!-- Navbar -->

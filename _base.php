@@ -223,6 +223,18 @@ function hidden($key, $value = null, $attr = '') {
     echo "<input type='hidden' id='$key' name='$key' value='$value' $attr>";
 }
 
+// Generate <input type='month'>
+function month($key, $attr = '') {
+    $value = encode($GLOBALS[$key] ?? '');
+    echo "<input type='month' id='$key' name='$key' value='$value' $attr>";
+}
+
+// Generate <input type='date'>
+function _date($key, $attr = '') {
+    $value = encode($GLOBALS[$key] ?? '');
+    echo "<input type='date' id='$key' name='$key' value='$value' $attr>";
+}
+
 // Generate table headers (th)
 function table_headers($fields, $sort, $dir, $href = '') {
     foreach ($fields as $f) {
@@ -282,8 +294,7 @@ $user = $_SESSION['user'] ?? null;
 
 // Login user
 function login($user, $url = '/') {
-    unset($user->password);
-    $_SESSION['user'] = $user;
+    get_user($user->id,true);
     redirect($url);
 }
 
@@ -414,18 +425,31 @@ function get_featured_products(){
     return $fp;
 }
 
-// add to favourite
 
+// add to favourite
+function get_favourite($u=null){
+    global $db;
+    global $user;
+    $u = $u ?? $user;
+    
+    return $db->query("SELECT product_id FROM favourite_products WHERE user_id = $u->id")->fetchAll(PDO::FETCH_COLUMN);
+}
 
 // get featured products
 function featured_products($product=null){
     $product = $product ?? get_featured_products();
+    $fav_p = get_favourite();
 
     foreach ($product as $p){
         $photo = $p->photos[0];
-        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
-            <a href='single_product.php?product_id=$p->product_id'>
-            <i onclick='toggleHeart(event,'$p->product_id')' class='red fa-regular fa-heart'></i>
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >";
+        if (in_array($p->product_id,$fav_p)){
+            echo "<i data-fav='$p->product_id' class='red fa-solid fa-heart' style='z-index:100;'></i>";
+        }else{
+            echo "<i data-fav='$p->product_id' class='red fa-regular fa-heart' style='z-index:100;'></i>";
+        }
+            
+        echo "<a href='single_product.php?product_id=$p->product_id'>
             <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
             <div class='star'>
                 <i class='fas fa-star'></i>
