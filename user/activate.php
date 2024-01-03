@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ if (is_get()) {
         $photo = $u->photos[0];
         $m = get_mail();
         $m->addAddress($u->email, $u->name);
-        $m->addEmbeddedImage("../_/photos/$photo", 'photo');
+        $m->addEmbeddedImage("/_/photos/profile/$photo", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Activate Account';
         $m->Body = "
@@ -50,7 +50,7 @@ if (is_get()) {
             
 
         temp('info', 'Email sent');
-        redirect('/login.php');
+        redirect('../login.php');
 
     }
 }

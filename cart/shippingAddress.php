@@ -1,5 +1,5 @@
 <?php
-include('../_base.php');
+include('../_/_base.php');
 
 $order_id = req('order_id'); 
 if(!$order_id){
@@ -45,7 +45,7 @@ if (post('place-order')) {
 
 
 
-include('../_/customerLayout/_head.php');
+include('../_/layout/customer/_head.php');
 ?>
 
 <section class="my-5 py-5">
@@ -81,4 +81,5 @@ include('../_/customerLayout/_head.php');
     </div>
 </section>
 
-<?php include('../_/customerLayout/_foot.php'); ?>
+<?php include('../liveChat.php');?>
+<?php include('../_/layout/customer/_foot.php'); ?>

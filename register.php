@@ -1,7 +1,9 @@
 <?php
-include '_base.php';
+include './_/_base.php';
 
-
+if ($user){
+    redirect('/');
+}
 if (is_post()) {
     $email = req('email');
     $password = req('password');
@@ -101,7 +103,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Register Member';
-include '_head.php';
+include './_/_head.php';
 ?>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -146,4 +148,4 @@ include '_head.php';
 </form>
 
 <?php
-include '_foot.php';
+include './_/_foot.php';

@@ -1,5 +1,5 @@
 <?php
-include '../../_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 // $_categories = $db->query('SELECT category_id, name FROM categories')->fetchAll(PDO::FETCH_COLUMN);
@@ -72,7 +72,7 @@ if (is_post()) {
         $photo = uniqid() . '.jpg';
         // if use include, if failed will get warning.
         // if use require will get error, cannot run
-        require_once '../../lib/SimpleImage.php';
+        require_once '../../_/lib/SimpleImage.php';
         
         $img = new SimpleImage();
         $img->fromFile($f->tmp_name)
@@ -84,7 +84,6 @@ if (is_post()) {
         $photo2 = uniqid() . '.jpg';
         // if use include, if failed will get warning.
         // if use require will get error, cannot run
-        require_once '../../lib/SimpleImage.php';
         
         $img = new SimpleImage();
         $img->fromFile($f2->tmp_name)
@@ -96,7 +95,6 @@ if (is_post()) {
         $photo3 = uniqid() . '.jpg';
         // if use include, if failed will get warning.
         // if use require will get error, cannot run
-        require_once '../../lib/SimpleImage.php';
         
         $img = new SimpleImage();
         $img->fromFile($f3->tmp_name)
@@ -109,7 +107,6 @@ if (is_post()) {
         $photo4 = uniqid() . '.jpg';
         // if use include, if failed will get warning.
         // if use require will get error, cannot run
-        require_once '../../lib/SimpleImage.php';
         
         $img = new SimpleImage();
         $img->fromFile($f4->tmp_name)
@@ -131,7 +128,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Upload';
-include '../../_head.php';
+include '../../_/_head.php';
 ?>
 
 <!-- TODO -->
@@ -196,4 +193,4 @@ include '../../_head.php';
 </form>
 
 <?php
-include '../../_foot.php';
+include '../../_/_foot.php';

@@ -1,6 +1,6 @@
 <?php 
-    include('../_base.php'); 
-    include('../_/customerLayout/_head.php');
+    include('../_/_base.php'); 
+    include('../_/layout/customer/_head.php');
 
     // developer page -> bussiness name -> account
     if (is_post()) {
@@ -80,5 +80,5 @@
 redirect('cart.php');
 ?>
 
-
-<?php include('../_/customerLayout/_foot.php'); ?>
+<?php include('../liveChat.php');?>
+<?php include('../_/layout/customer/_foot.php'); ?>

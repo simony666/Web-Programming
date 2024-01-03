@@ -1,5 +1,5 @@
 <?php
-include('../_base.php');
+include('../_/_base.php');
 
 // ----------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ include('../_base.php');
 // ----------------------------------------------------------------------------
 
 $_title = 'Order | Cancel';
-include('../_/customerLayout/_head.php');
+include('../_/layout/customer/_head.php');
 ?>
 
 
@@ -17,4 +17,4 @@ include('../_/customerLayout/_head.php');
     window.location = "cart.php";
 </script>
 
-<?php include('../_/customerLayout/_foot.php'); ?>
+<?php include('../_/layout/customer/_foot.php'); ?>

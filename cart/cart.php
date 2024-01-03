@@ -1,5 +1,5 @@
 <?php 
-    include('../_base.php');
+    include('../_/_base.php');
 
     // Authorization (member)
     auth('Member');
@@ -33,7 +33,7 @@
         $arr = null;
     }
 
-    include('../_/customerLayout/_head.php');
+    include('../_/layout/customer/_head.php');
 ?>
 
 <!-- Cart -->
@@ -129,4 +129,5 @@
         $('#target').load(' #target>*', param); //POST 
     });
 </script>
-<?php include('../_/customerLayout/_foot.php'); ?>
+<?php include('../liveChat.php');?>
+<?php include('../_/layout/customer/_foot.php'); ?>

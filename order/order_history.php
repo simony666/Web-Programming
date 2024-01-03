@@ -1,6 +1,6 @@
 <?php 
-    include('../_base.php');
-    include('../_/customerLayout/_head.php');
+    include('../_/_base.php');
+    include('../_/layout/customer/_head.php');
 
     // user account
     auth("Member");
@@ -61,6 +61,5 @@
     </table>
 </section>
 
-<?php 
-    include('../_/customerLayout/_foot.php');;
-?>
+<?php include('../liveChat.php');?>
+<?php include('../_/layout/customer/_foot.php');?>

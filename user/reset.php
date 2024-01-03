@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '/_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ if (is_post()) {
             
 
         temp('info', 'Email sent');
-        //redirect('/');
+        redirect('../');
 
     }
 }
@@ -69,7 +69,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Reset Password';
-include '../_head.php';
+include '/_/_head.php';
 ?>
 
 <form method="post" class="form">
@@ -84,4 +84,5 @@ include '../_head.php';
 </form>
 
 <?php
-include '../_foot.php';
+include('../liveChat.php');
+include '/_/_foot.php';

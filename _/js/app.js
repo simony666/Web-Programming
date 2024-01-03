@@ -100,8 +100,6 @@ $(() => {
 
         if (i.hasClass('fa-regular')){
             $.get("./addfav.php?id="+fav).done(res=>{
-                console.log(res);
-                console.log(i[0]);
                 if (res=="true"){
                     $(i[0]).removeClass('fa-regular');
                     $(i[0]).addClass('fa-solid');
@@ -120,4 +118,13 @@ $(() => {
             });
         }
     });
+
+    
 });
+
+function setCookie(cname, cvalue, exsec,path) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exsec*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path="+path;
+  }
