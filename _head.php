@@ -29,6 +29,22 @@
 
     <nav>
         <a href="/">Index</a>
+
+        <?php if ($user?->role == 'Admin'): ?>
+            <a href="/user/index.php">User</a>
+        <?php endif ?>
+
+        <div></div>
+
+        <?php if ($user): ?>
+            <a href="/user/profile.php">Profile</a>
+            <a href="/user/password.php">Password</a>
+            <a href="/logout.php">Logout</a>
+        <?php else: ?>
+            <a href="/register.php">Register</a>
+            <a href="/user/reset.php">Reset Password</a>
+            <a href="/login.php">Login</a>
+        <?php endif ?>
     </nav>
 
     <main>
