@@ -4,7 +4,6 @@ include('../_base.php');
 $order_id = req('order_id'); 
 if(!$order_id){
     redirect('cart.php');
-    //echo "$order_id";
 }
 
 // validation
@@ -39,8 +38,9 @@ if (post('place-order')) {
         VALUES (?,?,?,?,?)
         ");
     $stm->execute([$order_id,$user_id,$address,$state,$postal]);
-    print_r($user);
-    redirect('../order/order_history.php');
+    redirect("../order/receipt/generatePDF.php?order_id=$order_id");
+    
+    //redirect('../order/order_history.php');
 }
 
 

@@ -89,6 +89,12 @@
             </tr>
         </tfoot>
     </table>
+    <form action="../order/receipt/e-receipt.php" method="post" class="float-end">
+        <?= hidden('order_id',$o->order_id); ?>
+        <input type="submit" class="btn order-details-btn" value="View Receipt" name="receipt_btn">
+    </form>
 </section>
+
+
 
 <?php include('../_/customerLayout/_foot.php'); ?>

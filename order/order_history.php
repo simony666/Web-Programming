@@ -55,9 +55,7 @@
                         <?= hidden('order_id',$p->order_id); ?>
                         <input type="submit" class="btn order-details-btn" value="details" name="order_details_btn">
                     </form>
-                    
                 </td>   
-
             </tr>
         <?php endforeach; ?>
     </table>

@@ -561,7 +561,7 @@ th:last-child{
     /* text-align: left; */
 }
 
-.orders .order-details-btn{
+.orders .order-details-btn, .print-btn{
     color: #fff;
     background-color: #fb774b;
 } 
@@ -597,3 +597,4 @@ th:last-child{
     color: #fff;
     background-color: #fb774b;
 }
+
