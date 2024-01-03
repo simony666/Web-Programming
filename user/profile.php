@@ -1,9 +1,9 @@
 <?php
-include '/_/_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
-auth();
+auth('Member','Admin');
 
 if (is_get()) {
     $u = get_user($user->id,true);
@@ -59,8 +59,8 @@ if (is_post()) {
     if (!$err) {
         // (1) Delete and save photo (optional)
         if ($f && true == false) {
-            unlink("../_/photos/$photo");
-            $photo = save_photo($f, '../_/photos');
+            unlink("../_/photos/profile/$photo");
+            $photo = save_photo($f, '../_/photos/profile');
             }
         }
         
@@ -85,9 +85,9 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Profile';
-include '../_head.php';
+include('../_/layout/customer/_head.php');
 ?>
-
+<section class="my-5 py-5">
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
     <?= text('email', 'maxlength="100"') ?>
@@ -109,7 +109,7 @@ include '../_head.php';
         <button type="reset">Reset</button>
     </section>
 </form>
-
+</section>
 <?php
 include('../liveChat.php');
-include '/_/_foot.php';
+include('../_/layout/customer/_foot.php');

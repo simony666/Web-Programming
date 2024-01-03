@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ if (is_post()) {
     $p = get_product($id);
 
     foreach ($p->photos as $photo) {
-        unlink("/_/_/photos/$photo");
+        unlink("/_/photos/$photo");
     }
 
     $stm = $db->prepare("DELETE FROM product_pic WHERE id = ?");

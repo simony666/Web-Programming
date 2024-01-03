@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ $photos = $p->photos ?? [];
 
 
 $_title = 'Product | Index';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <style>
@@ -31,7 +31,7 @@ include '/_/_head.php';
 <form method="post">
     <?php if ($user?->role == 'Admin'): ?>
         <p>
-            <button data-get="insert.php">Insert</button>
+            <button data-get="./insert.php">Insert</button>
         </p>
     <?php endif ?>
 
@@ -85,9 +85,9 @@ include '/_/_head.php';
     $('[data-cat]').click(e => {
         console.log("clicked");
         const id = e.currentTarget.dataset.cat;
-        window.location.href = 'product_detail.php?id=' + id;
+        window.location.href = 'product.php?id=' + id;
     });
 </script>
 
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

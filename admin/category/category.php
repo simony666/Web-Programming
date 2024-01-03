@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 $id = req('id');
@@ -25,7 +25,7 @@ foreach ($stm->fetchAll() as $po){
 
 
 $_title = 'Category | product';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <?php 
@@ -36,7 +36,7 @@ echo "Category = $id";
 <div id="cat_product">
     <?php foreach ($p_arr as $p): ?>
         <div class="product">
-            <img src="/_/_/photos/<?= $p->photos[0] ?>"
+            <img src="/_/photos/<?= $p->photos[0] ?>"
                  data-get="../product/product_detail.php?id=<?= $p->product_id ?>">
             <div>
                 <?= $p->product_name ?> |
@@ -56,4 +56,4 @@ echo "Category = $id";
     });
 </script>
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

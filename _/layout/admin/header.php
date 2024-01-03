@@ -13,13 +13,16 @@
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <!-- CSS Files -->
     
-    <link id="pagestyle" href="../_/adminLayout/assets/css/material-dashboard.min.css" rel="stylesheet" />
+    <link id="pagestyle" href="/_/layout/admin/assets/css/material-dashboard.min.css" rel="stylesheet" />
+
+    <script src="/_/js/app.js"></script>
 
 </head>
 <body class="g-sidenav-show  bg-gray-100">

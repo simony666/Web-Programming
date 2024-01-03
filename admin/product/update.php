@@ -2,7 +2,7 @@
 
 use function PHPSTORM_META\type;
 
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 $photos = [];
@@ -137,7 +137,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Product | Update';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <p>
@@ -202,4 +202,4 @@ include '/_/_head.php';
     })
 </script>
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

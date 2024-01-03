@@ -57,5 +57,5 @@
     </div>
 
 <?php 
-    include('../_/layout/admin/footer.php')
+    include('../_/layout/admin/footer.php');
 ?>

@@ -30,8 +30,8 @@
     </footer>
         </main>
 
-        <script src="assets/js/core/bootstrap.min.js" ></script>
-        <script src="assets/js/perfect-scrollbar.min.js" ></script>
-        <script src="assets/js/smooth-scrollbar.min.js" ></script>
+        <script src="/_/layout/admin/assets/js/core/bootstrap.min.js" ></script>
+        <script src="/_/layout/admin/assets/js/perfect-scrollbar.min.js" ></script>
+        <script src="/_/layout/admin/assets/js/smooth-scrollbar.min.js" ></script>
     </body>
 </html>
