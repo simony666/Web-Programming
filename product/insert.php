@@ -5,9 +5,9 @@ include '../_base.php';
 
 if (is_get()) {
     // TODO: Generate next product id
-    $max = $db->query('SELECT MAX(product_id) FROM products')->fetchColumn() ?? 'P000';
+    $max = $db->query('SELECT MAX(product_id) FROM products')->fetchColumn() ?? 'P0000';
     $n = substr ($max, 1);
-    $id = sprintf('P%03d', min($n + 1, 999));
+    $id = sprintf('P%04d', min($n + 1, 999));
 
     
 }
@@ -19,12 +19,13 @@ if (is_post()) {
     $price = req('price');
     $f = get_file('photo');
     $category_id = req('category_id');
+    $stock = req('stock');
 
     // Input: id
     if (!$id) {
         $err['id'] = 'Required';
     }
-    else if (!preg_match('/^P\d{3}$/', $id)) {
+    else if (!preg_match('/^P\d{4}$/', $id)) {
         $err['id'] = 'Invalid format';
     }
     else {
@@ -82,6 +83,18 @@ if (is_post()) {
         $err['category_id'] = 'Not exists';
     }
 
+    // Input: stock
+    if (!$stock) {
+        $err['stock'] = 'Required';
+    } 
+    else if (!isInteger($stock)) {
+        $err['stock'] = 'Must be integer';
+    }
+    else if ($stock < 0 || $stock > 1000) { // TODO
+        $err['stock'] = 'Must between 1 - 999';
+    }
+
+
     // DB operation
     if (!$err) {
         // TODO: Save photo
@@ -94,10 +107,10 @@ if (is_post()) {
         
 
         $stm = $db->prepare('
-            INSERT INTO products (product_id, product_name, product_desc, product_price, category_id)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO products (product_id, product_name, product_desc, product_price, category_id, product_stock)
+            VALUES (?, ?, ?, ?, ?, ?)
         ');
-        $stm->execute([$id, $name, $desc, $price, $category_id]);
+        $stm->execute([$id, $name, $desc, $price, $category_id, $stock]);
 
         $stm = $db->prepare("INSERT INTO product_pic (id, photo) VALUES (?, ?)");
         $stm->execute([$id, $photo]);
@@ -119,7 +132,7 @@ include '../_head.php';
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="id">Id</label>
-    <?= text('id', 'maxlength="4" data-upper') ?>
+    <?= text('id', 'maxlength="5" data-upper') ?>
     <?= err('id') ?>
 
     <label for="name">Name</label>
@@ -131,7 +144,7 @@ include '../_head.php';
     <?= err('desc') ?>
 
     <label for="price">Price</label>
-    <?= text('price', 'maxlength="5"') ?>
+    <?= text('price', 'maxlength="6"') ?>
     <?= err('price') ?>
 
     <label for="photo">Photo</label>
@@ -144,6 +157,10 @@ include '../_head.php';
     <label for="category_id">Category</label>
     <?= select('category_id', $_categories) ?>
     <?= err('category_id') ?>
+
+    <label for="stock">Stock</label>
+    <?= text('stock', 'maxlength="4"') ?>
+    <?= err('stock') ?>
 
     <section>
         <button>Submit</button>

@@ -1,34 +1,41 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 include '../_base.php';
 
 // ----------------------------------------------------------------------------
 $photos = [];
+$id = req('product_id');
+
+
 if (is_get()) {
     $id = req('product_id');
-
     $p = get_product($id);
-
     if (!$p) {
         redirect('index.php');
     }
-
     $name = $p->product_name;
     $price = $p->product_price;
     $desc = $p->product_desc;
-    //$photo = $_SESSION['photo'] = $p->photo; // TODO
     $photo = $p->photos[0];
     $category_id = $p->category_id;
+    $stock = $p->product_stock;
+    $number = count($p->photos);
 }
 
 if (is_post()) {
     $id = req('product_id');
+    $p = get_product($id);
     $name = req('name');
     $desc = req('desc');
     $price = req('price');
-    // $photo = $_SESSION['photo'];
     $category_id = req('category_id');
+    $stock = req('stock');
 
-    $f = get_file('photo');
+    //new photo upload
+    $nf = get_file('new_photo');
+
 
 
     // Input: name
@@ -47,17 +54,18 @@ if (is_post()) {
         $err['price'] = 'Must between 0.01 - 9999.99';
     }
 
-    // Input: photo (if not null)
-    // if ($f) {
-    //     if (!str_starts_with($f->type, 'image/')) {
-    //         $err['photo'] = 'Must be image';
-    //     } else if ($f->size > 1 * 1024 * 1024) {
-    //         $err['photo'] = 'Maximum 1MB';
-    //     }
-    // }
+    // Input: photo (if not null) for new upload
+    if ($nf) {
+        if (!str_starts_with($nf->type, 'image/')) {
+            $err['photo'] = 'Must be image';
+        } else if ($nf->size > 1 * 1024 * 1024) {
+            $err['photo'] = 'Maximum 1MB';
+        }
+    }
+
     $newPhotos = [];
-    for ($i = 1; $i <= 4; $i++) {
-        $fileKey = "photo$i";
+    for ($i = 1; $i <= count($p->photos); $i++) {
+        $fileKey = "photo{$i}";
         $f = get_file($fileKey);
 
         if ($f) {
@@ -86,32 +94,39 @@ if (is_post()) {
         $err['category_id'] = 'Not exists';
     }
 
+    // Input: stock
+    if (!$stock) {
+        $err['stock'] = 'Required';
+    } else if (!isInteger($stock)) {
+        $err['stock'] = 'Must be integer';
+    } else if ($stock < 0 || $stock > 1000) { // TODO
+        $err['stock'] = 'Must between 1 - 999';
+    }
+
     // DB operation
     if (!$err) {
         // TODO: Delete photo + save photo (if not null)
-        if ($f) {
+        if ($nf) {
             //unlink("../_/photos/$photo");
 
             $photo = uniqid() . '.jpg';
             require_once '../lib/SimpleImage.php';
             $img = new SimpleImage();
-            $img->fromFile($f->tmp_name)
+            $img->fromFile($nf->tmp_name)
                 ->thumbnail(200, 200)
                 ->toFile("../_/photos/$photo", 'image/jpeg');
+
+            $stm = $db->prepare('INSERT INTO product_pic(id,photo) VALUES (?,?)');
+            $stm->execute([$id, $photo]);
         }
 
 
         $stm = $db->prepare('
             UPDATE products
-            SET product_name = ?, product_desc = ?, product_price = ?, category_id = ?
+            SET product_name = ?, product_desc = ?, product_price = ?, category_id = ?, product_stock = ?
             WHERE product_id = ?
         ');
-        $stm->execute([$name, $desc, $price, $category_id, $id]);
-
-        $stm = $db->prepare('UPDATE product_pic SET photo = ? WHERE id = ?');
-        foreach ($newPhotos as $i => $newPhoto) {
-            //$stm->execute([$newPhoto, $id * 4 + $i + 1]); ////////////////////////////////TODO
-        }
+        $stm->execute([$name, $desc, $price, $category_id, $stock, $id]);
 
 
         temp('info', 'Record updated');
@@ -146,59 +161,45 @@ include '../_head.php';
     <?= text('price', 'maxlength="5"') ?>
     <?= err('price') ?>
 
-    <label for="photo1">Photo 1</label>
+    <label for="photo<?= $i ?>">Photo</label>
     <label class="upload">
-        <?= _file('photo1', 'image/*') ?>
-        <?php if (!empty($p->photos[0])) : ?>
-            <img src="../_/photos/<?= $p->photos[0] ?>" alt="Product Photo 1">
-        <?php else: ?>
-            <img src="/_/images/photo.jpg">
-        <?php endif; ?>
-    </label>
-    <?= err('photo1') ?>
+        <?php for ($i = 1; $i <= count($p->photos); $i++) : ?>
+            <?php $photo = $p->photos[$i - 1]; ?>
+            <img src="../_/photos/<?= $photo ?>" data-dog="<?= $photo ?>" alt="Product Photo <?= $i ?>">
 
-    <label for="photo2">Photo 2</label>
-    <label class="upload">
-        <?= _file('photo2', 'image/*') ?>
-        <?php if (!empty($p->photos[1])) : ?>
-            <img src="../_/photos/<?= $p->photos[1] ?>" alt="Product Photo 2">
-        <?php else: ?>
-            <img src="/_/images/photo.jpg">
-        <?php endif; ?>
+        <?php endfor; ?>
     </label>
-    <?= err('photo2') ?>
+    <?= err("photo{$i}") ?>
 
-    <label for="photo3">Photo 3</label>
+    <label for="new_photo">Photo</label>
     <label class="upload">
-        <?= _file('photo3', 'image/*') ?>
-        <?php if (!empty($p->photos[2])) : ?>
-            <img src="../_/photos/<?= $p->photos[2] ?>" alt="Product Photo 3">
-        <?php else: ?>
-            <img src="/_/images/photo.jpg">
-        <?php endif; ?>
+        <?= _file('new_photo', 'image/*') ?>
+        <img src="/_/images/photo.jpg">
     </label>
-    <?= err('photo3') ?>
-
-    <label for="photo4">Photo 4</label>
-    <label class="upload">
-        <?= _file('photo4', 'image/*') ?>
-        <?php if (!empty($p->photos[3])) : ?>
-            <img src="../_/photos/<?= $p->photos[3] ?>" alt="Product Photo 4">
-        <?php else: ?>
-            <img src="/_/images/photo.jpg">
-        <?php endif; ?>
-    </label>
-    <?= err('photo4') ?>
+    <?= err('new_photo') ?>
 
     <label for="category_id">Category</label>
     <?= select('category_id', $_categories) ?>
     <?= err('category_id') ?>
+
+    <label for="stock">Stock</label>
+    <?= text('stock', 'maxlength="4"') ?>
+    <?= err('stock') ?>
 
     <section>
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
     </section>
 </form>
-
+<script>
+    $('[data-dog]').click(e => {
+        if (!confirm('Are you sure want to delete this photo?')) {
+            return;
+        }
+        photo = e.target.dataset.dog;
+        $.get("./deletepic.php?id=<?= $id ?>&photo=" + photo);
+        e.target.remove();
+    })
+</script>
 <?php
 include '../_foot.php';

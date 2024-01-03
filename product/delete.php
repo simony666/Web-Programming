@@ -16,11 +16,14 @@ if (is_post()) {
     // $stm->execute([$id]);
 
     $p = get_product($id);
+
+    foreach ($p->photos as $photo) {
+        unlink("../_/photos/$photo");
+    }
+
     $stm = $db->prepare("DELETE FROM product_pic WHERE id = ?");
     $stm->execute([$id]);
-    $photo = $stm->fetchAll();
-    unlink("../_/photos/$photo");
-
+    
     $stm = $db->prepare("DELETE FROM products WHERE product_id = ?");
     $stm->execute([$id]);
 

@@ -2,21 +2,7 @@
 include '../_base.php';
 
 // ----------------------------------------------------------------------------
-// $arr = [get_product('P0005')];
 
-// $arr_img = $db->query("SELECT * FROM product_pic");
-// $stm = $db->prepare('
-//     SELECT i.photo
-//     FROM products AS p, product_pic AS i
-//     WHERE p.product_id = i.id
-//     AND p.product_id = ?
-// ');
-// foreach ($arr_img as $o) {
-//     $stm->execute([$o->id]);
-//     $o->photos = $stm->fetchAll(PDO::FETCH_COLUMN);
-// }
-
-// $product->photos[0];
 $arr = get_products();
 $photos = $p->photos ?? [];
 
@@ -42,10 +28,12 @@ include '../_head.php';
     }
 </style>
 
-<p>
-    <button data-get="insert.php">Insert</button>
-
-</p>
+<form method="post">
+    <?php if ($user?->role == 'Admin'): ?>
+        <p>
+            <button data-get="insert.php">Insert</button>
+        </p>
+    <?php endif ?>
 
 <p><?= count($arr) ?> record(s)</p>
 
@@ -56,27 +44,33 @@ include '../_head.php';
         <th>Desc</th>
         <th>Price</th>
         <th>Category</th>
+        <th>Stock</th>
         <th></th>
     </tr>
 
     <?php foreach ($arr as $p) : ?>
-        <tr>
+        <tr class="pro_detail" data-cat='<?= $p->product_id ?>'>
             <td><?= $p->product_id ?></td>
             <td><?= $p->product_name ?></td>
             <td><?= $p->product_desc ?></td>
             <td><?= $p->product_price ?></td>
             <td><?= $_categories[$p->category_id] ?></td>
+            <td><?= $p->product_stock ?></td>
             <td>
-                <button data-get="update.php?product_id=<?= $p->product_id ?>">Update</button>
-                <button data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
-                <!-- TODO -->
-                <div class="popup">
-                <?php
+            <form method="post">
+                <?php if ($user?->role == 'Admin'): ?>
+                    <button data-get="update.php?product_id=<?= $p->product_id ?>">Update</button>
+                    <button data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
+                <?php endif ?>
+            </form>
+                    <!-- TODO -->
+                    <div class="popup">
+                        <?php
                 // foreach ($p->$photos as $photo) {
-                //     echo "<img src='/_/photos/$photo'> ";
-                // }
-                if (!empty($p->photos)) {
-                    foreach ($p->photos as $photo) {
+                    //     echo "<img src='/_/photos/$photo'> ";
+                    // }
+                    if (!empty($p->photos)) {
+                        foreach ($p->photos as $photo) {
                         echo "<img src='/_/photos/$photo'> ";
                     }
                 }
@@ -86,6 +80,14 @@ include '../_head.php';
         </tr>
     <?php endforeach ?>
 </table>
+
+<script>
+    $('[data-cat]').click(e => {
+        console.log("clicked");
+        const id = e.currentTarget.dataset.cat;
+        window.location.href = 'product_detail.php?id=' + id;
+    });
+</script>
 
 <?php
 include '../_foot.php';
