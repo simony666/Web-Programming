@@ -294,8 +294,7 @@ $user = $_SESSION['user'] ?? null;
 
 // Login user
 function login($user, $url = '/') {
-    unset($user->password);
-    $_SESSION['user'] = $user;
+    get_user($user->id,true);
     redirect($url);
 }
 
@@ -322,7 +321,7 @@ function auth(...$roles) {
     redirect('/login.php');
 }
 
-function get_user($id){
+function get_user($id,$save=false){
     global $db;
     $stm = $db->prepare('SELECT * FROM user WHERE id = ?');
     $stm->execute([$id]);
@@ -337,7 +336,9 @@ function get_user($id){
     }
 
     unset($u->password);
-    $_SESSION['user'] = $u;
+    if ($save) {
+        $_SESSION['user'] = $u;
+    }
 
     return $u;
 }
@@ -424,25 +425,43 @@ function get_featured_products(){
     return $fp;
 }
 
+
+// add to favourite
+function get_favourite($u=null){
+    global $db;
+    global $user;
+    $u = $u ?? $user;
+    
+    return $db->query("SELECT product_id FROM favourite_products WHERE user_id = $u->id")->fetchAll(PDO::FETCH_COLUMN);
+}
+
+// get featured products
 function featured_products($product=null){
     $product = $product ?? get_featured_products();
+    $fav_p = get_favourite();
 
     foreach ($product as $p){
         $photo = $p->photos[0];
-        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >
-        <a href='single_product.php?product_id=$p->product_id'>
-        <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
-          <div class='star'>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-            <i class='fas fa-star'></i>
-          </div>
-          <h5 class='p-name'>$p->product_name</h5>
-          <h4 class='p-price'>RM$p->product_price</h4>
-          <button class='buy-btn'>Buy Now</button>
-        </a>
+        echo "<div class='product text-center col-lg-3 col-md-4 col-sm-12' >";
+        if (in_array($p->product_id,$fav_p)){
+            echo "<i data-fav='$p->product_id' class='red fa-solid fa-heart' style='z-index:100;'></i>";
+        }else{
+            echo "<i data-fav='$p->product_id' class='red fa-regular fa-heart' style='z-index:100;'></i>";
+        }
+            
+        echo "<a href='single_product.php?product_id=$p->product_id'>
+            <img src='../_/photos/products/$photo' alt='' class='img-fluid mb-3'>
+            <div class='star'>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+                <i class='fas fa-star'></i>
+            </div>
+            <h5 class='p-name'>$p->product_name</h5>
+            <h4 class='p-price'>RM$p->product_price</h4>
+            <button class='buy-btn'>Buy Now</button>
+            </a>
       </div>";
     }
     
