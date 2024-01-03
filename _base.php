@@ -75,6 +75,14 @@ function is_money($value) {
     return preg_match('/^\-?\d+(\.\d{1,2})?$/', $value);
 }
 
+// Is integer?
+function isInteger($value) {
+    if (is_numeric($value)) {
+        return ((int)$value == $value);
+    }
+    return false;
+}
+
 // Is email?
 function is_email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -427,7 +435,6 @@ $db = new PDO("mysql:host=$s_db_host;port=$s_db_port;dbname=$s_db_database", "$s
 ]);
 
 
-
 // TODO
 function get_featured_products(){
     global $db;
@@ -495,6 +502,10 @@ function get_product($id){
     $stm->execute([$id]);
     $p = $stm->fetch();
 
+    if(!$p){
+        return null;
+    }
+
     $stm = $db->query("SELECT photo FROM product_pic WHERE id = '$id'");
     $rows = $stm -> fetchAll();
     $p->photos = array();
@@ -561,6 +572,8 @@ $_orderStatus = [
     2 => 'Completed',
 ];
 
+
+$_categories = $db->query('SELECT category_id, category_name FROM categories')->fetchAll(PDO::FETCH_KEY_PAIR);
 // ============================================================================
 // Global Variables and Constants
 // ============================================================================
