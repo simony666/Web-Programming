@@ -2,64 +2,32 @@
 include '../_base.php';
 
 // ----------------------------------------------------------------------------
-// Program  Student Count
-// -------  -------------
-// RIT      10
-// RSD      20
+// Product  Units Sold
+// -------  ----------
+// P001     10.00
+// P002     20.00
 
 if (req('data')) {
-    $year = req('year');
+    $date = req('date'); // Format: 2023-12-31
 
-    // Temporary array [month => sales]
-    $arr = [
-        'Jan' => 0,
-        'Feb' => 0,
-        'Mar' => 0,
-        'Apr' => 0,
-        'May' => 0,
-        'Jun' => 0,
-        'Jul' => 0,
-        'Aug' => 0,
-        'Sep' => 0,
-        'Oct' => 0,
-        'Nov' => 0,
-        'Dec' => 0,
-    ];
-
-
-    // $stm = $db->prepare(
-    //     "SELECT 
-    //         p.product_id,
-    //         SUM(i.unit)
-    //     FROM order_items AS i, products AS p
-    //     WHERE i.product_id = p.product_id
-    //     GROUP BY i.product_id 
-    // ");
-
+    // TODO
     $stm = $db->prepare(
         "SELECT 
-            DATE_FORMAT(o.order_date, '%b'),
-            SUM(i.units)
-         FROM orders AS o, order_items AS i
-         WHERE 
-            o.order_id = i.order_id
-            YEAR(o.order_date) = ?
-         GROUP BY MONTH(o.order_date)
+            product_id,
+            SUM(subtotal)
+        FROM 
+            order_items AS i, 
+            orders AS o
+        WHERE 
+            i.order_id = o.order_id AND
+            DATE(o.order_date) = ?
+        GROUP BY
+            product_id
     ");
-    $stm->execute([$year]);
+    $stm->execute([$date]);
+    $data = $stm->fetchAll(PDO::FETCH_NUM);
 
-    // $stm->execute();
-    // $data = $stm->fetchAll(PDO::FETCH_NUM);
-    
-    // merge $arr array with the FETCH_KEY_PAIR replace the $arr
-    $arr = array_merge($arr, $stm->fetchAll(PDO::FETCH_KEY_PAIR));
-    $data = [];
-    foreach($arr as $k => $v){
-        $data[] = [$k,$v];
-    }
-
-
-    // TODO: Add tooltip column to data result
+    // Add tooltip column to data result
     $stm = $db->prepare(
         "SELECT * 
         FROM products 
@@ -68,7 +36,7 @@ if (req('data')) {
 
     foreach($data as &$row){
         $product_id = $row[0];
-        $unit = $row[1];
+        $sales = $row[1];
         
         $stm->execute([$product_id]);
         $p = $stm->fetch();
@@ -77,19 +45,36 @@ if (req('data')) {
         $row[] = "
             <div class='tooltip'>
                 <b>$p->product_id | $p->product_name</b> <br>
-                Units Sold: <b>$unit</b><br>
+                Total Sales: <b>RM $sales</b><br>
                 </div>
              ";
     }
 
+
     json($data);
 }
 
-// ----------------------------------------------------------------------------
+// Page data ----------------------------------------------
 
-$_title = 'Demo 3 | Column Chart #1';
+// TODO: Select min and max date from database
+// MIN(datetime) 只会拿到 min date function
+// Year 只会拿到 2023
+// Month 会拿到 12
+// 要 combine become 2023-12 --》 DATE_FORMAT('%Y-%m')
+$d = $db->query(
+    " SELECT 
+        DATE_FORMAT(MIN(order_date), '%Y-%m-%d')AS min,
+        DATE_FORMAT(MAX(order_date), '%Y-%m-%d') AS max
+    FROM orders
+")->fetch();
+
+$date = $d->max;
+
+// ----------------------------------------------------------------------------
+$_title = 'Daily Sales by Product';
 include '../_head.php';
 ?>
+
 <style>
     .tooltip{
         font: 16px 'Roboto';
@@ -105,16 +90,16 @@ include '../_head.php';
 
 </style>
 
-<div id="chart" style="width: 600px; height: 400px"></div>
-
 <p>
-    <a href="#" id="reload">Reload</a> |
-    <a href="#" id="toggle">Toggle</a>
+    <!-- TODO: Date input -->
+    <?= _date('date',"min='$d->min' max='$d->max'") ?>
 </p>
+
+<div id="chart" style="width: 800px; height: 400px"></div>
 
 <p>
     <!-- Testing -->
-    <a href="?data=1" target="data">Data</a>
+    <a href="?data=1&date=2023-12-31" target="data">Data</a>
 </p>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -126,89 +111,78 @@ include '../_head.php';
 
     function init() {
         dt = new google.visualization.DataTable();
-        // TODO: Columns
-        dt.addColumn('string','product_name');
-        dt.addColumn('number', 'unit');
+        // TODO: Add columns (Product, Units Sold)
+        dt.addColumn('string','Products');
+        dt.addColumn('number','Sales');
 
-        // TODO: Add tooltip column (type, role, p.html = true)
-        // p = properties is a html
         dt.addColumn({type: 'string', role:'tooltip', p:{html:true}});
-
-        // TODO: Title text style
         const style = {
-            bold:true,
-            italic:false,
-            fontSize:20,
-            color:'purple',
+            bold: true,
+            italic: false,
+            fontSize: 20,
+            color: 'purple',
         };
 
         opt = {
-            // TODO: tooltip.isHtml = true
             tooltip:{
                 isHtml:true,
             },
-
-            title: 'Daily Units Sold by Product',
+            title: 'TODO',
             fontName: 'Roboto',
             fontSize: 16,
             titleTextStyle: { 
                 fontSize: 20,
             },
             chartArea: {
-                width: '80%',
+                width: '85%',
                 height: '70%',
                 top: 60,
-                left: 80,
+                left: 100,
             },
-            // TODO: colors, legend, vAxis, hAxis, animation, orientation
-            colors:['purple'],
-            legend:'none',
-            vAxis:{
-                title:'Units Sold',
-                titleTextStyle:style,
-                minValue:0,
-                maxValue:500,
+            legend: 'none',
+            vAxis: {
+                title: 'Sales',
+                titleTextStyle: style,
             },
-            hAxis:{
-                title:'Products',
-                titleTextStyle:style,
+            hAxis: {
+                title: 'Products',
+                titleTextStyle: style,
             },
-            animation:{
-                duration:500, // 500 miliseconds
-                startup:true, // 动画从下面上来
+            animation: {
+                duration: 500,
+                startup: true,
             },
-            orientation: 'horizontal',
+            colors: ['purple'],
         };
 
-        // TODO: Column chart
         cht = new google.visualization.ColumnChart($('#chart')[0]);
 
-        $('#reload').click();
+        $('#date').change();
     }
 
-    $('#reload').click(e => {
+    // #date = change event
+    $('#date').change(e => {
         e.preventDefault();
 
-        const param = {};
+        // TODO: Input range (min <--> max)
+        // e.targe = #date
+        const el = e.target; 
+        if(el.value < el.min || el.value > el.max){
+            el.value = el.max;
+        }
+
+        const param = { 
+            date: $('#date').val(),
+        };
 
         $.getJSON('?data=1', param, data => {
+            opt.title = 'Daily Sales by Product - ' + param.date;
+
             dt.removeRows(0, dt.getNumberOfRows());
             dt.addRows(data);
+
             cht.draw(dt, opt);
         });
-    });
-
-    // TODO: #toggle = click event
-    $('#toggle').click(e => {
-        e.preventDefault();
-
-        // Toggle orientation (horizontal <--> vertical)
-        // Toggle axis (vAxis <--> hAxis)
-        opt.orientation = opt.orientation == 'horizontal' ? 'vertical' : 'horizontal';
-
-        [opt.vAxis,opt.hAxis] = [opt.hAxis,opt.vAxis]
-
-        cht.draw(dt, opt);
     });
 </script>
 
