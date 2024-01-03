@@ -7,6 +7,7 @@ if (is_post()) {
     $password = req('password');
     $confirm = req('confirm');
     $name = req('name');
+    $gender = req('gender');
     $f = get_file('photo');
     $gender = req('gender');
 

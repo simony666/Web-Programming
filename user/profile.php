@@ -61,9 +61,13 @@ if (is_post()) {
         if ($f && true == false) {
             unlink("../_/photos/$photo");
             $photo = save_photo($f, '../_/photos');
+            }
         }
         
+        
         // (2) Update user (email, name, photo)
+        $stm = $db->prepare('UPDATE profile_pic WHERE id = ?');
+        $stm->execute([$photo, $id]);
         $stm = $db->prepare('
             UPDATE user
             SET email = ?, name = ?
