@@ -12,3 +12,5 @@ $s_mail_password = 'qopeyfvldofsizpp';
 $s_mail_name = '😺 Admin';
 
 $s_recaptcha_site_key="6Lf1AUQpAAAAAMP6srXB9jDnfTP4S1yzD30QItlR";
+
+$s_login_attempt=3;
