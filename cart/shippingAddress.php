@@ -1,6 +1,11 @@
 <?php
 include('../_base.php');
 
+$order_id = req('order_id'); 
+if(!$order_id){
+    redirect('cart.php');
+}
+
 // validation
 if (post('place-order')) {
     $user_id = $user->id;
@@ -29,10 +34,13 @@ if (post('place-order')) {
 
     // insert record to database
     $stm = $db->prepare(
-        " INSERT INTO shipping_address(user_id,address,state,postal)
-        VALUES (?,?,?,?)
+        "REPLACE INTO shipping_address(order_id,user_id,address,state,postal)
+        VALUES (?,?,?,?,?)
         ");
-    $stm->execute([$user_id,$address,$state,$postal]);
+    $stm->execute([$order_id,$user_id,$address,$state,$postal]);
+    redirect("../order/receipt/generatePDF.php?order_id=$order_id");
+    
+    //redirect('../order/order_history.php');
 }
 
 
@@ -46,7 +54,7 @@ include('../_/customerLayout/_head.php');
         <hr class="mx-auto">
     </div>
     <div class="mx-auto container">
-        <form id="checkout-form" method="post" action="payment.php">
+        <form id="checkout-form" method="post">
             <div class="form-group checkout-large-element">
                 <label>Address <span style="color:red;">*</span></label>
                 <?= text('address','class="form-control" maxlength="100" placeholder="Address" required ')?>
@@ -66,6 +74,7 @@ include('../_/customerLayout/_head.php');
             </div>
 
             <div class="form-group checkout-btn-container">
+                <?= hidden('order_id', $order_id); ?>
                 <input type="submit" value="Checkout" class="btn" id="checkout-btn" name="place-order" />
             </div>
         </form>
