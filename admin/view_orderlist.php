@@ -1,5 +1,6 @@
 <?php
     include('../_/_base.php');
+    auth('Admin');
     
     if ( req('update_status_btn') || req('update_order_btn') && req('order_id')) {
         // order_id get from orderlist 

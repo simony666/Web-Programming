@@ -1,5 +1,6 @@
 <?php
 include '../../_/_base.php';
+auth('Admin');
 
 // Fetch date, successful login count, and failed login count aggregated by day from the login table in s3_database
 $query = $db->query("
