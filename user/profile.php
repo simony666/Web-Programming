@@ -60,7 +60,7 @@ if (is_post()) {
             //unlink("../_/photos/profile/$photo");
 
             $photo = uniqid() . '.jpg';
-            require_once '/_/lib/SimpleImage.php';
+            require_once '../../_/lib/SimpleImage.php';
             $img = new SimpleImage();
             $img->fromFile($nf->tmp_name)
                 ->thumbnail(200, 200)
