@@ -26,7 +26,13 @@ if (req('data')) {
             product_id
     ");
     $stm->execute([$date]);
+    $arr = array();
     $data = $stm->fetchAll(PDO::FETCH_NUM);
+    foreach ($stm->fetchAll(PDO::FETCH_NUM) as $po) {
+        $p = get_product($po->product_id);
+        $arr[] = $p;
+    }
+    //$data = $stm->fetchAll(PDO::FETCH_NUM);
 
     // Add tooltip column to data result
     $stm = $db->prepare(
@@ -40,19 +46,21 @@ if (req('data')) {
         $product_id = $row[0];
         $sales = $row[1];
         
-        $stm->execute([$product_id]);
-        $p = $stm->fetch();
+        //$stm->execute([$product_id]);
+        $p = get_product($product_id);
+        // $pic = get_product($p->product_id);
+        // $arr[] = $p;
         
-        //$pic = get_products($p->product_id);
-        $row[] = "
+        $row[] = 
+        "
             <div class='tooltip'>
                 <b>$p->product_id | $p->product_name</b> <br>
                 Total Sales: <b>RM $sales</b><br>
-                </div>
+                <img src='../../_/photos/products/{$p->photos[0]}'/>
+            </div>
              ";
+        
     }
-
-
     json($data);
 }
 
@@ -80,7 +88,14 @@ include '../../_/layout/admin/header.php';
 <style>
     .tooltip{
         font: 16px 'Roboto';
-        padding: 5px;
+        padding: 5px;  
+    }
+
+    .tooltip img {
+        border: 1px solid #333;
+        width: 100px;
+        height: 100px;
+        display: block;
     }
 
 </style>
@@ -171,6 +186,7 @@ include '../../_/layout/admin/header.php';
         };
 
         $.getJSON('?data=1', param, data => {
+            console.log(data); // Log the received data to the console
             opt.title = 'Daily Sales by Product - ' + param.date;
 
             dt.removeRows(0, dt.getNumberOfRows());

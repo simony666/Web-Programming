@@ -17,7 +17,7 @@
         $stm->execute([$order_id]);
         $order_details = $stm->fetchAll();
 
-
+        $o = $order_details[0];
         // get shipping address
         $stm = $db->prepare(
             "SELECT s.*, u.name
@@ -28,12 +28,12 @@
 
         $stm->execute([$order_id]);
         $user_details = $stm->fetch();
+        var_dump($user_details);
 
         $stm->execute([$order_id]); 
         $addr = $stm->fetchAll();
 
         $user_name = $user_details->name;
-
     }else{
         redirect("../order_history.php");
     }
@@ -54,9 +54,7 @@
         <hr>
     </div>
 
-    <?php  foreach ($order_details as $o){ 
-        $p = get_product($o->product_id);
-        ?>
+    
     <table style="line-height: 1.5; margin:0 auto; width: 80%;" class="mt-5 pt-5">
         <tr>
             <td><b>Order id:</b> 
@@ -95,7 +93,9 @@
                 <td style = "text-align:center;border:1px solid #cccccc;width:100px;">Quantity</td>
                 <td style = "text-align:center;border:1px solid #cccccc;">Subtotal (RM)</td>
             </tr>
-            
+            <?php  foreach ($order_details as $o){ 
+                $p = get_product($o->product_id);
+            ?>
             <tr> 
                 <td style="border:1px solid #cccccc;">
                     <?= $p->product_name; ?>
@@ -110,12 +110,13 @@
                     <?= $o->subtotal; ?>
                 </td>
             </tr>
+            <?php } ?>
             <tr style = "font-weight: bold;">
                 <td></td><td></td>
                 <td style = "text-align:center;">Total (RM):</td>
                 <td style = "text-align:center;"><?= $o->total_cost; ?></td>
             </tr>
-    <?php } ?>
+    
 </table>
 <hr>
 <form method="post">
@@ -136,5 +137,4 @@
     });
 </script>
 </body>
-<?php include('../../liveChat.php');?>
 </html>
