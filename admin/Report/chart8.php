@@ -27,7 +27,7 @@ if (req('data')) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Top 10 Order By Customer';
-include '../_/_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <style>
@@ -131,4 +131,4 @@ function updateChart() {
 </script>
 
 <?php
-include '../_/_foot.php';
+include '../../_/layout/admin/footer.php';

@@ -41,7 +41,7 @@ $years = $db->query(
 // ----------------------------------------------------------------------------
 
 $_title = 'Overall Sales by Month';
-include '../_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <p>
@@ -136,4 +136,4 @@ include '../_head.php';
 </script>
 
 <?php
-include '../_foot.php';
+include '../../_/layout/admin/footer.php';
