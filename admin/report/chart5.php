@@ -40,7 +40,7 @@ $date = $d->max;
 
 // ----------------------------------------------------------------------------
 
-$_title = 'Demo 10 | Column Chart #7';
+$_title = 'Daily Order Status';
 include '../../_/layout/admin/header.php';
 ?>
 
