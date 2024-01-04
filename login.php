@@ -80,6 +80,7 @@ include('_/layout/customer/_head.php');
             <section class="mt-3">
                 <button>Login</button>
                 <button type="reset">Reset</button>
+                <button data-post="register.php">Register</button>
             </section>
         </form>
     </div>
