@@ -29,18 +29,11 @@
               <a class="nav-link" href="<?=base('products/shop.php')?>">Shop</a>
             </li>
             
-            <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact Us</a>
-            </li>
 
             <li class="nav-item">
               <a href="<?=base('products/favourite.php')?>"><i class="fa-solid fa-heart"></i></a>
               <a href="<?=base('cart/cart.php')?>"><i class="fas fa-shopping-cart"></i></a>
-              <a href="#"><i class="fas fa-user"></i></a>
+              <a href="<?=base('user/profile.php')?>"><i class="fas fa-user"></i></a>
             </li>
           </ul>
         </div>

@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Reset Password';
-include '/_/_head.php';
+include '../_/_head.php';
 ?>
 
 <form method="post" class="form">
@@ -85,4 +85,4 @@ include '/_/_head.php';
 
 <?php
 include('../liveChat.php');
-include '/_/_foot.php';
+include '../_/_foot.php';

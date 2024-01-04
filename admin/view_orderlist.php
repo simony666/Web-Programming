@@ -1,9 +1,9 @@
 <?php
-    include('.._//_base.php');
+    include('../_/_base.php');
     
     if ( req('update_status_btn') || req('update_order_btn') && req('order_id')) {
         // order_id get from orderlist 
-        $order_id = post("order_id");
+        $order_id = req("order_id");
     
         // Get the new status from the form (update status)
         $newStatus = req('order_status');

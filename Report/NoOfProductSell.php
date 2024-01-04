@@ -1,5 +1,5 @@
 <?php
-include '../_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 // Product  Units Sold
@@ -33,6 +33,7 @@ if (req('data')) {
         FROM products 
         WHERE product_id = ?
     ");
+    
 
     foreach($data as &$row){
         $product_id = $row[0];
@@ -72,7 +73,7 @@ $date = $d->max;
 
 // ----------------------------------------------------------------------------
 $_title = 'Daily Sales by Product';
-include '../_head.php';
+include '../_/_head.php';
 ?>
 
 <style>

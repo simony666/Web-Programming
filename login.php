@@ -57,23 +57,31 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Login';
-include './_/_head.php';
+include('_/layout/customer/_head.php');
 ?>
 
-<form method="post" class="form">
-    <label for="email">Email</label>
-    <?= text('email', 'maxlength="100"') ?>
-    <?= err('email') ?>
+<div class="form-group my-5 py-5">
+    <div class="container mt-5 py-5 ">
+        <form method="post" class="form ">
 
-    <label for="password">Password</label>
-    <?= password('password', 'maxlength="100"') ?>
-    <?= err('password') ?>
-    
-    <section>
-        <button>Login</button>
-        <button type="reset">Reset</button>
-    </section>
-</form>
+            <div class="form-group row">
+                <label for="email">Email</label>
+                <?= text('email', 'class="form-control " maxlength="100"') ?>
+                <?= err('email') ?>
+            </div>
+
+            <div class="form-group row">
+                <label for="password">Password</label>
+                <?= password('password', 'class="form-control maxlength="100"') ?>
+                <?= err('password') ?>
+            </div>
+            <section class="mt-3">
+                <button>Login</button>
+                <button type="reset">Reset</button>
+            </section>
+        </form>
+    </div>
+</div>
 
 <?php
-include './_/_foot.php';
+include('_/layout/customer/_foot.php');

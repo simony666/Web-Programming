@@ -25,7 +25,7 @@
         </li>
         
         <li class="nav-item">
-        <a class="nav-link text-white " href="./tables.html"> 
+        <a class="nav-link text-white " href="/admin/category/index.php"> 
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -34,7 +34,7 @@
         </li>
 
         <li class="nav-item">
-        <a class="nav-link text-white " href="./virtual-reality.html">
+        <a class="nav-link text-white " href="/admin/category/insert.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">add</i>
             </div>
@@ -43,7 +43,7 @@
         </li>
 
         <li class="nav-item">
-        <a class="nav-link text-white " href="./tables.html"> 
+        <a class="nav-link text-white " href="/admin/product/index.php"> 
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -52,7 +52,7 @@
         </li>
 
         <li class="nav-item">
-        <a class="nav-link text-white " href="./virtual-reality.html">
+        <a class="nav-link text-white " href="/admin/product/insert.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">add</i>
             </div>
@@ -61,7 +61,7 @@
         </li>
         
         <li class="nav-item">
-        <a class="nav-link text-white " href="../../order/all_orderlist.php"> 
+        <a class="nav-link text-white " href="/admin/all_orderlist.php"> 
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -86,7 +86,7 @@
         </li>
         
         <li class="nav-item">
-        <a class="nav-link text-white " href="./profile.html">
+        <a class="nav-link text-white " href="/user/profile.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">person</i>
             </div>

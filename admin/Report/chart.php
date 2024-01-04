@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // Fetch gender data from the user table
 $query = $db->query("SELECT gender, COUNT(*) as count FROM user WHERE gender IS NOT NULL GROUP BY gender");
@@ -12,7 +12,7 @@ foreach ($genderData as $row) {
 }
 
 $_title = 'User Gender Distribution'; // Update title
-include '/_/_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <div id="chart" style="width: 800px; height: 400px"></div>
@@ -46,5 +46,5 @@ include '/_/_head.php';
 </script>
 
 <?php
-include '/_/_foot.php';
+include '../../_/layout/admin/footer.php';
 ?>

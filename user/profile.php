@@ -87,29 +87,34 @@ if (is_post()) {
 $_title = 'User | Profile';
 include('../_/layout/customer/_head.php');
 ?>
-<section class="my-5 py-5">
-<form method="post" class="form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <?= text('email', 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="name">Name</label>
-    <?= text('name', 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-    <label for="photo">Photo</label>
-    <label class="upload">
-        <?= _file('photo', 'image/*') ?>
-        <img src="/_/photos/<?= $photo ?>">
-    </label>
-    <?= err('photo') ?>
-
-    <section>
-        <button>Submit</button>
-        <button type="reset">Reset</button>
+<div class="form-group my-5 py-5">
+    <section class="mt-5 pt-5 container">
+    <form method="post" class="form" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="email" class="col-sm-1 col-form-label">Email</label>
+            <?= text('email', 'class="form-control col" maxlength="100"') ?>
+            <?= err('email') ?>
+        </div>
+        <div class="form-group row">
+            <label for="name"  class="col-sm-1 col-form-label">Name</label>
+            <?= text('name', 'class="form-control col mt-2" maxlength="100"') ?>
+            <?= err('name') ?>
+        </div>
+        <div class="form-group">
+            <label for="photo ">Photo</label>
+            <label class="upload">
+                <?= _file('photo', 'class="form-control col-sm-2" image/*') ?>
+                <img src="../_/photos/<?= $photo ?> " class="col m-5">
+            </label>
+            <?= err('photo') ?>
+        </div>
+        <section class="mt-2">
+            <button>Submit</button>
+            <button type="reset">Reset</button>
+        </section>
+    </form>
     </section>
-</form>
-</section>
+</div>
 <?php
 include('../liveChat.php');
 include('../_/layout/customer/_foot.php');

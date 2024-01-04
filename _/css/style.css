@@ -137,7 +137,7 @@ button:hover{
 }
 
 #home{
-    background-image: url(../../cart/images/Man_Streetware2.jpg);
+    background-image: url(../images/Man_Streetware2.jpg);
     width: 100%;
     height: 100vh;
     background-size: cover;
@@ -598,3 +598,17 @@ th:last-child{
     background-color: #fb774b;
 }
 
+
+/* Photo Upload ------------------------------------------------------------ */
+
+label.upload input {
+    display: none;
+}
+
+label.upload img {
+    border: 1px solid #333;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    object-fit: cover;
+}
