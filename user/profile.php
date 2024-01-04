@@ -20,7 +20,6 @@ if (is_get()) {
 if (is_post()) {
     $email = req('email');
     $name  = req('name');
-    $photo = null;
     $nf = get_file('new_photo');
 
     // Input: email
@@ -142,5 +141,5 @@ include('../_/layout/customer/_head.php');
     })
 </script>
 <?php
-//include('../liveChat.php');
+include('../liveChat.php');
 include('../_/layout/customer/_foot.php');
