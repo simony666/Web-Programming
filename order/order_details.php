@@ -1,6 +1,6 @@
 <?php 
 
-    include('/_/_base.php');
+    include('../_/_base.php');
 
     if(req('order_details_btn') && req('order_id')){
         $order_id = post("order_id");
@@ -26,7 +26,13 @@
 
         $stm->execute([$order_id]);
         $addr = $stm->fetch();
-        $address = $addr->address.", ".$addr->postal." ".$_states[$addr->state];
+        if (!$addr) {
+            // Handle the case when the address is not found
+            $address = "Address not available";
+        } else {
+            $address = $addr->address . ", " . $addr->postal . " " . $_states[$addr->state];
+        }
+
 
     }else{
          redirect("order_history.php");
