@@ -11,31 +11,6 @@ $a = $a->format('Y-m-d'); //2023-12-25
 $b = $b->format('Y-m-d');
 
 
-// $stm = $db->prepare(
-//     "SELECT
-//         p.id,
-//         p.name,
-//         p.photo,
-//         SUM(i.unit) AS unit
-//      FROM
-//         product AS p,
-//         item AS i,
-//         `order` AS o
-//     WHERE
-//         p.id = i.product_id AND
-//         i.order_id = o.id AND
-//         DATE(o.datetime) >= ? AND
-//         DATE(o.datetime) <= ?
-//     GROUP BY
-//         p.id
-//      ORDER BY unit DESC
-//      LIMIT 3
-// "
-// );
-// $stm->execute([$a, $b]);
-
-// $arr = $stm->fetchAll();
-
 $stm = $db->prepare(
     "SELECT p.product_id, p.product_name, COUNT(i.product_id) AS unit
      FROM products AS p, order_items AS i, orders AS o
@@ -91,7 +66,7 @@ include '../../_/layout/admin/header.php';
     foreach ($arr as $p) {
         echo "
             <div class='product'>
-                <img src = '../_/photos/products/{$p->photos[0]}' >
+                <img src = '../../_/photos/products/{$p->photos[0]}' >
                 <div>
                     #$n = $p->product_id | $p->product_name<br>
                     $p->unit units sold
