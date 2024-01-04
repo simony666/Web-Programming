@@ -8,7 +8,7 @@ if (!$id && !$photo){
 $stm = $db->prepare('DELETE FROM product_pic WHERE id = ? AND photo = ?');
 $stm->execute([$id,$photo]);
 
-unlink("/_/photos/$photo");
+unlink("../../_/photos/$photo");
 
 temp('info','Record Deleted');
 ?>

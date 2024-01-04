@@ -24,6 +24,7 @@
 
 
     <script src="/_/js/app.js"></script>
+    <link rel="stylesheet" href="/_/css/app.css">
 
 </head>
 <body class="g-sidenav-show  bg-gray-100">
