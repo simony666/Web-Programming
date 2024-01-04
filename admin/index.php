@@ -20,7 +20,7 @@ if ($user?->role == 'Admin'): ?>
                     <a href="<?= base('../../../admin/report/chart4.php') ?>">Chart4</a> |        
                     <a href="<?= base('../../../admin/report/chart5.php') ?>">Chart5</a> |       
                     <a href="<?= base('../../../admin/report/chart6.php') ?>">Chart6</a> |       
-                    <a href="<?= base('../../../admin/report/chart7.php') ?>">Chart5</a> |       
+                    <a href="<?= base('../../../admin/report/chart7.php') ?>">Chart7</a> |       
                     <a href="<?= base('../../../admin/report/chart8.php') ?>">Chart8</a> |       
                     </li>
                     </div>
