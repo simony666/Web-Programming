@@ -48,6 +48,9 @@ if (is_post()) {
     }
     else if (strlen($name) > 100) {
         $err['name'] = 'Maximum 100 characters';
+    } 
+    else if (is_numeric($name)) {
+        $err['name'] = 'Name must be letter';
     }
 
     if (!$f) {
