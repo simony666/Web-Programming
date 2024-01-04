@@ -65,46 +65,8 @@
             <span class="nav-link-text ms-1">Add Products</span>
         </a>
         </li>
-
-        <li class="nav-item">
-        <a class="nav-link text-white " href="./notifications.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">notifications</i>
-            </div>
-            <span class="nav-link-text ms-1">Notifications</span>
-        </a>
-        </li>
  
-        <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
         
-        <li class="nav-item">
-        <a class="nav-link text-white " href="/user/profile.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-        </a>
-        </li>
-
-        <li class="nav-item">
-        <a class="nav-link text-white " href="./sign-in.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-        </a>
-        </li>
-
-        <li class="nav-item">
-        <a class="nav-link text-white " href="./sign-up.html"> 
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">assignment</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign Up</span>
-        </a>
-        </li>
     </ul>
   </div>
   

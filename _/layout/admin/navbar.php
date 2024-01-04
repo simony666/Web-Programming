@@ -5,13 +5,7 @@
     
     <div class="border-radius-xlcollapse navbar-collapse mt-sm-0 mt-2 me-md-0 " id="navbar">
       <ul class="navbar-nav  justify-content-end">
-        <li class="">
-          <a href="<?= base('../../../admin/report/chart.php') ?>">Chart</a> | 
-          <a href="<?= base('../../../admin/report/chart.php') ?>">Chart2</a> |     
-          <a href="<?= base('../../../admin/report/chart.php') ?>">Chart3</a> | 
-          <a href="<?= base('../../../admin/report/chart.php') ?>">Chart4</a> |        
-          <a href="<?= base('../../../admin/report/chart.php') ?>">Chart5</a>       
-        </li>
+        
       </ul>
     </div>
   </div>
