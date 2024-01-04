@@ -81,6 +81,7 @@ include('_/layout/customer/_head.php');
                 <button>Login</button>
                 <button type="reset">Reset</button>
                 <button data-post="register.php">Register</button>
+                <button data-post="user/reset.php">Reset Password</button>
             </section>
         </form>
     </div>

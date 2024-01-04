@@ -69,10 +69,9 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Reset Password';
-include '../_/_head.php';
+include('../_/layout/customer/_head.php');
 ?>
-
-<form method="post" class="form">
+<section style="height: 1000px;" ><form method="post" class="form" style="margin-top: 200px;">
     <label for="email">Email</label>
     <?= text('email', 'maxlength="100"') ?>
     <?= err('email') ?>
@@ -82,7 +81,8 @@ include '../_/_head.php';
         <button type="reset">Reset</button>
     </section>
 </form>
+</section>
 
 <?php
 include('../liveChat.php');
-include '../_/_foot.php';
+include('../_/layout/customer/_foot.php');
