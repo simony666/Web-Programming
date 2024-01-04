@@ -65,7 +65,7 @@ foreach($stm->fetchAll() as $po){
 // ----------------------------------------------------------------------------
 
 $_title = 'Top 3 Sales in Our Shop';
-include '../_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <style>
@@ -104,4 +104,4 @@ include '../_head.php';
 </div>
 
 <?php
-include '../_/_foot.php';
+include '../../_/layout/admin/footer.php';
