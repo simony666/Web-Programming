@@ -15,10 +15,13 @@ if ($user?->role == 'Admin'): ?>
                     <div class="nav-bar">
                     <li class="">
                     <a href="<?= base('../../../admin/report/chart.php') ?>">Chart</a> | 
-                    <a href="<?= base('../../../admin/report/chart.php') ?>">Chart2</a> |     
-                    <a href="<?= base('../../../admin/report/chart.php') ?>">Chart3</a> | 
-                    <a href="<?= base('../../../admin/report/chart.php') ?>">Chart4</a> |        
-                    <a href="<?= base('../../../admin/report/chart.php') ?>">Chart5</a>       
+                    <a href="<?= base('../../../admin/report/chart2.php') ?>">Chart2</a> |     
+                    <a href="<?= base('../../../admin/report/chart3.php') ?>">Chart3</a> | 
+                    <a href="<?= base('../../../admin/report/chart4.php') ?>">Chart4</a> |        
+                    <a href="<?= base('../../../admin/report/chart5.php') ?>">Chart5</a> |       
+                    <a href="<?= base('../../../admin/report/chart6.php') ?>">Chart6</a> |       
+                    <a href="<?= base('../../../admin/report/chart7.php') ?>">Chart5</a> |       
+                    <a href="<?= base('../../../admin/report/chart8.php') ?>">Chart8</a> |       
                     </li>
                     </div>
                     </div>
