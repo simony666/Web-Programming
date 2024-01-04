@@ -7,15 +7,6 @@ auth('Admin');
 if (is_post()) {
     $id = req('product_id');
 
-    // // TODO: Delete photo
-    // $stm = $db->prepare('SELECT photo FROM product WHERE id = ?');
-    // $stm->execute([$id]);
-    // $photo = $stm->fetchColumn();
-    // unlink("../_/products/$photo");
-
-    // $stm = $db->prepare('DELETE FROM product WHERE id = ?');
-    // $stm->execute([$id]);
-
     $p = get_product($id);
 
     foreach ($p->photos as $photo) {

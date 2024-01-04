@@ -13,20 +13,11 @@
   <div class="collapse navbar-collapse  w-auto ps" id="sidenav-collapse-main">
     <ul class="navbar-nav">
         <li class="nav-item">
-        <a class="nav-link text-white " href="<?=base('admin/category/index.php')?>"> 
+        <a class="nav-link text-white " href="<?=base('admin/index.php')?>"> 
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">table_view</i>
+                <i class="material-icons opacity-10">leaderboard</i>
             </div>
-            <span class="nav-link-text ms-1">Category</span>
-        </a>
-        </li>
-
-        <li class="nav-item">
-        <a class="nav-link text-white " href="<?=base('admin/product/index.php')?>"> 
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Product</span>
+            <span class="nav-link-text ms-1">Chart</span>
         </a>
         </li>
 
@@ -36,6 +27,15 @@
                 <i class="material-icons opacity-10">table_view</i>
             </div>
             <span class="nav-link-text ms-1">Orders</span>
+        </a>
+        </li>
+
+        <li class="nav-item">
+        <a class="nav-link text-white " href="<?=base('admin/category/index.php')?>"> 
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">table_view</i>
+            </div>
+            <span class="nav-link-text ms-1">Category</span>
         </a>
         </li>
 
