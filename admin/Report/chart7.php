@@ -47,6 +47,7 @@ include '../../_/layout/admin/header.php';
     .products {
         display: flex;
         gap: 10px;
+        justify-content: center;
     }
 
     .product img {
