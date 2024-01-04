@@ -89,7 +89,7 @@
                             <div class="col-md-12 mb-2">
                                 <label class="fw-bold">State</label>
                                 <div class="border p-1">
-                                    <?= $d->state ?>
+                                    <?= $_states[$d->state] ?>
                                 </div>
                             </div>
                             
@@ -134,7 +134,7 @@
                         </table>
                         <hr>
                         <h5>
-                            <?php  $defaultStatus = post("order_status") ?>
+                            <?php  $defaultStatus = req("order_status") ?>
                                 Total Price:
                                 <span class="float-end fw-bold">RM<?=  sprintf('%.2f',$o->total_cost) ?></span>
                             
