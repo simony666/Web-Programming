@@ -12,7 +12,7 @@ $b = $b->format('Y-m-d');
 
 
 $stm = $db->prepare(
-    "SELECT p.product_id, p.product_name, COUNT(i.product_id) AS unit
+    "SELECT p.product_id, p.product_name, SUM(i.unit) AS unit
      FROM products AS p, order_items AS i, orders AS o
      WHERE p.product_id = i.product_id AND
         i.order_id = o.order_id AND

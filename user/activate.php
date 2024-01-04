@@ -34,7 +34,7 @@ if (is_get()) {
         $photo = $u->photos[0];
         $m = get_mail();
         $m->addAddress($u->email, $u->name);
-        $m->addEmbeddedImage("/_/photos/profile/$photo", 'photo');
+        $m->addEmbeddedImage("../_/photos/profile/$photo", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Activate Account';
         $m->Body = "

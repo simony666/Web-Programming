@@ -32,7 +32,7 @@ if (is_post()) {
     else if (!is_email($email)) {
         $err['email'] = 'Invalid email';
     }
-    else if ($email != $_SESSION['email'] && !is_unique($email, 'user', 'email')) {
+    else if ($email != $_SESSION['user']->email && !is_unique($email, 'user', 'email')) {
         $err['email'] = 'Duplicated';
     }
 
@@ -59,20 +59,20 @@ if (is_post()) {
             //unlink("../_/photos/profile/$photo");
 
             $photo = uniqid() . '.jpg';
-            require_once '../../_/lib/SimpleImage.php';
+            require_once '../_/lib/SimpleImage.php';
             $img = new SimpleImage();
             $img->fromFile($nf->tmp_name)
                 ->thumbnail(200, 200)
-                ->toFile("../../_/photos/products/$photo", 'image/jpeg');
+                ->toFile("../_/photos/profile/$photo", 'image/jpeg');
 
-            $stm = $db->prepare('INSERT INTO product_pic(id,photo) VALUES (?,?)');
-            $stm->execute([$id, $photo]);
+            $stm = $db->prepare('INSERT INTO profile_pic(id,photo) VALUES (?,?)');
+            $stm->execute([$user->id, $photo]);
         }
         
         
         // (2) Update user (email, name, photo)
         //$stm = $db->prepare('UPDATE profile_pic WHERE id = ?');
-        $stm->execute([$photo, $id]);
+        //$stm->execute([$photo, $id]);
         $stm = $db->prepare('
             UPDATE user
             SET email = ?, name = ?
@@ -108,8 +108,8 @@ include('../_/layout/customer/_head.php');
         <div class="form-group">
             <label for="photo<?= $i ?>">Photo</label>
             <label class="upload">
-                <?php for ($i = 1; $i <= count($u->photos); $i++) : ?>
-                    <?php $photo = $u->photos[$i - 1]; ?>
+                <?php for ($i = 1; $i <= count($user->photos); $i++) : ?>
+                    <?php $photo = $user->photos[$i - 1]; ?>
                     <img src="../../_/photos/profile/<?= $photo ?>" data-dog="<?= $photo ?>" alt="Photo <?= $i ?>">
 
                 <?php endfor; ?>
