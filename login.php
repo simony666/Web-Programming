@@ -15,6 +15,8 @@ if (is_post()) {
     }
     else if (!is_email($email)) {
         $err['email'] = 'Invalid email';
+    }else if (!is_exists($email,'user','email')){
+        $err['email'] = 'Invalid Email';
     }
 
     // Input: password

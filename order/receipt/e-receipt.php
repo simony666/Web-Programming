@@ -28,7 +28,6 @@
 
         $stm->execute([$order_id]);
         $user_details = $stm->fetch();
-        var_dump($user_details);
 
         $stm->execute([$order_id]); 
         $addr = $stm->fetchAll();
