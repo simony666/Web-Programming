@@ -11,9 +11,9 @@ if (req('data')) {
     //$date = req('date'); // Format: 2023-12-31
 
     $stm = $db->query(
-        "SELECT u.name,COUNT(o.user_id) as count FROM orders o, user u WHERE o.user_id = u.id GROUP BY o.user_id ;");
+        "SELECT u.name,COUNT(o.user_id) as count FROM orders o, user u WHERE o.user_id = u.id GROUP BY o.user_id ORDER BY count DESC LIMIT 10 ;");
     //$stm->execute([$date]);
-    $data = $stm->fetch(PDO::FETCH_ASSOC);
+    $data = $stm->fetchAll(PDO::FETCH_ASSOC);
 
     json($data);
 }
@@ -21,19 +21,13 @@ if (req('data')) {
 
 // Page data ----------------------------------------------
 
-$d = $db->query(
-    "SELECT
-        DATE(MIN(order_date)) AS min,
-        DATE(MAX(order_date)) AS max
-     FROM orders
-")->fetch();
 
 //$date = $d->max;
 
 // ----------------------------------------------------------------------------
 
 $_title = 'Demo 10 | Column Chart #7';
-include '../_head.php';
+include '../_/_head.php';
 ?>
 
 <style>
@@ -51,9 +45,7 @@ include '../_head.php';
 
 </style>
 
-<p>
-    <?= _date('date', "min='$d->min' max='$d->max'") ?>
-</p>
+
 
 <div id="chart" style="width: 800px; height: 400px"></div>
 
@@ -71,8 +63,8 @@ let dt, opt, cht;
 
 function init() {
     dt = new google.visualization.DataTable();
-    dt.addColumn('string', 'Order Status');
-    dt.addColumn('number', 'Number of Orders');
+    dt.addColumn('string', 'name');
+    dt.addColumn('number', 'Count');
 
     const style = {
         bold: true,
@@ -116,42 +108,27 @@ function init() {
 
     cht = new google.visualization.ColumnChart($('#chart')[0]);
 
-    $('#date').change();
+    updateChart();
 }
 
 // #date = change event
-$('#date').change(e => {
-    e.preventDefault();
+function updateChart() {
+        $.getJSON('?data=1', function(data) {
+            opt.title = 'Top 10 Order By Customer';
 
-    const el = e.target;
-    if (el.value < el.min || el.value > el.max) {
-        el.value = el.max;
-        return;
+            dt.removeRows(0, dt.getNumberOfRows());
+
+            // Assuming 'data' is an array
+            data.forEach(function(row) {
+                dt.addRow([row.name, row.count]);
+            });
+
+            console.log('Drawing chart with DataTable:', dt.toJSON()); // Debugging statement
+
+            cht.draw(dt, opt);
+        });
     }
-
-    const param = { 
-        date: $('#date').val(),
-    };
-
-    $.getJSON('?data=1', param, data => {
-
-        opt.title = 'Daily Order Status - ' + param.date;
-
-        dt.removeRows(0, dt.getNumberOfRows());
-
-        // Add rows to DataTable
-        dt.addRow(['Pending', data.pending]);
-        dt.addRow(['Preparing', data.preparing]);
-        dt.addRow(['Completed', data.completed]);
-
-        console.log('Drawing chart with DataTable:', dt.toJSON()); // Debugging statement
-
-        cht.draw(dt, opt);
-    });
-});
-
-        
 </script>
 
 <?php
-include '../_foot.php';
+include '../_/_foot.php';

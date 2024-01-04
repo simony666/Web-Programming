@@ -21,7 +21,7 @@ if (is_post()) {
     $email = req('email');
     $name  = req('name');
     $photo = null;
-    $f = get_file('photo');
+    $nf = get_file('new_photo');
 
     // Input: email
     if (!$email) {
@@ -46,27 +46,33 @@ if (is_post()) {
     }
 
     // Input: photo (optional)
-    if ($f) {
-        if (!str_starts_with($f->type, 'image/')) {
+    if ($nf) {
+        if (!str_starts_with($nf->type, 'image/')) {
             $err['photo'] = 'Must be image';
-        }
-        else if ($f->size > 1 * 1024 * 1024) {
+        } else if ($nf->size > 1 * 1024 * 1024) {
             $err['photo'] = 'Maximum 1MB';
         }
     }
 
     // DB operation
     if (!$err) {
-        // (1) Delete and save photo (optional)
-        if ($f && true == false) {
-            unlink("../_/photos/profile/$photo");
-            $photo = save_photo($f, '../_/photos/profile');
-            }
+        if ($nf) {
+            //unlink("../_/photos/profile/$photo");
+
+            $photo = uniqid() . '.jpg';
+            require_once '/_/lib/SimpleImage.php';
+            $img = new SimpleImage();
+            $img->fromFile($nf->tmp_name)
+                ->thumbnail(200, 200)
+                ->toFile("../../_/photos/products/$photo", 'image/jpeg');
+
+            $stm = $db->prepare('INSERT INTO product_pic(id,photo) VALUES (?,?)');
+            $stm->execute([$id, $photo]);
         }
         
         
         // (2) Update user (email, name, photo)
-        $stm = $db->prepare('UPDATE profile_pic WHERE id = ?');
+        //$stm = $db->prepare('UPDATE profile_pic WHERE id = ?');
         $stm->execute([$photo, $id]);
         $stm = $db->prepare('
             UPDATE user
@@ -81,7 +87,7 @@ if (is_post()) {
         redirect('/');
     }
 
-
+}
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Profile';
@@ -101,13 +107,22 @@ include('../_/layout/customer/_head.php');
             <?= err('name') ?>
         </div>
         <div class="form-group">
-            <label for="photo ">Photo</label>
+            <label for="photo<?= $i ?>">Photo</label>
             <label class="upload">
-                <?= _file('photo', 'class="form-control col-sm-2" image/*') ?>
-                <img src="../_/photos/<?= $photo ?> " class="col m-5">
+                <?php for ($i = 1; $i <= count($u->photos); $i++) : ?>
+                    <?php $photo = $u->photos[$i - 1]; ?>
+                    <img src="../../_/photos/profile/<?= $photo ?>" data-dog="<?= $photo ?>" alt="Photo <?= $i ?>">
+
+                <?php endfor; ?>
             </label>
-            <?= err('photo') ?>
+            <?= err("photo{$i}") ?>
         </div>
+        <label for="new_photo">Photo</label>
+            <label class="upload">
+                <?= _file('new_photo', 'image/*') ?>
+                <img src="/_/images/photo.jpg">
+            </label>
+            <?= err('new_photo') ?>
         <section class="mt-2">
             <button>Submit</button>
             <button type="reset">Reset</button>
@@ -115,6 +130,17 @@ include('../_/layout/customer/_head.php');
     </form>
     </section>
 </div>
+<script>
+    $('[data-dog]').click(e => {
+        console.log("clicked");
+        if (!confirm('Are you sure want to delete this photo?')) {
+            return;
+        }
+        photo = e.target.dataset.dog;
+        $.get("./deletepic.php?id=<?= $u->id ?>&photo=" + photo);
+        e.target.remove();
+    })
+</script>
 <?php
-include('../liveChat.php');
+//include('../liveChat.php');
 include('../_/layout/customer/_foot.php');
