@@ -2,7 +2,9 @@
 include './_/_base.php';
 
 // ----------------------------------------------------------------------------
-if ($user){
+if ($user && $user->role=='Admin'){
+    redirect('/admin/index.php');
+}else if($user){
     redirect('/');
 }
 if (is_post()) {

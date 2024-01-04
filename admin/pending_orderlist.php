@@ -13,8 +13,7 @@
     $page = max($page,1);
     
     require_once '../_/lib/Pager.php';
-    $p = new Pager('SELECT o.*, u.name 
-    FROM orders AS o 
+    $p = new Pager('SELECT o.*, u.name FROM orders AS o 
     JOIN user AS u ON o.user_id = u.id
     WHERE o.order_status = 0
     ORDER BY o.order_id DESC',

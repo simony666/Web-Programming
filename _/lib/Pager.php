@@ -21,6 +21,7 @@ class Pager {
         $stm->execute($params);
         $this->item_count = $stm->fetchColumn();
 
+
         // Set [page count]
         $this->page_count = ceil($this->item_count / $this->limit);
 

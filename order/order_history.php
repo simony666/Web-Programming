@@ -6,6 +6,8 @@
     //auth("Member");
 
     $user_id = $user->id;
+    echo "$user_id";
+    //return;
     
     // get orders
     // $stm = $db->prepare(
@@ -23,12 +25,12 @@
     $page = max($page,1);
     
     require_once '../_/lib/Pager.php';
-    $p = new Pager('SELECT *
-                FROM orders 
+    $p = new Pager('SELECT * FROM orders 
                 WHERE user_id = ?
                 ORDER BY order_id DESC',
-                ["$user_id"], 15, $page);
+                [$user_id], 15, $page);
     $arr = $p->result;
+    
 ?>
 
 <!-- Orders -->
