@@ -37,6 +37,9 @@
               <?php if ($user): ?>
                 <a href="<?= base("logout.php")?>"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
               <?php endif; ?>
+              <?php if ($user && $user->role == "Admin"): ?>
+                <a href="<?= base("admin/index.php")?>"><i class="fa-solid fa-hammer"></i></a>
+              <?php endif; ?>
             </li>
           </ul>
         </div>

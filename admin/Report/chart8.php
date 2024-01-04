@@ -96,7 +96,7 @@ function init() {
             titleTextStyle: style,
         },
         hAxis: {
-            title: 'Order Status',
+            title: 'Customer Name',
             titleTextStyle: style,
         },
         animation: {
