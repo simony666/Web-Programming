@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 $id=req('id');
 $photo=req('photo');
 if (!$id && !$photo){
@@ -8,7 +8,7 @@ if (!$id && !$photo){
 $stm = $db->prepare('DELETE FROM product_pic WHERE id = ? AND photo = ?');
 $stm->execute([$id,$photo]);
 
-unlink("/_/_/photos/$photo");
+unlink("/_/photos/$photo");
 
 temp('info','Record Deleted');
 ?>

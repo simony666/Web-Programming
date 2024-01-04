@@ -1,5 +1,5 @@
 <?php
-include '../_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 // Product  Units Sold
@@ -40,7 +40,7 @@ $date = $d->max;
 // ----------------------------------------------------------------------------
 
 $_title = 'Demo 10 | Column Chart #7';
-include '../_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <style>
@@ -151,8 +151,6 @@ $('#date').change(e => {
         dt.addRow(['Preparing', data.preparing]);
         dt.addRow(['Completed', data.completed]);
 
-        console.log('Drawing chart with DataTable:', dt.toJSON()); // Debugging statement
-
         cht.draw(dt, opt);
     });
 });
@@ -161,4 +159,4 @@ $('#date').change(e => {
 </script>
 
 <?php
-include '../_foot.php';
+include '../../_/layout/admin/footer.php';

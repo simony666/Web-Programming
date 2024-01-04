@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 $id = req('id');
@@ -14,7 +14,7 @@ if (!$p) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Product Detail';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <?php
@@ -69,4 +69,4 @@ echo "$id";
 
 
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

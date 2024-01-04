@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 // Product  Units Sold
@@ -33,6 +33,7 @@ if (req('data')) {
         FROM products 
         WHERE product_id = ?
     ");
+    
 
     foreach($data as &$row){
         $product_id = $row[0];
@@ -72,20 +73,13 @@ $date = $d->max;
 
 // ----------------------------------------------------------------------------
 $_title = 'Daily Sales by Product';
-include '/_/_head.php';
+include '../../_/layout/admin/header.php';
 ?>
 
 <style>
     .tooltip{
         font: 16px 'Roboto';
         padding: 5px;
-    }
-
-    .tooltip img{
-        border:1px solid #333;
-        width:100px;
-        height:100px;
-        display:block;
     }
 
 </style>
@@ -187,4 +181,4 @@ include '/_/_head.php';
 </script>
 
 <?php
-include '/_/_foot.php';
+include '../../_/layout/admin/footer.php';

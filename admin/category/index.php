@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ $arr = $db->query('SELECT * FROM categories')->fetchAll();
 // ----------------------------------------------------------------------------
 
 $_title = 'Category | Index';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <form method="post">
@@ -56,4 +56,4 @@ include '/_/_head.php';
 
 
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

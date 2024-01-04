@@ -1,5 +1,5 @@
 <?php
-include '_base.php';
+include '_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ include '_base.php';
 
 
 $_title = 'Index';
-include '_head.php';
+include '_/_head.php';
 ?>
 
 <p>
@@ -20,4 +20,4 @@ include '_head.php';
 </p>
 
 <?php
-include '_foot.php';
+include '_/_foot.php';

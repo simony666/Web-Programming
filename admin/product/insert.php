@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'Product | Insert';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <p>
@@ -169,4 +169,4 @@ include '/_/_head.php';
 </form>
 
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');

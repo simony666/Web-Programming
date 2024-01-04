@@ -1,9 +1,9 @@
 <?php
-    include('.._//_base.php');
+    include('../_/_base.php');
     
     if ( req('update_status_btn') || req('update_order_btn') && req('order_id')) {
         // order_id get from orderlist 
-        $order_id = post("order_id");
+        $order_id = req("order_id");
     
         // Get the new status from the form (update status)
         $newStatus = req('order_status');
@@ -89,7 +89,7 @@
                             <div class="col-md-12 mb-2">
                                 <label class="fw-bold">State</label>
                                 <div class="border p-1">
-                                    <?= $d->state ?>
+                                    <?= $_states[$d->state] ?>
                                 </div>
                             </div>
                             
@@ -134,7 +134,7 @@
                         </table>
                         <hr>
                         <h5>
-                            <?php  $defaultStatus = post("order_status") ?>
+                            <?php  $defaultStatus = req("order_status") ?>
                                 Total Price:
                                 <span class="float-end fw-bold">RM<?=  sprintf('%.2f',$o->total_cost) ?></span>
                             

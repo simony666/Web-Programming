@@ -1,9 +1,9 @@
 <?php
-include '/_/_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
-auth();
+auth('Member','Admin');
 
 if (is_get()) {
     $u = get_user($user->id,true);
@@ -59,8 +59,8 @@ if (is_post()) {
     if (!$err) {
         // (1) Delete and save photo (optional)
         if ($f && true == false) {
-            unlink("../_/photos/$photo");
-            $photo = save_photo($f, '../_/photos');
+            unlink("../_/photos/profile/$photo");
+            $photo = save_photo($f, '../_/photos/profile');
             }
         }
         
@@ -85,31 +85,36 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Profile';
-include '../_head.php';
+include('../_/layout/customer/_head.php');
 ?>
-
-<form method="post" class="form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <?= text('email', 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="name">Name</label>
-    <?= text('name', 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-    <label for="photo">Photo</label>
-    <label class="upload">
-        <?= _file('photo', 'image/*') ?>
-        <img src="/_/photos/<?= $photo ?>">
-    </label>
-    <?= err('photo') ?>
-
-    <section>
-        <button>Submit</button>
-        <button type="reset">Reset</button>
+<div class="form-group my-5 py-5">
+    <section class="mt-5 pt-5 container">
+    <form method="post" class="form" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="email" class="col-sm-1 col-form-label">Email</label>
+            <?= text('email', 'class="form-control col" maxlength="100"') ?>
+            <?= err('email') ?>
+        </div>
+        <div class="form-group row">
+            <label for="name"  class="col-sm-1 col-form-label">Name</label>
+            <?= text('name', 'class="form-control col mt-2" maxlength="100"') ?>
+            <?= err('name') ?>
+        </div>
+        <div class="form-group">
+            <label for="photo ">Photo</label>
+            <label class="upload">
+                <?= _file('photo', 'class="form-control col-sm-2" image/*') ?>
+                <img src="../_/photos/<?= $photo ?> " class="col m-5">
+            </label>
+            <?= err('photo') ?>
+        </div>
+        <section class="mt-2">
+            <button>Submit</button>
+            <button type="reset">Reset</button>
+        </section>
+    </form>
     </section>
-</form>
-
+</div>
 <?php
 include('../liveChat.php');
-include '/_/_foot.php';
+include('../_/layout/customer/_foot.php');

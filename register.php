@@ -103,49 +103,68 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Register Member';
-include './_/_head.php';
+include('_/layout/customer/_head.php');
 ?>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-<form method="post" class="form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <?= text('email', 'maxlength="100"') ?>
-    <?= err('email') ?>
+<div class="form-group my-5 py-5">
+    <div class="container mt-5 py-5 ">
+        <form method="post" class="form" enctype="multipart/form-data">
+            <div class="form-group row">
+                <label for="email" class="col-sm-1 col-form-label">Email</label>
+                <?= text('email', 'class="form-control col" maxlength="100"') ?>
+                <?= err('email') ?>
+            </div>
 
-    <label for="password">Password</label>
-    <?= password('password', 'maxlength="100"') ?>
-    <?= err('password') ?>
+            <div class="form-group row">
+                <label for="password" class="col-sm-1 col-form-label">Password</label>
+                <?= password('password', 'class="form-control col mt-2" maxlength="100"') ?>
+                <?= err('password') ?>
+            </div>
 
-    <label for="confirm">Confirm</label>
-    <?= password('confirm', 'maxlength="100"') ?>
-    <?= err('confirm') ?>
+            <div class="form-group row">
+                <label for="confirm" class="col-sm-1 col-form-label">Confirm</label>
+                <?= password('confirm', 'class="form-control col mt-2" maxlength="100"') ?>
+                <?= err('confirm') ?>
+            </div>
 
-    <label for="name">Name</label>
-    <?= text('name', 'maxlength="100"') ?>
-    <?= err('name') ?>
+            <div class="form-group row">
+                <label for="name" class="col-sm-1 col-form-label">Name</label>
+                <?= text('name', 'class="form-control col mt-2" maxlength="100"') ?>
+                <?= err('name') ?>
+            </div>
+            
+            <div class="form-group row">
+                <label for="gender" class="col-sm-1 col-form-label">Gender</label>
+                <div class="col-sm-10">
+                    <div class="form-check mt-2">
+                        <input type="radio" name="gender" value="Male" class="form-check-input" required> Male
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="gender" value="Female" class="form-check-input" required> Female
+                    </div>
+                </div>
+                <?= err('gender') ?>
+            </div>
+            
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <label class="upload">
+                    <?= _file('photo', 'image/*') ?>
+                    <img src="/_/images/photo.jpg" class="col m-5">
+                </label>
+                <?= err('photo') ?>
+            </div>
 
-    <label for="gender">Gender</label>
-    <div>
-    <input type="radio" name="gender" value="Male" required> Male
-    <input type="radio" name="gender" value="Female" required> Female
+            <div class="g-recaptcha" data-sitekey="<?= $s_recaptcha_site_key?>"></div>
+            <?= err('recaptcha') ?>
+
+            <section class="mt-2">
+                <button>Submit</button>
+                <button type="reset">Reset</button>
+            </section>
+        </form>
     </div>
-    <?= err('gender') ?>
-
-    <label for="photo">Photo</label>
-    <label class="upload">
-        <?= _file('photo', 'image/*') ?>
-        <img src="/_/images/photo.jpg">
-    </label>
-    <?= err('photo') ?>
-
-    <div class="g-recaptcha" data-sitekey="<?= $s_recaptcha_site_key?>"></div>
-    <?= err('recaptcha') ?>
-
-    <section>
-        <button>Submit</button>
-        <button type="reset">Reset</button>
-    </section>
-</form>
-
+</div>
 <?php
-include './_/_foot.php';
+include('_/layout/customer/_foot.php');

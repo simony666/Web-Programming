@@ -1,5 +1,5 @@
 <?php
-include '/_/_base.php';
+include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 $id = req('id');
@@ -25,7 +25,7 @@ foreach ($stm->fetchAll() as $po){
 
 
 $_title = 'Category | product';
-include '/_/_head.php';
+include('../../_/layout/admin/header.php');
 ?>
 
 <style>
@@ -95,4 +95,4 @@ echo "Category = $id";
     });
 </script>
 <?php
-include '/_/_foot.php';
+include('../../_/layout/admin/footer.php');
