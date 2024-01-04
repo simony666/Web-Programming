@@ -100,7 +100,7 @@ if (is_post()) {
     if (!$err) {
         // TODO: Save photo
         $photo = uniqid() . '.jpg';
-        require_once '/_/lib/SimpleImage.php';
+        require_once '../../_/lib/SimpleImage.php';
         $img = new SimpleImage();
         $img->fromFile($f->tmp_name)
             ->thumbnail(200, 200)
@@ -141,7 +141,7 @@ include('../../_/layout/admin/header.php');
     <?= err('name') ?>
 
     <label for="desc">Description</label>
-    <?= text('desc', 'maxlength="1000"') ?>
+    <?= textarea('desc', 'maxlength="1000"') ?>
     <?= err('desc') ?>
 
     <label for="price">Price</label>

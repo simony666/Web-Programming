@@ -1,5 +1,5 @@
 <?php
-include '../../_base.php';
+include '../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ foreach($stm->fetchAll() as $po){
 
 // ----------------------------------------------------------------------------
 
-$_title = 'Demo 11 | Top Selling Products';
+$_title = 'Top 3 Sales in Our Shop';
 include '../_head.php';
 ?>
 

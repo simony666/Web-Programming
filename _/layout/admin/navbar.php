@@ -5,7 +5,6 @@
     
     <div class="border-radius-xlcollapse navbar-collapse mt-sm-0 mt-2 me-md-0 " id="navbar">
       <ul class="navbar-nav  justify-content-end">
-        
       </ul>
     </div>
   </div>
