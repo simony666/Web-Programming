@@ -1,9 +1,13 @@
 <?php
-include './_/_base.php';
+include '../../_/_base.php';
+auth('Admin');
 
-if ($user){
-    redirect('/');
+// ----------------------------------------------------------------------------
+
+if (is_get()) {
+
 }
+
 if (is_post()) {
     $email = req('email');
     $password = req('password');
@@ -59,56 +63,36 @@ if (is_post()) {
         $err['photo'] = 'Maximum 1MB';
     }
 
-    $recaptchaSecret = '6Lf1AUQpAAAAAOdV9GEnL9dFV7KwkNj6Ew1GtF6M';
-    $recaptchaResponse = $_POST['g-recaptcha-response'];
-
-    $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify';
-    $recaptchaData = [
-        'secret' => $recaptchaSecret,
-        'response' => $recaptchaResponse
-    ];
-
-    $options = [
-        'http' => [
-            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method' => 'POST',
-            'content' => http_build_query($recaptchaData)
-        ]
-    ];
-
-    $context = stream_context_create($options);
-    $recaptchaResult = file_get_contents($recaptchaUrl, false, $context);
-    $recaptchaJson = json_decode($recaptchaResult);
-
-    if (!$recaptchaJson->success) {
-        $err['recaptcha'] = 'reCAPTCHA verification failed';
-    } else {
-        if (!$err) {
-            $photo = save_photo($f,'_/photos/profile');
-            
-            $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender) VALUES (?,SHA1(?),?,\'Member\',?)');
-            $stm->execute([$email,$password,$name,$gender]);
-            $userID = $db->lastInsertId();
-            $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
-            $stm->execute([$photo]);            
+    if (!$err) {
+        $photo = save_photo($f,'_/photos/profile');
+        
+        $stm = $db->prepare('INSERT INTO user (email,password,name,role,gender,status) VALUES (?,SHA1(?),?,\'Admin\',?,"Active")');
+        $stm->execute([$email,$password,$name,$gender]);
+        $userID = $db->lastInsertId();
+        $stm = $db->prepare("INSERT INTO profile_pic (id,photo) VALUES ($userID,?)");
+        $stm->execute([$photo]);            
 
 
-            
-            redirect("./user/activate.php?email=$email");
-        }
+        
+        redirect("./index.php");
     }
 }
 
 // ----------------------------------------------------------------------------
 
-$_title = 'User | Register Member';
-include('_/layout/customer/_head.php');
+$_title = 'User | Insert';
+include('../../_/layout/admin/header.php');
 ?>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<p>
+    <button data-get="./index.php">Index</button>
+</p>
 
 <div class="form-group my-5 py-5">
-    <div class="container mt-5 py-5 ">
-        <form method="post" class="form" enctype="multipart/form-data">
+    <div class="container mt-5 py-5">
+
+    
+<form method="post" class="form" enctype="multipart/form-data">
             <div class="form-group row">
                 <label for="email" class="col-sm-1 col-form-label">Email</label>
                 <?= text('email', 'class="form-control col" maxlength="100"') ?>
@@ -155,15 +139,12 @@ include('_/layout/customer/_head.php');
                 <?= err('photo') ?>
             </div>
 
-            <div class="g-recaptcha" data-sitekey="<?= $s_recaptcha_site_key?>"></div>
-            <?= err('recaptcha') ?>
-
             <section class="mt-2">
                 <button>Submit</button>
                 <button type="reset">Reset</button>
             </section>
         </form>
-    </div>
+        </div>
 </div>
 <?php
-include('_/layout/customer/_foot.php');
+include('../../_/layout/admin/footer.php');
