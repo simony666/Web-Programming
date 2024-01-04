@@ -1,5 +1,6 @@
 <?php
 include '../../_/_base.php';
+auth('Admin');
 
 // Fetch gender data from the user table
 $query = $db->query("SELECT gender, COUNT(*) as count FROM user WHERE gender IS NOT NULL GROUP BY gender");

@@ -1,6 +1,8 @@
 <?php 
     include ('../_/_base.php');
     include ('../_/layout/admin/header.php'); 
+    auth('Admin');
+
 if ($user?->role == 'Admin'): ?>
     <a href="/user/index.php">User</a>
 <?php endif ?>

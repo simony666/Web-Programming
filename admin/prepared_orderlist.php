@@ -1,5 +1,6 @@
 <?php
     include('../_/_base.php');
+    auth('Admin');
     $orders = $db->query(
         "SELECT o.*, u.name 
         FROM orders AS o 

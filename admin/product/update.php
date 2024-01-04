@@ -3,6 +3,7 @@
 use function PHPSTORM_META\type;
 
 include '../../_/_base.php';
+auth('Admin');
 
 // ----------------------------------------------------------------------------
 $photos = [];

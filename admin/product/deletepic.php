@@ -1,5 +1,7 @@
 <?php
 include '../../_/_base.php';
+auth('Admin');
+
 $id=req('id');
 $photo=req('photo');
 if (!$id && !$photo){
