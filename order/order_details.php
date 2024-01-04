@@ -3,7 +3,7 @@
     include('../_/_base.php');
 
     if(req('order_details_btn') && req('order_id')){
-        $order_id = post("order_id");
+        $order_id = req("order_id");
         
 
         // order details products part

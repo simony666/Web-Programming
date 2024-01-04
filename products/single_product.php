@@ -35,7 +35,7 @@
                     <h3 class="py-4"><?= $product->product_name ?></h3>
                     <h2><?= $product->product_price ?></h2>
 
-                    <form method="POST" action="<?=base('cart/cart.php')?>">
+                    <form method="POST" action="<?=base('../cart/cart.php')?>">
                         <?php hidden("product_id", $product->product_id )?>
                         <!-- hidden image ,name, price -->
                         <input type="number" value="1" name="product_quantity"/>

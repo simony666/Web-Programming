@@ -3,8 +3,8 @@ include '../../_/_base.php';
 
 // ----------------------------------------------------------------------------
 
-$a = new DateTime('2023-12-01');
-$b = new DateTime('2023-12-31');
+$a = new DateTime('2023-01-01');
+$b = new DateTime('2023-01-31');
 
 if (is_get()) {
     $members  = $db->query('SELECT * FROM user WHERE role = "Member"')->fetchAll();

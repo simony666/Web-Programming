@@ -59,3 +59,4 @@ class Pager {
         echo "</nav>";
     }
 }
+

@@ -6,7 +6,7 @@
 
     if (is_post()) {
         if (req('remove_product')){
-            $id_to_remove = post('product_id');
+            $id_to_remove = req('product_id');
             remove_from_cart($id_to_remove);
             redirect();
         }
