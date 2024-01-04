@@ -15,9 +15,9 @@
     
     require_once '../_/lib/Pager.php';
     $p = new Pager('SELECT o.*, u.name 
-                    FROM orders AS o 
-                    JOIN user AS u ON o.user_id = u.id
-                    ORDER BY o.order_id DESC',
+    FROM orders AS o 
+    JOIN user AS u ON o.user_id = u.id
+    ORDER BY o.order_id DESC',
                     [], 25, $page);
     $arr = $p->result;
     

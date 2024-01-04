@@ -24,9 +24,10 @@
 
 
     <script src="/_/js/app.js"></script>
+    <link rel="stylesheet" href="/_/css/app.css">
 
 </head>
 <body class="g-sidenav-show  bg-gray-100">
+  <?php include('navbar.php'); ?>
     <?php include('sidebar.php'); ?>
     <main class="main-content border-radius-lg ">
-      <?php include('navbar.php'); ?>

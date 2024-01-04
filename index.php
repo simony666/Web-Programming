@@ -17,7 +17,7 @@
       <h5 class="text-white">NEW ARRIVALS</h5>
       <h1 class="text-white" ><span>Best Prices</span> This Season</h1>
       <p class="text-white">Unique offers the best products for the most affordable prices</p>
-      <button onclick="location.href = 'shop.php';">
+      <button onclick="location.href = '/products/shop.php';">
         Shop Now
       </button>
     </div>

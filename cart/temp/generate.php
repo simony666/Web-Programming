@@ -30,7 +30,7 @@ if (is_get()) {
     $db->beginTransaction();
 
     for ($d = clone $a; $d <= $b; $d->modify('+1 day')) {
-        foreach (range(1, 10) as $n) { // 10 x orders per day
+        foreach (range(1, 5) as $n) { // 10 x orders per day
 
             // --------------------------------------------
             // (1) Insert 1 x order
@@ -43,7 +43,7 @@ if (is_get()) {
             shuffle($products);
             foreach (range(0, 2) as $i) { // 3 x items per order
                 $p = $products[$i];
-                $unit = rand(1, 10); // Random 1-10 unit
+                $unit = rand(1, 5); // Random 1-10 unit
                 $stm_insert_item->execute([$id, $p->product_id, $p->product_price, $unit]);
             }
 

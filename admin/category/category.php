@@ -75,8 +75,8 @@ echo "Category = $id";
 <div id="cat_product">
     <?php foreach ($p_arr as $p): ?>
         <div class="product">
-            <img src="../_/photos/products/<?= $p->photos[0] ?>"
-                 data-get="../product/product_detail.php?id=<?= $p->product_id ?>">
+            <img src="../../_/photos/products/<?= $p->photos[0] ?>"
+                 data-get="../product/product.php?id=<?= $p->product_id ?>">
             <div>
                 <?= $p->product_name ?> |
                 RM <?= $p->product_price ?>

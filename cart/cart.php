@@ -20,6 +20,7 @@
     }
     
     $cart = get_cart();
+
     $ids = array_keys($cart);
     
     $in = in($ids);

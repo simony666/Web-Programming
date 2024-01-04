@@ -46,7 +46,7 @@ include '../../_/layout/admin/header.php';
 
 <p>
     <!-- TODO: Month input -->
-    <?= month('month',"min='$m->min' max='$m->max'"); ?>
+    <?= month('month',"min='$m->min' max='$m->max' class='my-5'"); ?>
 </p>
 
 <div id="chart" style="width: 800px; height: 400px"></div>
