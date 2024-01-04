@@ -325,8 +325,8 @@ function auth(...$roles) {
             return; // OK
         }
     }
-    
-    redirect('/login.php');
+    $uri = base("/login.php");
+    redirect($uri);
 }
 
 function get_user($id,$save=false){
