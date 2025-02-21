@@ -85,15 +85,15 @@ This project is a web-based e-commerce system with user authentication, shopping
   <li> 
     <b>Products Listing</b> <br>
     <img src="https://github.com/user-attachments/assets/cbe301dc-5d63-40b4-b5f9-30a9bc23dcf5" width="550" title="">
-    <p align="justify">Shopping Page</p>
+    <p align="justify">Shopping Page</p><br>
   </li>
   <li> 
-    <b>Product page searching based on categories and price</b>
-    <img src="https://github.com/user-attachments/assets/100af022-4a7a-4d25-81a6-b6b59e342d3c" width="550" title="">
-    <p align="justify">Categories: Adult Male Shirts & Price: RM1262(less than RM1262 product will be displayed)</p>
+    <b>Product page searching based on categories and price</b><br>
+    <img src="https://github.com/user-attachments/assets/100af022-4a7a-4d25-81a6-b6b59e342d3c" width="550" title=""><br>
+    <p align="justify">Categories: Adult Male Shirts & Price: RM1262(less than RM1262 product will be displayed)</p><br>
   </li> 
   <li> 
-    <b>Product page searching based on categories and price</b>
+    <b>Product page searching based on categories and price</b><br>
     <img src="https://github.com/user-attachments/assets/a2f9859f-071a-4231-89e1-6a4b98786690" width="550" title="">
     <p align="justify">1 Product with multiple photos</p>
   </li>
